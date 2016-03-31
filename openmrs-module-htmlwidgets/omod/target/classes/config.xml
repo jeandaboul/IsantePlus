@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module configVersion="1.0">
+	
+	<!-- Base Module Properties -->
+	<id>htmlwidgets</id>
+	<name>HTML Widgets</name>
+	<version>1.7.0</version>
+	<package>org.openmrs.module.htmlwidgets</package>
+	<author>Partners In Health</author>
+	<description>HTML Form widget library</description>
+	<activator>org.openmrs.module.htmlwidgets.ModuleActivator</activator>
+	<require_version>1.9.2</require_version>
+
+	<!-- Internationalization -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	
+</module>

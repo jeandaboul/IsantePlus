@@ -1,0 +1,385 @@
+<htmlform> 
+
+<style type="text/css">
+   .tg  {border-collapse:collapse;border-spacing:1;}
+   .tg td{font-size:14px;padding:5px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;text-align:center;vertical-align:middle}
+   .tg th{font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;text-align:center;vertical-align:middle}
+   .tg .tg-1fjr{background-color:#00463F;color:#ffffff;text-align:right;vertical-align:middle}
+   .tg .tg-5cem{background-color:#00463F;color:#ffffff;text-align:center;vertical-align:middle}
+   .tg .tg-w1ms{text-align:center;vertical-align:middle}
+   .tg .tg-w2ms{text-align:left;vertical-align:middle}
+</style>
+
+    <script type="text/javascript">
+        beforeSubmit.push(function() {
+        // Set relationship if dignosis is selected
+            if (getValue('mother-diabetes-diag.value') == '140228' ) {
+                setValue('mother-diabetes-relation.value', '970');
+            } else {
+                setValue('mother-diabetes-relation.value', '');
+            }
+            if (getValue('mother-asthma-diag.value') == '140234' ) {
+                setValue('mother-asthma-relation.value', '970');
+            } else {
+                setValue('mother-asthma-relation.value', '');
+            }
+            if (getValue('mother-hypertension-diag.value') == '151927' ) {
+                setValue('mother-hypertension-relation.value', '970');
+            } else {
+                setValue('mother-hypertension-relation.value', '');
+            }
+            if (getValue('mother-anemia-diag.value') == '152476' ) {
+                setValue('mother-anemia-relation.value', '970');
+            } else {
+                setValue('mother-anemia-relation.value', '');
+            }
+            if (getValue('mother-epilepsia-diag.value') == '152450' ) {
+                setValue('mother-epilepsia-relation.value', '970');
+            } else {
+                setValue('mother-epilepsia-relation.value', '');
+            }
+            if (getValue('mother-glaucoma-diag.value') == '152452' ) {
+                setValue('mother-glaucoma-relation.value', '970');
+            } else {
+                setValue('mother-glaucoma-relation.value', '');
+            }
+            if (getValue('mother-hiv-diag.value') == '1859' ) {
+                setValue('mother-hiv-relation.value', '970');
+            } else {
+                setValue('mother-hiv-relation.value', '');
+            }
+            if (getValue('mother-cardiopathy-diag.value') == '140231' ) {
+                setValue('mother-cardiopathy-relation.value', '970');
+            } else {
+                setValue('mother-cardiopathy-relation.value', '');
+            }
+            if (getValue('father-diabetes-diag.value') == '140228' ) {
+                setValue('father-diabetes-relation.value', '971');
+            } else {
+                setValue('father-diabetes-relation.value', '');
+            }
+            if (getValue('father-asthma-diag.value') == '140234' ) {
+                setValue('father-asthma-relation.value', '971');
+            } else {
+                setValue('father-asthma-relation.value', '');
+            }
+            if (getValue('father-hypertension-diag.value') == '151927' ) {
+                setValue('father-hypertension-relation.value', '971');
+            } else {
+                setValue('father-hypertension-relation.value', '');
+            }
+            if (getValue('father-anemia-diag.value') == '152476' ) {
+                setValue('father-anemia-relation.value', '971');
+            } else {
+                setValue('father-anemia-relation.value', '');
+            }
+            if (getValue('father-epilepsia-diag.value') == '152450' ) {
+                setValue('father-epilepsia-relation.value', '971');
+            } else {
+                setValue('father-epilepsia-relation.value', '');
+            }
+            if (getValue('father-glaucoma-diag.value') == '152452' ) {
+                setValue('father-glaucoma-relation.value', '971');
+            } else {
+                setValue('father-glaucoma-relation.value', '');
+            }
+            if (getValue('father-hiv-diag.value') == '1859' ) {
+                setValue('father-hiv-relation.value', '971');
+            } else {
+                setValue('father-hiv-relation.value', '');
+            }
+            if (getValue('father-cardiopathy-diag.value') == '140231' ) {
+                setValue('father-cardiopathy-relation.value', '971');
+            } else {
+                setValue('father-cardiopathy-relation.value', '');
+            }
+            if (getValue('grandparent-diabetes-diag.value') == '140228' ) {
+                setValue('grandparent-diabetes-relation.value', '973');
+            } else {
+                setValue('grandparent-diabetes-relation.value', '');
+            }
+            if (getValue('grandparent-asthma-diag.value') == '140234' ) {
+                setValue('grandparent-asthma-relation.value', '973');
+            } else {
+                setValue('grandparent-asthma-relation.value', '');
+            }
+            if (getValue('grandparent-hypertension-diag.value') == '151927' ) {
+                setValue('grandparent-hypertension-relation.value', '973');
+            } else {
+                setValue('grandparent-hypertension-relation.value', '');
+            }
+            if (getValue('grandparent-anemia-diag.value') == '152476' ) {
+                setValue('grandparent-anemia-relation.value', '973');
+            } else {
+                setValue('grandparent-anemia-relation.value', '');
+            }
+            if (getValue('grandparent-epilepsia-diag.value') == '152450' ) {
+                setValue('grandparent-epilepsia-relation.value', '973');
+            } else {
+                setValue('grandparent-epilepsia-relation.value', '');
+            }
+            if (getValue('grandparent-glaucoma-diag.value') == '152452' ) {
+                setValue('grandparent-glaucoma-relation.value', '973');
+            } else {
+                setValue('grandparent-glaucoma-relation.value', '');
+            }
+            if (getValue('grandparent-hiv-diag.value') == '1859' ) {
+                setValue('grandparent-hiv-relation.value', '973');
+            } else {
+                setValue('grandparent-hiv-relation.value', '');
+            }
+            if (getValue('grandparent-cardiopathy-diag.value') == '140231' ) {
+                setValue('grandparent-cardiopathy-relation.value', '973');
+            } else {
+                setValue('grandparent-cardiopathy-relation.value', '');
+            }
+            if (getValue('sibbling-diabetes-diag.value') == '140228' ) {
+                setValue('sibbling-diabetes-relation.value', '972');
+            } else {
+                setValue('sibbling-diabetes-relation.value', '');
+            }
+            if (getValue('sibbling-asthma-diag.value') == '140234' ) {
+                setValue('sibbling-asthma-relation.value', '972');
+            } else {
+                setValue('sibbling-asthma-relation.value', '');
+            }
+            if (getValue('sibbling-hypertension-diag.value') == '151927' ) {
+                setValue('sibbling-hypertension-relation.value', '972');
+            } else {
+                setValue('sibbling-hypertension-relation.value', '');
+            }
+            if (getValue('sibbling-anemia-diag.value') == '152476' ) {
+                setValue('sibbling-anemia-relation.value', '972');
+            } else {
+                setValue('sibbling-anemia-relation.value', '');
+            }
+            if (getValue('sibbling-epilepsia-diag.value') == '152450' ) {
+                setValue('sibbling-epilepsia-relation.value', '972');
+            } else {
+                setValue('sibbling-epilepsia-relation.value', '');
+            }
+            if (getValue('sibbling-glaucoma-diag.value') == '152452' ) {
+                setValue('sibbling-glaucoma-relation.value', '972');
+            } else {
+                setValue('sibbling-glaucoma-relation.value', '');
+            }
+            if (getValue('sibbling-hiv-diag.value') == '1859' ) {
+                setValue('sibbling-hiv-relation.value', '972');
+            } else {
+                setValue('sibbling-hiv-relation.value', '');
+            }
+            if (getValue('sibbling-cardiopathy-diag.value') == '140231' ) {
+                setValue('sibbling-cardiopathy-relation.value', '972');
+            } else {
+                setValue('sibbling-cardiopathy-relation.value', '');
+            }
+        // clear the depression diagnosis certainty and order if not checked.
+            if (getValue('depression.value') != '119566' ) {
+                setValue('depression_certainty.value', '');
+                setValue('depression_order.value', '');
+            }
+            return true;
+        });
+       jQuery(function() {
+       // hide form field admission reason other
+           getField('admission_reason.value').change(function() {
+              if ( getValue('admission_reason.value') == '5622')  {
+                   document.getElementById('admission_reason_other').style.display='block';
+              } else {
+                  document.getElementById('admission_reason_other').style.display='none';
+              }
+           });
+        });   
+    </script>
+<br></br>
+<encounterDate/>
+<br></br>
+<encounterLocation/>
+<br></br>
+<encounterProvider/>
+<br></br>
+
+Name: <lookup class="value" expression="patient.personName"/>
+<br></br>
+Birthdate Estimate: <lookup class="value" complexExpression="#if( \$patient.birthdateEstimated ) ~#end"/>
+<br></br>
+Birthdate: <lookup class="value" expression="patient.birthdate"/>
+<br></br>
+Age: <lookup class="value" expression="patient.age"/>
+<br></br>
+Person Attributes: <lookup class="value" expression="personAttributes.get('Mothers Name')"/>
+<br></br>
+
+Latest Encounter: <lookup expression="fn.latestEncounter()"/>
+<br></br>
+First Weight: <lookup expression="fn.earliestObs('CIEL:5089').valueNumeric"/>
+<br></br>
+Last Weight: <lookup expression="fn.latestObs('CIEL:5089').valueNumeric"/>
+<br></br>
+<br></br>
+
+
+Patient Address: <patient field="address" />
+<br></br>
+Patient Age: <patient field="age" />
+<br></br>
+Patient Birthdate or Age: <patient field="birthDateOrAge" />
+<br></br>
+
+First HIV+ Test Date: <obs conceptId="CIEL:160082"/>
+<br></br>
+Temp (C): <obs conceptId="CIEL:5088"/>
+<br></br>
+Abnormal Conclusions: <obs conceptId="CIEL:1391" rows="7" cols="60"/>
+<br></br>
+Cardio Exam: <obs conceptId="CIEL:1124" answerConceptIds="CIEL:1115,CIEL:1116,CIEL:1118"/>
+<br></br>
+Cardio Exam (Radio Buttons): <obs conceptId="CIEL:1124" answerConceptIds="CIEL:1115,CIEL:1116,CIEL:1118" style="radio"/>
+<br></br>
+Referring Hospital: <obs conceptId="CIEL:160535" id="referring_hospital" answers="MSF,GHESKIO"/>
+<br></br>
+
+Autocomplete Complaint: 
+<br></br>
+<obs conceptId="CIEL:5219" id="complaint" answerClasses="Diagnosis" style="autocomplete"/>
+<br></br>
+<br></br>
+
+ObsGroup with Hidden Field's set via JavaScript
+<br></br>
+<obsgroup groupingConceptId="159947">
+   <obs conceptId="CIEL:1284" id="depression" answerConceptId="119537" style="checkbox" />
+   <br></br>
+   <h3><lookup expression="fn.getConcept('CIEL:159946').name"/></h3>
+   <obs conceptId="CIEL:159946" id="depression_order" defaultValue="CIEL:159944" />
+   <div id="depression_div" style="visibility: hidden;">
+      <h3><lookup expression="fn.getConcept('CIEL:159394').name"/></h3>
+      <obs conceptId="CIEL:159394" id="depression_certainty" defaultValue="CIEL:159392" />
+   </div>
+</obsgroup>
+<br></br>
+<br></br>
+
+Hidden field shown via JavaScript
+<h3><lookup expression="fn.getConcept('CIEL:1655').name"/></h3>
+<p>
+<obs conceptId="1655" id="admission_reason" answerConceptIds="CIEL:122496,CIEL:163107,CIEL:158211,CIEL:127637,CIEL:125943,CIEL:121677,CIEL:112989,CIEL:5622" />
+<div id="admission_reason_other" style="display: none">
+   <obs conceptId="CIEL:162879" id="admission_reason_text" labelCode="other" />
+</div>
+</p>
+
+<br></br>
+Repeating Section
+<br></br>
+            <h3>Histoire de famille</h3>
+            <table class="tg">
+               <tr>
+                   <th class="tg-5cem"></th>
+                   <th class="tg-5cem">Diabetes</th>
+                   <th class="tg-5cem">Asthma</th>
+                   <th class="tg-5cem">Hypertension</th>
+                   <th class="tg-5cem">Anemia</th>
+                   <th class="tg-5cem">Epilepsia</th>
+                   <th class="tg-5cem">Glaucoma</th>
+                   <th class="tg-5cem">HIV</th>
+                   <th class="tg-5cem">Cardiopathy</th>
+               </tr>
+               <tr>
+                   <td class="tg-1fjr">Mère</td>
+                   <repeat>
+                       <template>
+                           <td class="tg-w1ms">
+                                <obsgroup groupingConceptId="CIEL:160593">
+                                   <center>
+                                          <obs conceptId="CIEL:160592" id="{relationName}-{diagName}-diag" answerConceptId="{diagConcept}"  style="checkbox" answerLabel=""/>
+                                   </center>
+                                   <div id="{relationName}-{diagName}-div" style="display: none">
+                                         <obs conceptId="CIEL:1560" id="{relationName}-{diagName}-relation" answerConceptId="{relationConcept}" style="checkbox"/>
+                                   </div>
+                                </obsgroup>
+                         </td>
+                     </template>
+                   <render diagConcept="CIEL:140228" diagName="diabetes" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:140234" diagName="asthma" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:151927" diagName="hypertension" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:152476" diagName="anemia" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:152450" diagName="epilepsia" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:152452" diagName="glaucoma" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:1859" diagName="hiv" relationConcept="CIEL:970" relationName="mother"/>
+                   <render diagConcept="CIEL:140231" diagName="cardiopathy" relationConcept="CIEL:970" relationName="mother"/>
+               </repeat>
+               </tr>
+               <tr>
+                   <td class="tg-1fjr">Père</td>
+                   <repeat>
+                       <template>
+                           <td class="tg-w1ms">
+                                <obsgroup groupingConceptId="CIEL:160593">
+                                   <obs conceptId="CIEL:160592" id="{relationName}-{diagName}-diag" answerConceptId="{diagConcept}"  style="checkbox" answerLabel="" />
+                                   <div id="{relationName}-{diagName}-div" style="display: none">
+                                         <obs conceptId="CIEL:1560" id="{relationName}-{diagName}-relation" answerConceptId="{relationConcept}" style="checkbox"/>
+                                   </div>
+                                </obsgroup>
+                         </td>
+                     </template>
+                   <render diagConcept="CIEL:140228" diagName="diabetes" relationConcept="CIEL:971" relationName="father"/>
+                   <render diagConcept="CIEL:140234" diagName="asthma" relationConcept="CIEL:971" relationName="father"/>
+                   <render diagConcept="CIEL:151927" diagName="hypertension" relationConcept="CIEL:971" relationName="father"/>
+                   <render diagConcept="CIEL:152476" diagName="anemia" relationConcept="CIEL:971" relationName="father"/>
+                   <render diagConcept="CIEL:152450" diagName="epilepsia" relationConcept="CIEL:971" relationName="father"/>
+                   <render diagConcept="CIEL:152452" diagName="glaucoma" relationConcept="CIEL:971" relationName="father"/>
+                   <render diagConcept="CIEL:1859" diagName="hiv" relationConcept="CIEL:970" relationName="father"/>
+                   <render diagConcept="CIEL:140231" diagName="cardiopathy" relationConcept="CIEL:971" relationName="father"/>
+               </repeat>
+               </tr>
+               <tr>
+                   <td class="tg-1fjr">Grands-parents</td>
+                   <repeat>
+                       <template>
+                           <td class="tg-w1ms">
+                                <obsgroup groupingConceptId="CIEL:160593">
+                                   <obs conceptId="CIEL:160592" id="{relationName}-{diagName}-diag" answerConceptId="{diagConcept}"  style="checkbox" answerLabel=""/>
+                                   <div id="{relationName}-{diagName}-div" style="display: none">
+                                         <obs conceptId="CIEL:1560" id="{relationName}-{diagName}-relation" answerConceptId="{relationConcept}" style="checkbox"/>
+                                   </div>
+                                </obsgroup>
+                         </td>
+                     </template>
+                   <render diagConcept="CIEL:140228" diagName="diabetes" relationConcept="CIEL:973" relationName="grandparent"/>
+                   <render diagConcept="CIEL:140234" diagName="asthma" relationConcept="CIEL:973" relationName="grandparent"/>
+                   <render diagConcept="CIEL:151927" diagName="hypertension" relationConcept="CIEL:973" relationName="grandparent"/>
+                   <render diagConcept="CIEL:152476" diagName="anemia" relationConcept="CIEL:973" relationName="grandparent"/>
+                   <render diagConcept="CIEL:152450" diagName="epilepsia" relationConcept="CIEL:973" relationName="grandparent"/>
+                   <render diagConcept="CIEL:152452" diagName="glaucoma" relationConcept="CIEL:973" relationName="grandparent"/>
+                   <render diagConcept="CIEL:1859" diagName="hiv" relationConcept="CIEL:970" relationName="grandparent"/>
+                   <render diagConcept="CIEL:140231" diagName="cardiopathy" relationConcept="CIEL:973" relationName="grandparent"/>
+               </repeat>
+               </tr>
+               <tr>
+                   <td class="tg-1fjr">Frères et Sœurs</td>
+                   <repeat>
+                       <template>
+                           <td class="tg-w1ms">
+                                <obsgroup groupingConceptId="CIEL:160593">
+                                   <obs conceptId="CIEL:160592" id="{relationName}-{diagName}-diag" answerConceptId="{diagConcept}"  style="checkbox" answerLabel=""/>
+                                   <div id="{relationName}-{diagName}-div" style="display: none">
+                                         <obs conceptId="CIEL:1560" id="{relationName}-{diagName}-relation" answerConceptId="{relationConcept}" style="checkbox"/>
+                                   </div>
+                                </obsgroup>
+                         </td>
+                     </template>
+                   <render diagConcept="CIEL:140228" diagName="diabetes" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:140234" diagName="asthma" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:151927" diagName="hypertension" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:152476" diagName="anemia" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:152450" diagName="epilepsia" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:152452" diagName="glaucoma" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:1859" diagName="hiv" relationConcept="CIEL:972" relationName="sibbling"/>
+                   <render diagConcept="CIEL:140231" diagName="cardiopathy" relationConcept="CIEL:972" relationName="sibbling"/>
+               </repeat>
+               </tr>
+            </table>
+
+<submit/>
+</htmlform>

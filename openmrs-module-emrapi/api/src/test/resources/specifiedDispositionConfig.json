@@ -1,0 +1,51 @@
+[
+    {
+        "uuid": "d2d89630-b698-11e2-9e96-0800200c9a66",
+        "name": "disposition.death",
+        "conceptCode": "SNOMED CT:397709008",
+        "actions": [
+            "closeCurrentVisitAction",
+            "markPatientDeadAction"
+        ],
+        "additionalObs": []
+    },
+    {
+        "uuid": "66de7f60-b73a-11e2-9e96-0800200c9a66",
+        "name": "disposition.home",
+        "conceptCode": "SNOMED CT:3780001",
+        "type": "DISCHARGE",
+        "careSettingTypes": ["INPATIENT"],
+        "actions": [],
+        "additionalObs": []
+    },
+    {
+        "uuid": "799820d0-e02d-11e3-8b68-0800200c9a66",
+        "name": "disposition.transfer",
+        "conceptCode": "SNOMED CT:3780002",
+        "type": "TRANSFER",
+        "careSettingTypes": ["INPATIENT"],
+        "actions": [],
+        "additionalObs": []
+    },
+    {
+        "uuid": "844436e0-e02d-11e3-8b68-0800200c9a66",
+        "name": "disposition.admit",
+        "conceptCode": "123",
+        "type": "ADMIT",
+        "careSettingTypes": ["OUTPATIENT"],
+        "keepsVisitOpen": true,
+        "actions": [],
+        "additionalObs": []
+    },
+    {
+        "uuid": "fabe3540-e0ec-11e3-8b68-0800200c9a66",
+        "name": "disposition.other_outpatient",
+        "conceptCode": "456",
+        "type": "TRANSFER",
+        "careSettingTypes": ["OUTPATIENT"],
+        "actions": [],
+        "additionalObs": []
+    }
+
+
+]

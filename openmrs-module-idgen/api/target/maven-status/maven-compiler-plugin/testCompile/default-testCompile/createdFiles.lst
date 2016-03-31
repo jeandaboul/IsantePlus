@@ -1,0 +1,17 @@
+org\openmrs\module\idgen\editor\AutoGenerationOptionEditorTest.class
+org\openmrs\module\idgen\service\IdentifierSourceServiceLoadTest.class
+org\openmrs\module\idgen\service\IdentifierSourceServiceLoadTest$1.class
+org\openmrs\module\idgen\processor\RemoteIdentifierSourceProcessorTest.class
+org\openmrs\module\idgen\integration\RemoteIdentifierSourceProcessorStub.class
+org\openmrs\module\idgen\task\IdgenTaskIT.class
+org\openmrs\module\idgen\IdgenBaseTest.class
+org\openmrs\module\idgen\integration\RemoteWithLocalPoolIntegrationTest.class
+org\openmrs\module\idgen\integration\IdentifierPoolSchedulerIT.class
+org\openmrs\module\idgen\validator\LuhnMod10IdentifierValidatorTest.class
+org\openmrs\module\idgen\task\TestTask$1.class
+org\openmrs\module\idgen\SequentialIdentifierGeneratorTest.class
+org\openmrs\module\idgen\integration\DuplicateIdentifiersPoolComponentTest.class
+org\openmrs\module\idgen\integration\DuplicateIdentifiersPoolComponentTest$1.class
+org\openmrs\module\idgen\IdgenUtilTest.class
+org\openmrs\module\idgen\task\TestTask.class
+org\openmrs\module\idgen\service\IdentifierSourceServiceTest.class

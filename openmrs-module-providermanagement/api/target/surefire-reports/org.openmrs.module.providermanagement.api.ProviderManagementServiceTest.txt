@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.openmrs.module.providermanagement.api.ProviderManagementServiceTest
+-------------------------------------------------------------------------------
+Tests run: 202, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 34.955 sec

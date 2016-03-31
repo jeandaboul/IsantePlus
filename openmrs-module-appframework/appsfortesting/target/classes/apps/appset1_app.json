@@ -1,0 +1,28 @@
+[
+    {
+        "id": "patientDashboardApp",
+        "description": "Patient Dashboard Application",
+        "requiredPrivilege": "Some Random Privilege",
+        "extensionPoints": [
+            {
+                "id": "activeVisitActions",
+                "description": "Actions for Visit"
+            },
+            {
+                "id": "patientActions"
+            }
+        ],
+        "contextModel": [ "patientId", "activeVisitId" ]
+    },
+    {
+        "id": "xrayApp",
+        "description": "XRay Application",
+        "requiredPrivilege": "Manage X-Rays",
+        "extensionPoints": [
+            {
+                "id": "patientLinks"
+            }
+        ],
+        "contextModel": [ "xrayConceptId", "patientId" ]
+    }
+]

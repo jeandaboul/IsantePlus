@@ -1,0 +1,5 @@
+org\openmrs\module\webservices\rest\Activator.class
+org\openmrs\module\webservices\rest\web\AdminSection.class
+org\openmrs\module\webservices\rest\web\controller\SettingsFormController$GlobalPropertiesModel.class
+org\openmrs\module\webservices\rest\web\controller\HelpController.class
+org\openmrs\module\webservices\rest\web\controller\SettingsFormController.class

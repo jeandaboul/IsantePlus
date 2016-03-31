@@ -1,0 +1,4 @@
+org\openmrs\module\appui\converter\StringToAppDescriptorConverter.class
+org\openmrs\module\appui\ExtensionByLabelComparator.class
+org\openmrs\module\appui\AppUiActivator.class
+org\openmrs\module\appui\AppUiExtensions.class

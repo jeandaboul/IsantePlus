@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module configVersion="1.2">
+
+	<!-- Module Properties -->
+	<id>calculation</id>
+	<name>Calculation</name>
+	<version>1.1</version>
+	<package>org.openmrs.calculation</package>
+	<author>OpenMRS developers</author>
+	<description>
+		Provides a framework for OpenMRS developers to author simple or complex calculations to produce a particular piece of data for a single patient or a cohort of patients
+	</description>
+	<updateURL>
+		https://dev.openmrs.org/modules/download/calculation/update.rdf
+	</updateURL>
+	<require_version>1.6.6</require_version>
+	<!-- Change the require version back to the below, and update the openMRSVersion property accordingly when 1.6.6 is released -->
+	<!-- require_version>1.6.5</require_version -->
+	<!-- / Module Properties -->
+
+
+	<!-- Module Activator -->
+	<activator>org.openmrs.calculation.CalculationActivator</activator>
+	
+	<extension>
+        <point>org.openmrs.admin.list</point>
+        <class>org.openmrs.calculation.web.extension.AdminList</class>
+    </extension>
+
+	<!-- Required Privileges -->
+	<privilege>
+		<name>View Token Registrations</name>
+		<description>Allows to view token registrations</description>
+	</privilege>
+	<privilege>
+		<name>Manage Token Registrations</name>
+		<description>Allows to create/update/delete token registrations</description>
+	</privilege>
+	<privilege>
+		<name>View Calculations</name>
+		<description>Allows to view Calculations</description>
+	</privilege>
+	<!-- /Required Privileges -->
+
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
+		CalculationRegistration.hbm.xml
+	</mappingFiles>
+
+	<!-- Internationalization -->
+	<!-- All message codes should start with calculation. -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
+</module>

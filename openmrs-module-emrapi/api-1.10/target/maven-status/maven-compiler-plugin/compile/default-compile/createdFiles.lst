@@ -1,0 +1,8 @@
+org\openmrs\module\emrapi\encounter\service\OrderMetadataService.class
+org\openmrs\module\emrapi\encounter\mapper\DosingInstructionsMapper.class
+org\openmrs\module\emrapi\encounter\EmrOrderServiceImpl_1_10.class
+org\openmrs\module\emrapi\encounter\mapper\OpenMRSDrugOrderMapper.class
+org\openmrs\module\emrapi\encounter\mapper\OpenMRSOrderMapper.class
+org\openmrs\module\emrapi\encounter\mapper\OrderMapper1_10$1.class
+org\openmrs\module\emrapi\encounter\mapper\DrugMapper1_10.class
+org\openmrs\module\emrapi\encounter\mapper\OrderMapper1_10.class

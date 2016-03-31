@@ -1,0 +1,280 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.openmrs.module</groupId>
+    <artifactId>emrapi</artifactId>
+    <version>1.12</version>
+    <packaging>pom</packaging>
+    <name>EMR API Module</name>
+    <description>Higher-level APIs to support building EMR functionality in OpenMRS, to supplement the data-level APIs
+        in the OpenMRS core.
+    </description>
+    <url>https://wiki.openmrs.org/display/docs/EMR+API+Module+Module</url>
+
+    <developers>
+        <developer>
+            <name>OpenMRS</name>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>OpenMRS</name>
+        <url>http://openmrs.org</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:git@github.com:openmrs/openmrs-module-emrapi.git</connection>
+        <developerConnection>scm:git:git@github.com:openmrs/openmrs-module-emrapi.git</developerConnection>
+        <url>https://github.com/openmrs/openmrs-module-emrapi.git</url>
+      <tag>1.12</tag>
+  </scm>
+
+    <modules>
+        <module>api</module>
+        <module>api-1.10</module>
+        <module>api-1.11</module>
+        <module>condition-list</module>
+        <module>omod</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <openmrsTestutilsVersion>1.3</openmrsTestutilsVersion>
+        <distro.groupId>org.openmrs.distro</distro.groupId>
+        <distro.artifactId>referenceapplication</distro.artifactId>
+        <distro.version>2.3</distro.version>
+        <reportingModuleVersion>0.9.6</reportingModuleVersion>
+        <providermanagementModuleVersion>2.3</providermanagementModuleVersion>
+        <metadatasharingVersion>1.1.9</metadatasharingVersion>
+        <eventVersion>2.2.1</eventVersion>
+        <webservicesRestModuleVersion>2.12</webservicesRestModuleVersion>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${distro.groupId}</groupId>
+                <artifactId>${distro.artifactId}</artifactId>
+                <version>${distro.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement> 
+
+    <dependencies>
+        <!-- Begin OpenMRS modules -->
+       <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>reporting-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>serialization.xstream-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>calculation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>providermanagement-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>metadatasharing-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs</groupId>
+            <artifactId>event-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+            <version>1.1.1</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency> 
+
+        <!-- End OpenMRS modules -->
+
+        <!-- Begin OpenMRS contrib -->
+
+       <dependency>
+            <groupId>org.openmrs.contrib</groupId>
+            <artifactId>testutils</artifactId>
+            <version>${openmrsTestutilsVersion}</version>
+            <scope>test</scope>
+        </dependency> 
+
+        <!-- End OpenMRS contrib -->
+
+        <!-- Begin other dependencies -->
+
+        <!-- Needed because the UI Framework module uses HttpSession in its api project -->
+        <dependency> 
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency> 
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.co.modular-it</groupId>
+            <artifactId>hamcrest-date</artifactId>
+            <version>0.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.5.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.5.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- End other dependencies -->
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <target>1.6</target>
+                        <source>1.6</source>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.openmrs.maven.plugins</groupId>
+                    <artifactId>maven-openmrs-plugin</artifactId>
+                    <version>1.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <argLine>-Xmx512m -XX:MaxPermSize=512m</argLine>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                        <!-- refapp distro contains SNAPSHOT dependencies -->
+                        <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
+                    </configuration>
+                </plugin>
+                <!-- The 2.10 version of this plugin released in Sept 2014 leads to opaque errors and a lot of:
+                 [ERROR] java.lang.ClassCastException: com.sun.tools.javadoc.ClassDocImpl cannot be cast to com.sun.javadoc.AnnotationTypeDoc
+                    http://jira.codehaus.org/browse/MJAVADOC-408                 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                </plugin>
+                <plugin>
+					<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+					<artifactId>maven-java-formatter-plugin</artifactId>
+					<version>0.3</version>
+					<configuration>
+						<compilerSource>${javaCompilerVersion}</compilerSource>
+						<compilerCompliance>${javaCompilerVersion}</compilerCompliance>
+						<compilerTargetPlatform>${javaCompilerVersion}</compilerTargetPlatform>
+						<configFile>eclipse/OpenMRSFormatter.xml</configFile>
+						<overrideConfigCompilerVersion>true</overrideConfigCompilerVersion>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.openmrs.tools</groupId>
+							<artifactId>openmrs-tools</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>openmrs-repo-modules</id>
+            <name>OpenMRS Modules</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/modules</url>
+        </repository>
+        <snapshotRepository>
+            <id>openmrs-repo-snapshots</id>
+            <name>OpenMRS Snapshots</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>

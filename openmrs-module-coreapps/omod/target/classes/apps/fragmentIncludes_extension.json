@@ -1,0 +1,10 @@
+[
+    {
+        "id": "org.openmrs.module.coreapps.patientDashboard.includeFragments",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+            "provider": "coreapps",
+            "fragment": "patientdashboard/visitIncludes"
+        }
+    }
+]

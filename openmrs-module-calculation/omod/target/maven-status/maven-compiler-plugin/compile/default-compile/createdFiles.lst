@@ -1,0 +1,4 @@
+org\openmrs\calculation\web\controller\CalculationRegistrationFormController.class
+org\openmrs\calculation\web\controller\CalculationRegistrationController.class
+org\openmrs\calculation\web\extension\AdminList.class
+org\openmrs\calculation\web\controller\CalculationAutoRegistrationFormController.class

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="34.59" errors="0" skipped="0" tests="202" name="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.7.0_79\jre\bin"/>
+    <property name="java.vm.version" value="24.79-b02"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\jmaxy\workspace\openmrs-module-providermanagement"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\jmaxy\workspace\openmrs-module-providermanagement"/>
+    <property name="java.runtime.version" value="1.7.0_79-b15"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.7.0_79\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\jmaxy\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 8.1"/>
+    <property name="classworlds.conf" value="C:\Users\jmaxy\workspace\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf894055188774932739.tmp"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.7.0_79\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_74/bin/server;C:/Program Files/Java/jre1.8.0_74/bin;C:/Program Files/Java/jre1.8.0_74/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\EasyPHP-DevServer-14.1VC11\binaries\php\php_runningversion;c:\Program Files (x86)\Intel\iCLS Client\;c:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;c:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Intel\OpenCL SDK\3.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\3.0\bin\x64;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\MySQL\MySQL Utilities 1.4.3\;C:\Program Files (x86)\MySQL\MySQL Utilities 1.4.3\Doctrine extensions for PHP\;C:\Program Files\Java\jdk1.8.0_20;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\HashiCorp\Vagrant\bin;C:\Program Files (x86)\Skype\Phone\;C:\Program Files (x86)\Cracklock\Bin;C:\Users\jmaxy\Desktop;;."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="51.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="6.3"/>
+    <property name="user.home" value="C:\Users\jmaxy"/>
+    <property name="user.timezone" value="America/Bogota"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.7"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="user.name" value="jmaxy"/>
+    <property name="java.class.path" value="/C:/Users/jmaxy/eclipse/java-mars/eclipse/../../../.p2/pool/plugins/org.eclipse.m2e.maven.runtime_1.6.2.20150902-0001/jars/plexus-classworlds-2.5.2.jar"/>
+    <property name="java.vm.specification.version" value="1.7"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.7.0_79\jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B clean install"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="en"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.7.0_79"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.7.0_79\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.7.0_79\jre\lib\resources.jar;C:\Program Files\Java\jdk1.7.0_79\jre\lib\rt.jar;C:\Program Files\Java\jdk1.7.0_79\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.7.0_79\jre\lib\jce.jar;C:\Program Files\Java\jdk1.7.0_79\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.7.0_79\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.7.0_79\lib\tools.jar"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Users\jmaxy\workspace\openmrs-module-providermanagement\EMBEDDED"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase time="8.852" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderRoleToPerson_shouldFailIfUnderlyingPersonVoided"/>
+  <testcase time="0.388" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderRoleToPerson_shouldAssignProviderRole"/>
+  <testcase time="0.475" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldTransferAllPatientsOfSpecifiedRelationshipTypeFromOneProviderToAnotherOnSpecifiedDate"/>
+  <testcase time="0.285" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldReturnEmptyListIfPatientHasNoProviderRelationships"/>
+  <testcase time="0.29" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRelationshipType_shouldReturnEmptyListIfNoMatchingProvidersFound"/>
+  <testcase time="0.34" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldTransferAllPatientsFromOneProviderToAnotherOnSpecifiedDate"/>
+  <testcase time="0.2" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getAllProviderRoleRelationshipTypes_shouldGetAllNonRetiredProviderRelationshipTypes"/>
+  <testcase time="0.179" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatCanSuperviseThisProvider_shouldReturnEmptyListIfNoMatchingProvidersFound"/>
+  <testcase time="0.173" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatProviderCanSupervise_shouldReturnRolesThatProviderCanSupervise"/>
+  <testcase time="0.27" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnTrueIfProviderPersonSupportsRelationshipType"/>
+  <testcase time="0.208" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesBySuperviseeProviderRole_shouldThrowExceptionIfProviderRoleNull"/>
+  <testcase time="0.309" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnRelationshipWithSpecifiedProviderAndRelationshipType"/>
+  <testcase time="0.143" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesByRelationshipType_shouldGetAllProviderRolesThatSupportRelationshipType"/>
+  <testcase time="0.167" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatientsOfProviderCount_shouldGetCountOfAllPatientsOfAProviderOnCurrentDate"/>
+  <testcase time="0.158" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnFalseIfProviderDoesNotSupportsRelationshipType"/>
+  <testcase time="0.139" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnEmptyListIfPatientHasNoProviderRelationships"/>
+  <testcase time="0.212" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRelationshipType_shouldReturnProvidersThatSupportRelationshipType"/>
+  <testcase time="0.151" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnFalseIfProviderPersonDoesNotSupportsRelationshipType"/>
+  <testcase time="0.184" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnRelationshipWithSpecifiedRelationshipType"/>
+  <testcase time="0.118" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatProviderCanSupervise_shouldReturnEmptyListIfPersonIsNotProvider"/>
+  <testcase time="0.205" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldTransferAllPatientsOfSpecifiedRelationshipTypeFromOneProviderToAnother"/>
+  <testcase time="0.161" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatCanSuperviseThisProvider_shouldReturnProviderRolesThatCanSuperviseProvider"/>
+  <testcase time="0.122" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatProviderCanSupervise_shouldReturnEmptyListIfProviderRoleDoesNotSupportSupervision"/>
+  <testcase time="0.161" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesBySuperviseeProviderRole_shouldReturnEmptyListForProviderRoleThatHasNoSupervisorRoles"/>
+  <testcase time="0.139" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesBySuperviseeProviderRole_shouldGetAllProviderRolesThatCanSuperviseeProviderRole"/>
+  <testcase time="0.094" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesByRelationshipType_shouldReturnEmptyListForRelationshipTypeNotAssociatedWithAnyProviderRoles"/>
+  <testcase time="0.144" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unnassignAllPatientsFromProvider_shouldUnassignAllPatientsOfMultipleRelationshipTypesFromProvider"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderRoleFromPerson_shouldNotFailIfProviderDoesNotHaveRole"/>
+  <testcase time="0.091" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="confirmProviderAttributeTypesProperlyAssociatedWithProviderRole"/>
+  <testcase time="0.124" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderRoleFromPerson_shouldNotFailIfProviderHasNoRoles"/>
+  <testcase time="0.128" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="confirmRelationshipTypesAndSuperviseesProperlyAssociatedWithProviderRole"/>
+  <testcase time="0.112" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderRoleToPerson_shouldNotFailIfProviderAlreadyHasRole"/>
+  <testcase time="0.103" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getAllProviderRoleRelationshipTypes_shouldGetAllProviderRelationshipTypes"/>
+  <testcase time="0.114" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="saveProviderRole_shouldSaveProviderRoleWithProviderAttributeTypes"/>
+  <testcase time="0.1" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderRoleFromPerson_shouldNotFailIfPersonIsNotProvider"/>
+  <testcase time="0.093" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="purgeProviderRoleFromPerson_shouldNotFailIfProviderDoesNotHaveRole"/>
+  <testcase time="0.118" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="purgeProviderRoleFromPerson_shouldNotFailIfPersonIsNotProvider"/>
+  <testcase time="0.148" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatCanSuperviseThisProvider_shouldFailIfCalledWithNull"/>
+  <testcase time="0.118" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="isProvider_shouldReturnTrueEvenIfAllAssociatedProvidersRetired"/>
+  <testcase time="0.103" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesByRelationshipType_shouldThrowExceptionIfRelationshipTypeNull"/>
+  <testcase time="0.127" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="saveProviderRole_shouldSaveBasicProviderRole"/>
+  <testcase time="0.161" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldIgnoreVoidedPatients"/>
+  <testcase time="0.125" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldIgnoreBlankFields"/>
+  <testcase time="0.134" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldIgnoreVoidedPersons"/>
+  <testcase time="0.106" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersQuery_shouldReturnNullIfNoQuery"/>
+  <testcase time="0.144" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldFailIfFutureDate"/>
+  <testcase time="0.132" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRoles_shouldGetProviderRoles"/>
+  <testcase time="0.112" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="retireProviderRole_shouldRetireProviderRole"/>
+  <testcase time="0.112" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldNotGetSameProviderTwice"/>
+  <testcase time="0.109" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRoles_shouldIgnoreRetiredRoles"/>
+  <testcase time="0.13" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRole_shouldFailIfCalledWithNull"/>
+  <testcase time="0.105" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="isProvider_shouldFailIfPersonNull"/>
+  <testcase time="0.205" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferSupervisees_shouldTransferSupervisees"/>
+  <testcase time="0.127" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRoles_shouldIgnoreRetiredRoles"/>
+  <testcase time="0.135" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvider_shouldSearchOnMultipleParameters"/>
+  <testcase time="0.109" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getAllProviderRoles_shouldGetAllProviderRoles"/>
+  <testcase time="0.118" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRole_shouldGetProviderRole"/>
+  <testcase time="0.112" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRole_shouldGetProvidersByRole"/>
+  <testcase time="0.17" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldGetAllPatientsOfProvider"/>
+  <testcase time="0.144" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldNotIgnoreRetiredProviders"/>
+  <testcase time="0.145" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldIgnoreRetiredProviders"/>
+  <testcase time="0.115" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetPersonsByAddress"/>
+  <testcase time="0.118" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="canSupervise_shouldReturnFalse"/>
+  <testcase time="0.1" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="hasRole_shouldReturnFalseIfRoleRetired"/>
+  <testcase time="0.1" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetProvidersByRole"/>
+  <testcase time="0.103" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetProvidersByRoles"/>
+  <testcase time="0.11" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldOrderByName"/>
+  <testcase time="0.127" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldGetAllPatientsOfAProvider"/>
+  <testcase time="0.103" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetPersonsByAddressAndName"/>
+  <testcase time="0.104" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetByPersonAttribute"/>
+  <testcase time="0.12" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRoles_shouldGetProvidersByRole"/>
+  <testcase time="0.107" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="deleteProviderRole_shouldDeleteProviderRole"/>
+  <testcase time="0.11" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="hasRole_shouldReturnFalseIfProviderHasNoRoles"/>
+  <testcase time="0.095" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldFailIfProviderNull"/>
+  <testcase time="0.138" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisors_shouldGetAllSupervisorsForProviderOnSpecifiedDate"/>
+  <testcase time="0.1" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersQuery_shouldFetchByIdentifierAndNameAndOrderByName"/>
+  <testcase time="0.149" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisorRelationships_shouldGetAllSupervisorRelationshipsForProvider"/>
+  <testcase time="0.123" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRoles_shouldReturnEmptySetForProviderWithNoRole"/>
+  <testcase time="0.135" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldFailIfSourceProviderNull"/>
+  <testcase time="0.156" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisees_shouldGetAllHistoricalSuperviseesForSupervisor"/>
+  <testcase time="0.117" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="purgeProviderRoleFromPerson_shouldLeaveOtherRoleUntouched"/>
+  <testcase time="0.135" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldFailIfInvalidRelationshipFound"/>
+  <testcase time="0.116" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRole_shouldIgnoreRetiredProviders"/>
+  <testcase time="0.113" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldFailIfRelationshipAlreadyExists"/>
+  <testcase time="0.109" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldReturnEmptyListIfProviderHasNoPatients"/>
+  <testcase time="0.127" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldGetPatientsOfAProviderOnSpecifiedDate"/>
+  <testcase time="0.096" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldFailIfPatientNull"/>
+  <testcase time="0.122" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldReturnAllProvidersForPatient"/>
+  <testcase time="0.1" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="purgeProviderRoleFromPerson_shouldPurgeRoleFromProvider"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldFailIfRelationshipTypeIsNull"/>
+  <testcase time="0.102" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderRoleFromPerson_shouldLeaveOtherRoleUntouched"/>
+  <testcase time="0.109" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRoles_shouldFailIfCalledWithNull"/>
+  <testcase time="0.096" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="purgeProviderRoleFromPerson_shouldNotFailIfProviderHasNoRoles"/>
+  <testcase time="0.12" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldIgnoreNonProviderRelationships"/>
+  <testcase time="0.124" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldSetProperEndDate"/>
+  <testcase time="0.101" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldFailIfProviderNull"/>
+  <testcase time="0.098" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldFailIfSupervisorNull"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllProvidersFromSupervisor_shouldFailIfSupervisorNull"/>
+  <testcase time="0.148" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisors_shouldGetAllSupervisorsForProvider"/>
+  <testcase time="0.153" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllSupervisees_shouldFailIfTransferDateInFuture"/>
+  <testcase time="0.12" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldIgnoreRetiredProviders"/>
+  <testcase time="0.107" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldFailIfDestinationProviderNull"/>
+  <testcase time="0.128" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldFailIfProviderNull"/>
+  <testcase time="0.165" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllSupervisees_shouldTransferAllSupervisees"/>
+  <testcase time="0.096" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllSupervisorsFromProvider_shouldFailIfProviderNull"/>
+  <testcase time="0.088" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisorRelationships_shouldFailIfProviderNull"/>
+  <testcase time="0.094" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldThrowExceptionIfIncludeRetiredNotSpecified"/>
+  <testcase time="0.106" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetProvidersReferencedByIdentifier"/>
+  <testcase time="0.093" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllPatientsFromProvider_shouldFailIfProviderNull"/>
+  <testcase time="0.089" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldReturnNullOrEmptyListIfNoMatches"/>
+  <testcase time="0.094" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetPersonsByAddressWithTwoFields"/>
+  <testcase time="0.091" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldFailIfProviderNull"/>
+  <testcase time="0.092" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldFailIfRelationshipTypeNull"/>
+  <testcase time="0.102" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldFailIfPersonIsNotProvider"/>
+  <testcase time="0.091" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldFailIfPatientVoided"/>
+  <testcase time="0.131" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldIgnorePatientsOfADifferentRelationshipType"/>
+  <testcase time="0.099" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldAssignProviderToSupervisor"/>
+  <testcase time="0.125" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldGetAllPatientsOfProviderOnSpecifiedDate"/>
+  <testcase time="0.092" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldFailIfPatientNull"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldFailIfProviderNotAProvider"/>
+  <testcase time="0.106" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSuperviseeRelationships_shouldFailIfSuperviseeNotProvider"/>
+  <testcase time="0.15" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisees_shouldGetAllSuperviseesForSupervisor"/>
+  <testcase time="0.113" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisorRelationships_shouldFailIfProviderNotProvider"/>
+  <testcase time="0.135" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisors_shouldGetAllHistoricalSupervisorsForProvider"/>
+  <testcase time="0.093" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersByRelationshipType_shouldFailIfCalledWithNull"/>
+  <testcase time="0.109" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldReturnProvidersOnSpecifiedDate"/>
+  <testcase time="0.098" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldFailIfSupervisorNull"/>
+  <testcase time="0.096" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldFailIfSupervisorNotAProvider"/>
+  <testcase time="0.114" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldGetAllPatientsOfAProviderOnCurrentDate"/>
+  <testcase time="0.09" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSuperviseeRelationships_shouldFailIfSupervisorNull"/>
+  <testcase time="0.114" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignPatientFromProvider_shouldUnassignPatientFromProvider"/>
+  <testcase time="0.099" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldFailIfPatientNull"/>
+  <testcase time="0.104" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldAssignPatientToProvider"/>
+  <testcase time="0.117" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnAllRelationships"/>
+  <testcase time="0.126" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldReturnAllProviders"/>
+  <testcase time="0.101" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetProvidersReferencedByName"/>
+  <testcase time="0.093" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="hasRole_shouldReturnFalseIfPersonIsNotProvider"/>
+  <testcase time="0.095" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderRoleFromPerson_shouldUnassignRoleFromProvider"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnFalseIfProviderHasNoRole"/>
+  <testcase time="0.154" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldIgnoreVoidedRelationships"/>
+  <testcase time="0.137" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldNotIgnoreRetiredProviders"/>
+  <testcase time="0.092" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldIntersectNameAndAttributeSearch"/>
+  <testcase time="0.095" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldGetPersonsByAddressBothFieldsMustMatch"/>
+  <testcase time="0.09" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviders_shouldIntersectAddressAndNameSearch"/>
+  <testcase time="0.123" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="hasRole_shouldReturnTrue"/>
+  <testcase time="0.135" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="canSupervise_shouldReturnTrue"/>
+  <testcase time="0.123" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="hasRole_shouldReturnFalse"/>
+  <testcase time="0.091" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="shouldSetupContext"/>
+  <testcase time="0.095" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="isProvider_shouldReturnTrue"/>
+  <testcase time="0.098" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="isProvider_shouldReturnFalse"/>
+  <testcase time="0.107" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRoleByUuid_shouldGetProviderRoleByUuid"/>
+  <testcase time="0.117" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRoleByUuid_shouldReturnNUllIfNoProviderForUuid"/>
+  <testcase time="0.1" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unretireProviderRole_shouldUnretireProviderRole"/>
+  <testcase time="0.093" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRole_shouldReturnNullIfNoProviderForId"/>
+  <testcase time="0.108" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="deleteProviderRole_shouldFailIfForeignKeyConstraintExists"/>
+  <testcase time="0.091" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getAllProviderRoles_shouldGetAllProviderRolesExcludingRetired"/>
+  <testcase time="0.126" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldNotFailIfSourceProviderHasNoPatients"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldFailIfProviderNotAssignedToSupervisor"/>
+  <testcase time="0.097" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldFailIFSupervisorDoesNotSupportProvider"/>
+  <testcase time="0.093" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllSupervisorsFromProvider_shouldFailIfProviderNotProvider"/>
+  <testcase time="0.13" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllProvidersFromSupervisor_shouldUnassignAllProvidersFromSupervisor"/>
+  <testcase time="0.098" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllProvidersFromSupervisor_shouldFailIfSupervisorNotProvider"/>
+  <testcase time="0.095" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="canSupervise_shouldReturnFalseIfSupervisorAndSuperviseeAreSamePerson"/>
+  <testcase time="0.105" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldFailIfRelationshipIsNotProviderRelationship"/>
+  <testcase time="0.118" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatientsOfProviderCount_shouldReturnZeroIfProviderHasNoPatients"/>
+  <testcase time="0.107" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldFailIfSourceProviderEqualsDestinationProvider"/>
+  <testcase time="0.101" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisorRelationshipType_shouldGetSupervisorRelationshipType"/>
+  <testcase time="0.133" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllSupervisorsFromProvider_shouldUnassignAllSupervisorsFromProvider"/>
+  <testcase time="0.103" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatientsOfProviderCount_shouldGetCountOfPatientsOfAProviderOnSpecifiedDate"/>
+  <testcase time="0.11" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProvidersForPatient_shouldReturnProviderWithSpecifiedRelationshipType"/>
+  <testcase time="0.089" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllPatientsFromProvider_shouldFailIfRelationshipTypeNull"/>
+  <testcase time="0.111" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnAllRelationshipsForPatient"/>
+  <testcase time="0.092" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRolesThatProviderCanSupervise_shouldReturnEmptyListIfProviderNull"/>
+  <testcase time="0.088" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnFalseIfProviderPersonHasNoRole"/>
+  <testcase time="0.101" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnTrueIfProviderAssociatedWithRoleRetired"/>
+  <testcase time="0.115" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnRelationshipsOnSpecifiedDate"/>
+  <testcase time="0.091" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldFailIfProviderNotProvider"/>
+  <testcase time="0.105" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSuperviseeRelationships_shouldGetAllSuperviseeRelationshipsForSupervisor"/>
+  <testcase time="0.112" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisees_shouldGetAllSuperviseesForSupervisorOnSpecifiedDate"/>
+  <testcase time="0.129" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllSupervisees_shouldTransferAllSuperviseesOnSpecifiedDate"/>
+  <testcase time="0.108" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldFailIfProviderAlreadyAssignedToSupervisor"/>
+  <testcase time="0.104" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignPatientToProvider_shouldFailIfProviderDoesNotSupportRelationshipType"/>
+  <testcase time="0.104" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignPatientFromProvider_shouldFailIfRelationshipDoesNotExist"/>
+  <testcase time="0.121" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatientsOfProviderCount_shouldGetCountOfAllPatientsOfAProvider"/>
+  <testcase time="0.117" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldReturnRelationshipWithSpecifiedProvider"/>
+  <testcase time="0.109" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getProviderRelationships_shouldFailIfRelationshipIsNotProviderRelationship"/>
+  <testcase time="0.216" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldTransferPatientWithMultipleRelationshipTypes"/>
+  <testcase time="0.116" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="supportsRelationshipType_shouldReturnTrueIfProviderSupportsRelationshipType"/>
+  <testcase time="0.106" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllPatientsFromProvider_shouldNotFailIfProviderHasNoPatients"/>
+  <testcase time="0.122" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatientsOfProviderCount_shouldIgnorePatientsOfADifferentRelationshipType"/>
+  <testcase time="0.178" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldTransferAllPatientsFromOneProviderToAnother"/>
+  <testcase time="0.111" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getPatients_shouldFailIfRelationshipTypeIsNotProviderToPatientType"/>
+  <testcase time="0.169" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="assignProviderToSupervisor_shouldAssignProviderToSupervisorOnSpecifiedDates"/>
+  <testcase time="0.156" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignAllPatientsFromProvider_shouldUnassignAllPatientsFromProvider"/>
+  <testcase time="0.161" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldUnassignProviderFromSupervisor"/>
+  <testcase time="0.164" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="unassignProviderFromSupervisor_shouldFailIfSupervisorNotProvider"/>
+  <testcase time="0.199" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisorRelationships_shouldGetAllSupervisorRelationshipsForProviderOnSpecifiedDate"/>
+  <testcase time="0.156" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSuperviseeRelationships_shouldGetAllHistoricalSuperviseeRelationshipsForSupervisor"/>
+  <testcase time="0.154" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSuperviseeRelationships_shouldGetAllSuperviseeRelationshipsForSupervisorOnSpecifiedDate"/>
+  <testcase time="0.159" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldNotFailIfPatientAlreadyAssociatedWithDestinationPatient"/>
+  <testcase time="0.119" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="transferAllPatients_shouldFailIfDestinationProviderDoesNotSupportRequiredRelationshipType"/>
+  <testcase time="0.125" classname="org.openmrs.module.providermanagement.api.ProviderManagementServiceTest" name="getSupervisorRelationships_shouldGetAllHistoricalSupervisorRelationshipsForProvider"/>
+</testsuite>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+
+    <!-- Module Properties -->
+    <id>emrapi</id>
+    <name>EMR API Module</name>
+    <version>1.12</version>
+    <package>org.openmrs.module.emrapi</package>
+    <author>OpenMRS</author>
+    <description>
+        Higher-level APIs to support building EMR functionality in OpenMRS, to supplement the data-level APIs
+        in the OpenMRS core.
+    </description>
+    <updateURL>https://modules.openmrs.org/modules/download/emrapi/update.rdf</updateURL>
+	<require_version>1.11.3, 1.10.2 - 1.10.*, 1.9.9 - 1.9.*</require_version>
+    <!-- TRUNK-3751 prevents saying ${openmrsCoreVersion} when version is a SNAPSHOT-->
+    <!-- / Module Properties -->
+
+
+    <!-- Required Modules -->
+    <require_modules>
+        <require_module version="0.9.6">org.openmrs.module.reporting</require_module>
+        <require_module version="2.3">org.openmrs.module.providermanagement</require_module>
+        <require_module version="1.1.9">org.openmrs.module.metadatasharing</require_module>
+        <require_module version="2.2.1">org.openmrs.event</require_module>
+        <require_module version="2.12">org.openmrs.module.webservices.rest</require_module>
+    </require_modules>
+    <!-- / Required Modules -->
+
+    <!-- Conditional Resources -->
+    <conditionalResources>
+    	<conditionalResource>
+            <path>/lib/emrapi-api-1.11-1.12.jar</path>
+            <openmrsVersion>1.11.* - 1.12.*</openmrsVersion>
+        </conditionalResource>
+        <conditionalResource>
+            <path>/lib/emrapi-api-1.10-1.12.jar</path>
+            <openmrsVersion>1.10.*</openmrsVersion>
+        </conditionalResource>
+        <conditionalResource>
+            <path>/lib/emrapi-api-1.9-1.12.jar</path>
+            <openmrsVersion>1.9.*</openmrsVersion>
+        </conditionalResource>
+
+    </conditionalResources>
+    <!-- / Conditional Resources -->
+
+    <!-- Module Activator -->
+    <activator>org.openmrs.module.emrapi.EmrApiActivator</activator>
+
+
+    <!-- Maps hibernate files, if present -->
+    <mappingFiles>
+        Condition.hbm.xml
+    </mappingFiles>
+
+    <!-- Internationalization -->
+    <!-- All message codes should start with emrapi. -->
+    <messages>
+        <lang>en</lang>
+        <file>messages.properties</file>
+    </messages>
+    <messages>
+        <lang>fr</lang>
+        <file>messages_fr.properties</file>
+    </messages>
+    <messages>
+        <lang>de</lang>
+        <file>messages_de.properties</file>
+    </messages>
+    <!-- /Internationalization -->
+
+    <globalProperty>
+        <property>emr.unknownLocation</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the Location that represents an Unknown Location
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.unknownProvider</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the Provider that represents an Unknown Provider
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.admissionEncounterType</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the encounter type for admitting a patient
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.exitFromInpatientEncounterType</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the encounter type for exiting a patient from inpatient care
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.transferWithinHospitalEncounterType</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the encounter type for transferring a patient within the hospital
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.visitNoteEncounterType</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the encounter type for a visit note
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.primaryIdentifierType</property>
+        <defaultValue></defaultValue>
+        <description>
+            Primary identifier type for looking up patients, generating barcodes, etc
+        </description>
+    </globalProperty>
+    
+    <globalProperty>
+        <property>emr.extraPatientIdentifierTypes</property>
+        <defaultValue></defaultValue>
+        <description>
+            A list of UUIDs indicating extra Patient Identifier Types that should be displayed
+        </description>
+    </globalProperty>
+    <globalProperty>
+        <property>emr.atFacilityVisitType</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the VisitType that we use for newly-created visits
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.admissionForm</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the Admission Form (not required)
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.transferWithinHospitalForm</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the Transfer Form (not required)
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emr.exitFromInpatientForm</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of the Discharge Form (not required)
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emrapi.suppressedDiagnosisConcepts</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUIDs or mappings of suppressed diagnosis concepts
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emrapi.nonDiagnosisConceptSets</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUIDs or mapping of non diagnosis concept sets
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>emrapi.lastViewedPatientSizeLimit</property>
+        <defaultValue>50</defaultValue>
+        <description>
+            Specifies the system wide number of patients to store as last viewed for a single user,
+            defaults to 50 if not specified
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>conditionList.endReasonConceptSetUuid</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of end reason concept set
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>conditionList.nonCodedUuid</property>
+        <defaultValue></defaultValue>
+        <description>
+            UUID of non coded concept
+        </description>
+    </globalProperty>
+
+
+    <!-- this core global property will eventually replace emr.unknownProvider -->
+    <!-- currently, at module startup, the activator should make sure both properties are set to the same value -->
+    <globalProperty>
+        <property>provider.unknownProviderUuid</property>
+        <defaultValue></defaultValue>
+        <description>
+            Specifies the uuid of the Unknown Provider account
+        </description>
+    </globalProperty>
+
+</module>
+

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset>
+    <global_property property="emr.atFacilityVisitType" property_value="f01c54cb-2225-471a-9cd5-d348552c337c"
+                     uuid="a0ee79e5-1d6c-46bf-903f-55437441329f"/>
+    <visit_type visit_type_id="1" name="Clinic or Hospital Visit" creator="1" date_created="2012-10-23 18:04:14"
+                changed_by="1" date_changed="2012-10-23 18:04:14"
+                retired="0" uuid="f01c54cb-2225-471a-9cd5-d348552c337c"/>
+
+    <global_property property="emr.checkInEncounterType" property_value="55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"
+                     uuid="6686a8c0-fcc5-4fc5-b997-906e7ee23bd1"/>
+    <encounter_type encounter_type_id="1000" name="Check-in" description="Check in for a clinic visit" creator="1"
+                    date_created="2012-10-23 18:04:14" retired="0" uuid="55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"/>
+
+    <global_property property="emr.checkInClerkEncounterRole" property_value="cbfe0b9d-9923-404c-941b-f048adc8cdc0"
+                     uuid="de7a1223-990a-4714-84a3-a05f7ad89896"/>
+    <encounter_role encounter_role_id="6" name="Administrative Clerk" creator="1" date_created="2012-10-23 18:04:14"
+                    changed_by="1" date_changed="2012-10-23 18:04:14"
+                    retired="0" uuid="cbfe0b9d-9923-404c-941b-f048adc8cdc0"/>
+
+    <global_property property="emr.admissionEncounterType" property_value="2c8c3ff2-b8eb-11e2-9426-3edb8e345d35"
+                     uuid="35c57674-b8eb-11e2-9426-3edb8e345d35"/>
+    <encounter_type encounter_type_id="1001" name="Admission" description="Admit to Inpatient (prevents autoclosing visits)" creator="1"
+                    date_created="2012-10-23 18:04:14" retired="0" uuid="2c8c3ff2-b8eb-11e2-9426-3edb8e345d35"/>
+
+    <global_property property="emr.exitFromInpatientEncounterType" property_value="3bbdc54a-b8eb-11e2-9426-3edb8e345d35"
+                     uuid="453e855a-b8eb-11e2-9426-3edb8e345d35"/>
+    <encounter_type encounter_type_id="1002" name="Discharge" description="Discharge from Inpatient (allows autoclosing visits)" creator="1"
+                    date_created="2012-10-23 18:04:14" retired="0" uuid="3bbdc54a-b8eb-11e2-9426-3edb8e345d35"/>
+
+    <global_property property="emr.visitNoteEncounterType" property_value="06087e80-d565-11e3-9c1a-0800200c9a66"
+                     uuid="111bbad0-d565-11e3-9c1a-0800200c9a665"/>
+    <encounter_type encounter_type_id="1003" name="Visit Note" description="Consult With Physican" creator="1"
+                    date_created="2012-10-23 18:04:14" retired="0" uuid="06087e80-d565-11e3-9c1a-0800200c9a66"/>
+
+    <global_property property="emr.admissionEncounterType" property_value="06087111-222-11e3-9c1a-0800200c9a66"
+                     uuid="111b2340-d565-11e3-9c1a-0800200c9a665"/>
+    <encounter_type encounter_type_id="1004" name="Admission" description="Admit to Inpatient" creator="1"
+                    date_created="2012-10-23 18:04:14" retired="0" uuid="06087111-222-11e3-9c1a-0800200c9a66"/>
+
+    <global_property property="visits.assignmentHandler"
+                     property_value="org.openmrs.module.emrapi.adt.EmrApiVisitAssignmentHandler"
+                     uuid="2561da10-2229-11e2-9b1a-423440a3714c"/>
+
+    <!-- this sets the identifier type with id=1 in the standard test dataset to the "primary identifier type" -->
+    <global_property property="emr.primaryIdentifierType" property_value="1a339fe9-38bc-4ab3-b180-320988c0b968"
+                     uuid="776cb3c3-9e66-42c6-8f03-2a0c1e9ca2a8"/>
+
+    <person_attribute_type person_attribute_type_id="10" name="Unknown patient" description="Unknown patient"
+                           format="java.lang.String" searchable="false" creator="1" date_created="2008-08-15 15:53:36.0"
+                           retired="false" uuid="a0f5521c-dbbd-4c10-81b2-1b7ab18330dz" sort_weight="2"/>
+
+    <global_property property="provider.unknownProviderUuid" property_value=""
+                     uuid="984628b0-e914-11e4-b571-0800200c9a66"/>
+
+    <global_property property="emr.unknownProvider" property_value=""
+                     uuid="a0351a90-e914-11e4-b571-0800200c9a66"/>
+
+    <concept_reference_source concept_source_id="1001" name="org.openmrs.module.emrapi" description="EMR API Concept Source" creator="1" date_created="2009-06-03 13:41:25.0" retired="false" uuid="edd52713-8887-47b7-ba9e-6e1148824ca4"/>
+
+    <!-- create some visits for patient 7 & 8 from the standardTestDataset to test merging visits -->
+    <visit visit_id="1001" patient_id="7" visit_type_id="1" date_started="2013-04-04 00:00:00.0" date_stopped="2013-04-07 00:00:00.0" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="0" uuid="1e5d5218-6b78-11e0-93c3-18a905e044dc" />
+    <encounter encounter_id="1001" visit_id="1001" encounter_type="2" patient_id="7" location_id="1" form_id="1" encounter_datetime="2013-04-06 00:00:00.0" creator="1" date_created="2008-08-18 14:09:05.0" voided="false" uuid="6519d653-444b-4118-9c83-a3715b82d4ac"/>
+
+    <visit visit_id="1002" patient_id="8" visit_type_id="1" date_started="2013-04-01 00:00:00.0" date_stopped="2013-04-10 00:00:00.0" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="0" uuid="4e663896-6b78-11e0-93c3-18a905e044dc" />
+    <encounter encounter_id="1002" visit_id="1002" encounter_type="2" patient_id="8" location_id="1" form_id="1" encounter_datetime="2013-04-02 00:00:00.0" creator="1" date_created="2008-08-18 14:09:05.0" voided="false" uuid="7779d653-444b-4118-9c83-a3715b82d4ac"/>
+
+    <!-- visit attribute type and visit attribute for VisitDomainWrapperComponentTest -->
+    <visit_attribute_type visit_attribute_type_id="100" name="Visit Template" datatype="org.openmrs.customdatatype.datatype.FreeTextDatatype" min_occurs="0" max_occurs="1" creator="1" date_created="2005-01-01 00:00:00.0" retired="0" uuid="f7b07c80-27c3-49de-8830-cb9e3e805eeb" />
+    <visit_attribute visit_attribute_id="100" visit_id="2" value_reference="pedsInitialOutpatient" attribute_type_id="100" creator="1" date_created="2008-08-15 15:46:47.0" voided="false" uuid="e37d58a0-7e59-11e5-a837-0800200c9a66"/>
+
+</dataset>

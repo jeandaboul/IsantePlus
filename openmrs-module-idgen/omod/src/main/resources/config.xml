@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module configVersion="1.0">
+	
+	<id>@MODULE_ID@</id>
+	<name>@MODULE_NAME@</name>
+	<version>@MODULE_VERSION@</version>
+	<package>@MODULE_PACKAGE@</package>
+	<author>Partners In Health</author>
+	<description>
+		Identifier auto-generation and allocation functionality.  
+		See <a href="http://openmrs.org/wiki/Idgen_Module">http://openmrs.org/wiki/Idgen_Module</a> for more information
+	</description>
+	<activator>@MODULE_PACKAGE@.IdgenModuleActivator</activator>
+	<require_modules>
+		<require_module>org.openmrs.module.webservices.rest</require_module>
+	</require_modules>
+	<require_version>1.11.3, 1.10.2 - 1.10.*, 1.9.9 - 1.9.*</require_version>
+	
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>@MODULE_PACKAGE@.web.extension.AdminList</class>
+	</extension>
+	<extension>
+		<point>org.openmrs.admin.patients.localHeader</point>
+		<class>@MODULE_PACKAGE@.web.extension.AdminList</class>
+	</extension>
+	<extension>
+		<point>newPatientForm.identifierHeader</point>
+		<class>@MODULE_PACKAGE@.web.extension.IdentifierTableHeaderExtension</class>
+	</extension>
+	
+	<!-- Required Privileges -->
+	<privilege>
+		<name>Manage Identifier Sources</name>
+		<description>Allows user add, edit, and remove identifier sources</description>
+	</privilege>
+	
+	<privilege>
+		<name>Manage Auto Generation Options</name>
+		<description>Allows user add, edit, and remove auto-generation options</description>
+	</privilege>
+	
+	<privilege>
+		<name>Generate Batch of Identifiers</name>
+		<description>Allows user to generate a batch of identifiers to a file for offline use</description>
+	</privilege>
+	
+	<privilege>
+		<name>Upload Batch of Identifiers</name>
+		<description>Allows user to upload a batch of identifiers</description>
+	</privilege>
+
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	
+	<messages>
+		<lang>de</lang>
+		<file>messages_de.properties</file>
+	</messages>
+
+	<mappingFiles>
+		IdentifierSource.hbm.xml
+	</mappingFiles>
+	
+</module>
+

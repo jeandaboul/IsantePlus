@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+
+	<!-- Module Properties -->
+	<id>uilibrary</id>
+	<name>UI Library Module</name>
+	<version>2.0.4</version>
+	<package>org.openmrs.module.uilibrary</package>
+	<author>djazayeri</author>
+	<description>
+		Library of useful widgets, decorators, and fragments for the UI Framework module
+	</description>
+	<updateURL>https://dev.openmrs.org/modules/download/uilibrary/update.rdf</updateURL>
+	<require_version>1.9.1</require_version>
+	<!-- / Module Properties -->
+
+	
+	<!-- Required Modules -->
+	<require_modules>
+																											
+		<require_module version="2.0">
+			org.openmrs.module.uiframework
+		</require_module>
+			
+	</require_modules>
+	<!-- / Required Modules -->
+	
+	<!-- Module Activator -->
+	<activator>org.openmrs.module.uilibrary.UILibraryActivator</activator>
+	
+	
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
+				
+	</mappingFiles>
+
+	<!-- Internationalization -->
+	<!-- All message codes should start with uilibrary. -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
+</module>
+

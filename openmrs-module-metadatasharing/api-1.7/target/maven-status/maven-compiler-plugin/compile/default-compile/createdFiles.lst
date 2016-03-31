@@ -1,0 +1,2 @@
+org\openmrs\module\metadatasharing\MetadataSharing17Configuration.class
+org\openmrs\module\metadatasharing\handler\impl\ConceptMerge17Handler.class

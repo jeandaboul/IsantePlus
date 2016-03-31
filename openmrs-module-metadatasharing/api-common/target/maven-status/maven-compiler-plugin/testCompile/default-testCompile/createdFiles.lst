@@ -1,0 +1,7 @@
+org\openmrs\module\metadatasharing\handler\impl\ObjectHandlerTest.class
+org\openmrs\module\metadatasharing\handler\impl\ObjectHandlerTest$1.class
+org\openmrs\module\metadatasharing\ImportExportTestUtils.class
+org\openmrs\module\metadatasharing\ShareTestHelper.class
+org\openmrs\module\metadatasharing\BaseShareTest.class
+org\openmrs\module\metadatasharing\BaseShareScenarioTest$1.class
+org\openmrs\module\metadatasharing\BaseShareScenarioTest.class

@@ -1,0 +1,10 @@
+org\openmrs\module\emrapi\encounter\mapper\DosingInstructionsMapperTest.class
+org\openmrs\module\emrapi\encounter\builder\OrderBuilder.class
+org\openmrs\module\emrapi\encounter\service\OrderMetadataServiceTest.class
+org\openmrs\module\emrapi\encounter\mapper\OpenMRSDrugOrderMapper1_10Test$1.class
+org\openmrs\module\emrapi\encounter\builder\DosingInstructionsBuilder.class
+org\openmrs\module\emrapi\encounter\mapper\OpenMRSOrderMapper1_10Test.class
+org\openmrs\module\emrapi\encounter\builder\DrugOrderBuilder.class
+org\openmrs\module\emrapi\encounter\mapper\DrugOrderMapper1_10Test.class
+org\openmrs\module\emrapi\encounter\EmrOrderServiceImpl_1_10Test.class
+org\openmrs\module\emrapi\encounter\mapper\OpenMRSDrugOrderMapper1_10Test.class

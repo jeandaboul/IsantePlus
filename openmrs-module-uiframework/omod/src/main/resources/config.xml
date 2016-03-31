@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+
+	<!-- Module Properties -->
+	<id>${project.parent.artifactId}</id>
+	<name>${project.parent.name}</name>
+	<version>${project.parent.version}</version>
+	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+	<author>OpenMRS</author>
+	<description>
+		${project.parent.description}
+	</description>
+	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
+	<require_version>1.11.3, 1.10.2 - 1.10.*, 1.9.9 - 1.9.*</require_version>
+	<!-- / Module Properties -->
+
+    <!-- Module Activator -->
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.UiFrameworkActivator</activator>
+	
+	<!-- Maps hibernate files, if present -->
+	<mappingFiles>
+		UserDefinedPageView.hbm.xml
+	</mappingFiles>
+
+	<!-- Internationalization -->
+	<!-- All message codes should start with ${project.parent.artifactId}. -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<messages>
+		<lang>de</lang>
+		<file>messages_de.properties</file>
+	</messages>
+	<messages>
+		<lang>fr</lang>
+		<file>messages_fr.properties</file>
+	</messages>
+	<messages>
+		<lang>ht</lang>
+		<file>messages_ht.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
+    <globalProperty>
+        <property>uiframework.formatter.dateFormat</property>
+        <defaultValue>dd.MMM.yyyy</defaultValue>
+        <description>
+            Format used by UiUtils.format for dates that do not have a time component
+        </description>
+    </globalProperty>
+
+    <globalProperty>
+        <property>uiframework.formatter.dateAndTimeFormat</property>
+        <defaultValue>dd.MMM.yyyy, HH:mm:ss</defaultValue>
+        <description>
+            Format used by UiUtils.format for dates that have a time component
+        </description>
+    </globalProperty>
+	
+	<servlet>
+		<servlet-name>resource</servlet-name>
+		<servlet-class>org.openmrs.module.uiframework.ResourceServlet</servlet-class>
+	</servlet>
+
+</module>
+

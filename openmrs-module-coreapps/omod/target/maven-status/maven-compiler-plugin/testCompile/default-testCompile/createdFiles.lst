@@ -1,0 +1,11 @@
+org\openmrs\module\coreapps\fragment\controller\visit\QuickVisitFragmentControllerTest.class
+org\openmrs\module\coreapps\fragment\controller\visit\VisitDetailsFragmentControllerTest.class
+org\openmrs\module\coreapps\fragment\controller\visit\ParserEncounterIntoSimpleObjectsTest$DoNotGoToServiceWhenFormatting.class
+org\openmrs\module\coreapps\fragment\controller\diagnosis\EncounterDiagnosesFragmentControllerTest.class
+org\openmrs\module\coreapps\fragment\controller\visit\RetrospectiveVisitFragmentControllerTest.class
+org\openmrs\module\coreapps\AppTest.class
+org\openmrs\module\coreapps\fragment\controller\visit\VisitDatesFragmentControllerTest.class
+org\openmrs\module\coreapps\fragment\controller\visit\VisitDetailsFragmentControllerTest$1.class
+org\openmrs\module\coreapps\fragment\controller\visit\RetrospectiveVisitFragmentControllerTest$IsWithinDateRange.class
+org\openmrs\module\coreapps\fragment\controller\visit\ParserEncounterIntoSimpleObjectsTest.class
+org\openmrs\module\coreapps\fragment\controller\patientdashboard\ContactInfoFragmentControllerTest.class

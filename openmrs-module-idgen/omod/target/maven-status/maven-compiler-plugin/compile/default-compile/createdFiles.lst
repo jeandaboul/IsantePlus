@@ -1,0 +1,6 @@
+org\openmrs\module\idgen\web\extension\AdminList.class
+org\openmrs\module\idgen\web\controller\AutoGenerationOptionController.class
+org\openmrs\module\idgen\web\controller\LogEntryController.class
+org\openmrs\module\idgen\web\controller\IdentifierSourceController.class
+org\openmrs\module\idgen\web\controller\IdgenEditPatientIdentifiersController.class
+org\openmrs\module\idgen\web\extension\IdentifierTableHeaderExtension.class

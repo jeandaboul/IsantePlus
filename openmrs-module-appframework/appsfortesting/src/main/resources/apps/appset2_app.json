@@ -1,0 +1,15 @@
+[
+    {
+        "id": "archiveRoomApp",
+
+        "description": "Archive Room Application",
+        "extensionPoints": [
+            {
+                "id": "patientActions"
+            }
+        ],
+
+        "contextModel": [ "patientId" ]
+    }
+
+]
