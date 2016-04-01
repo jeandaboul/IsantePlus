@@ -1,5 +1,5 @@
 # Welcome to isantePlus
-the github repository for isantePlus contain the openMRS core, all the basic modules for referenceaplication and some other specifics folders for isantePlus.
+the github repository of isantePlus contain the openMRS core, all the basic modules for referenceaplication and some other specifics folders for isantePlus.
 
 openMRS-core : is the core for openMRS app
 
