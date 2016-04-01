@@ -38,28 +38,46 @@ b)	In goals enter: "clean install", click run
 
 Here the result:
 [INFO] Reactor Summary:
+
 [INFO] 
+
 [INFO] OpenMRS .......................... SUCCESS [  2.567 s]
+
 [INFO] openmrs-tools .................... SUCCESS [  0.003 s]
+
 [INFO] openmrs-test ..................... SUCCESS [  0.001 s]
+
 [INFO] openmrs-api ...................... SUCCESS [  0.022 s]
+
 [INFO] openmrs-web ...................... SUCCESS [  0.002 s]
+
 [INFO] openmrs-webapp ................... SUCCESS [  0.001 s]
+
 [INFO] ------------------------------------------------------
+
 [INFO] BUILD SUCCESS
+
 [INFO] ------------------------------------------------------
+
 [INFO] Total time: 2.800 s
+
 [INFO] Finished at: 2016-03-21T22:14:40+02:00
+
 [INFO] Final Memory: 7M/18M
+
 
 c)	For execute the project -> right click on opemrs-webapp->Run As ->Maven build
 
 d)	In goals enter: "jetty:run" and click run
 
 Here the result:
+
 [INFO] Started SelectChannelConnector@0.0.0.0:8080
+
 [INFO] Started Jetty Server
+
 [INFO] Starting scanner at interval of 10 seconds.
+
 
 e)	Open your web browser and enter localhost:8080/openmrs, follow the steps of openmrs-core installation
 
