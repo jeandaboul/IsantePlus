@@ -1,8 +1,8 @@
 # Welcome to isantePlus
 the github repository for isantePlus contain the openMRS core, all the basic modules for referenceaplication and some other specifics folders for isantePlus.
 
-openMRS-core : is the core for openMRS app 
-openMRS-module-xxxxxxxxxxxx: is for each module needing 
+openMRS-core : is the core for openMRS app \n
+openMRS-module-xxxxxxxxxxxx: is for each module needing \n
 forms : contain the html forms developed for isantePlus
 scripts -> isante_to_openmrs : contain the lis of script for migration from isante to openmrs 
 scripts-> replication : contain the list of script for replication 
