@@ -7,7 +7,7 @@ openMRS-module-xxxxxxxxxxxx: is for each module needing
 
 forms : contain the html forms developed for isantePlus
 
-scripts -> isante_to_openmrs : contain the lis of script for migration from isante to openmrs 
+scripts -> isante_to_openmrs : contain the list of script for migration from isante to openmrs 
 
 scripts-> replication : contain the list of script for replication 
 
@@ -20,21 +20,24 @@ please follow the insctruction below to setup eclipse environement for isantePlu
                download and install java jdk1.7
                
 2)	Go to this link http://download.eclipse.org/technology/epp/downloads/release/mars/1/eclipse-jee-mars-1-win32-x86_64.zip ,  Download the zip of eclipse mars version 4.5.1, unzip the folder
+3) Download and install mysql5.5
 
-3)	Open your github shell, Go to this link https://github.com/openmrs/openmrs-core
+4)	Open your github shell, Go to this link https://github.com/jeandaboul/Isanteplus.git
 
-4)	In your github shell enter this command: git clone https://github.com/jeandaboul/Isanteplus.git 
+5)	In your github shell enter this command: git clone https://github.com/jeandaboul/Isanteplus.git 
 
-5)	Double click on eclipse.exe in your eclipse unzip folder
+6)	Double click on eclipse.exe in your eclipse unzip folder
 
 Go to file->import->Existing maven project->next->browse->go to the path of the github repository on your machine and click on Isanteplus folder-> ok->next
 
 
 # Steps for Compiling and running the project
+a) compiling all the modules before compiling the core project
+	For compiling a module, right click on the top level of this module->Run as->Maven build-> in goals, enter clean install->click run
 
-a)	For compiling the project-> right click on opemrs ->Run As ->Maven build
+b)	For compiling the project-> right click on opemrs ->Run As ->Maven build
 
-b)	In goals enter: "clean install", click run
+c)	In goals enter: "clean install", click run
 
 Here the result:
 [INFO] Reactor Summary:
@@ -81,19 +84,7 @@ Here the result:
 
 e)	Open your web browser and enter localhost:8080/openmrs, follow the steps of openmrs-core installation
 
-Installing module
 
-For compiling the referenceaplication module, right click on referenceaplication->Run As->Maven build
-->in Goals enter "clean install" -> run
-
-After compiling the module, 
-go to your github repository on your machine->open openmrs-module-referenceapplication folder->open omod folder ->open target folder->
-
-copy the .omod file and paste it to the module folder in the path where openmrs is installed
-
-My path is : C:\Users\ITECH\AppData\Roaming\OpenMRS\modules
-
-Repeat these steps for all the modules
 
 
 
