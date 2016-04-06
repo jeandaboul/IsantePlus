@@ -1,0 +1,58 @@
+[
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.locations.group",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminGroups",
+        "type": "group",
+        "label": "adminui.locations.label",
+        "icon": "icon-map-marker"
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.encounters.group",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminGroups",
+        "type": "group",
+        "label": "adminui.encounters.title",
+        "icon": "icon-list"
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.visits.group",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminGroups",
+        "type": "group",
+        "label": "adminui.visits.title",
+        "icon": "icon-list-alt"
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.rolesAndPrivileges.group",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminGroups",
+        "type": "group",
+        "label": "adminui.rolesAndPrivileges.title",
+        "icon": "icon-cog"
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patients.group",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminGroups",
+        "type": "group",
+        "label": "adminui.patients.title",
+        "icon": "icon-user-md"
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.providers.group",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminGroups",
+        "type": "group",
+        "label": "adminui.providers.title",
+        "icon": "icon-group"
+    },
+
+	{
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageforms.group",
+		"extensionPointId": "org.openmrs.module.adminui.adminGroups",
+    	"type": "group",
+        "label": "adminui.formentryapp.manageforms.group.label",
+        "icon": "icon-file-alt"
+    }
+    
+]

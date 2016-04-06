@@ -1,6 +1,5 @@
 C:\Users\jmaxy\workspace\openmrs-module-event\api\src\main\java\org\openmrs\event\EventListener.java
 C:\Users\jmaxy\workspace\openmrs-module-event\api\src\main\java\org\openmrs\event\EventEngine.java
-C:\Users\jmaxy\workspace\openmrs-module-event\api\src\main\java\org\openmrs\event\api\db\hibernate\HibernateEventInterceptor.java
 C:\Users\jmaxy\workspace\openmrs-module-event\api\src\main\java\org\openmrs\event\EventMessage.java
 C:\Users\jmaxy\workspace\openmrs-module-event\api\src\main\java\org\openmrs\event\Event.java
 C:\Users\jmaxy\workspace\openmrs-module-event\api\src\main\java\org\openmrs\event\SubscribableEventListener.java

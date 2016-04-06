@@ -1,0 +1,22 @@
+@import "adminui";
+
+#adminui-menu-item {
+  margin-left: 10px;
+  font-size: 0.9em;
+}
+
+#adminui-configure-metadata-table {
+  width: 100%;
+}
+
+#adminui-configure-metadata-table td {
+  @extend .adminui-no-border;
+}
+
+#adminui-configure-metadata-table tr {
+  @extend .adminui-no-border;
+}
+
+#adminui-configure-metadata-table tr:nth-child(even) {
+  background-color: white;
+}

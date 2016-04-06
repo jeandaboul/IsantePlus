@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.webservices.rest.web.ClassHierarchyResourceTest
 -------------------------------------------------------------------------------
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.459 sec
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.058 sec

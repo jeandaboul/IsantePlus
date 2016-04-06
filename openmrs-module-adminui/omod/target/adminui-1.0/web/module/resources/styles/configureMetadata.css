@@ -1,0 +1,78 @@
+.adminui-label, .adminui-label-column, .adminui-form-table th {
+  font-weight: bold;
+}
+
+.adminui-text-left, .adminui-label-column, .adminui-form-table th, .adminui-form-table td, .adminui-display-table tr, .adminui-display-table td {
+  text-align: left;
+}
+
+.adminui-auditInfo {
+  font-size: 80%;
+  width: 400px;
+}
+
+.adminui-name-column {
+  width: 250px;
+}
+
+.adminui-action-column {
+  width: 90px;
+}
+
+.adminui-center {
+  text-align: center;
+}
+
+.adminui-text-red {
+  color: red;
+}
+
+.adminui-no-border, .adminui-clear-no-border, .adminui-no-border-no-bg-color, .adminui-form-table tr, .adminui-form-table td, .adminui-form-table th, .adminui-display-table tr, .adminui-display-table td, .adminui-form-table, .adminui-display-table, #adminui-configure-metadata-table td, #adminui-configure-metadata-table tr {
+  border: 0;
+}
+
+.adminui-expand-column, .adminui-form-table td:nth-child(2) {
+  width: 100%;
+}
+
+.adminui-shrink-column, .adminui-label-column, .adminui-form-table th, .adminui-form-table td:nth-child(1) {
+  white-space: nowrap;
+}
+
+.adminui-no-bg-color, .adminui-no-border-no-bg-color, .adminui-form-table tr, .adminui-form-table td, .adminui-form-table th, .adminui-display-table tr, .adminui-display-table td {
+  background-color: white;
+}
+
+.adminui-form-table th {
+  background-color: white;
+  padding-left: 0;
+}
+
+.adminui-form-table td:nth-child(1) {
+  padding-left: 0;
+}
+
+.adminui-form-table td:nth-child(2) {
+  padding-left: 15px;
+}
+
+.adminui-border-bottom {
+  border-bottom: 1px solid whitesmoke !important;
+}
+
+.adminui-section-padded-top {
+  padding-top: 20px;
+}
+
+#adminui-menu-item {
+  margin-left: 10px;
+  font-size: 0.9em;
+}
+
+#adminui-configure-metadata-table {
+  width: 100%;
+}
+
+#adminui-configure-metadata-table tr:nth-child(even) {
+  background-color: white;
+}

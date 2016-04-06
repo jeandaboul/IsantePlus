@@ -1,0 +1,121 @@
+[
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageLocations.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageLocations.label",
+        "url": "adminui/metadata/locations/manageLocations.page",
+        "requiredPrivilege": "Manage Locations",
+        "extensionParams":{
+            "group": "org.openmrs.module.adminui.locations.group"
+        }
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageLocationTags.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageLocationTags.label",
+        "url": "adminui/metadata/locations/manageLocationTags.page",
+        "requiredPrivilege": "Manage Location Tags",
+        "extensionParams":{
+            "group": "org.openmrs.module.adminui.locations.group"
+        }
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageLocationAttributeTypes.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageLocationAttributeTypes.label",
+        "url": "adminui/metadata/locations/manageLocationAttributeTypes.page",
+        "requiredPrivilege": "Manage Location Attribute Types",
+        "extensionParams":{
+            "group": "org.openmrs.module.adminui.locations.group"
+        }
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageVisitAttributeTypes.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageVisitAttributeTypes.title",
+        "url": "adminui/metadata/visits/visitattributetypes/manageVisitAttributeTypes.page",
+        "requiredPrivilege": "Manage Visit Attribute Types",
+        "extensionParams":{
+            "group": "org.openmrs.module.adminui.visits.group"
+        }
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.encounters",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageEncounterTypes.title",
+        "url": "adminui/metadata/encounters/encountertypes/manageEncounterTypes.page",
+        "requiredPrivilege": "Manage Encounter Types",
+        "extensionParams":{
+            "group": "org.openmrs.module.adminui.encounters.group"
+        }
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageEncounterRoles.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageEncounterRoles.title",
+        "url": "adminui/metadata/encounters/encounterroles/manageEncounterRoles.page",
+        "requiredPrivilege": "Manage Encounter Roles",
+        "extensionParams":{
+            "group": "org.openmrs.module.adminui.encounters.group"
+        }
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.roles",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageRoles.title",
+        "url": "adminui/metadata/roles/manageRoles.page",
+        "requiredPrivilege": "Manage Roles",
+        "extensionParams":{
+            "group": "${project.parent.groupId}.${project.parent.artifactId}.rolesAndPrivileges.group"
+        }
+    },
+
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.Privileges",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.managePrivileges.title",
+        "url": "adminui/metadata/privileges/managePrivileges.page",
+        "requiredPrivilege": "Manage Privileges",
+        "extensionParams":{
+            "group": "${project.parent.groupId}.${project.parent.artifactId}.rolesAndPrivileges.group"
+        }
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.managePatientIdentifierTypes.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.managePatientIdentifierTypes.title",
+        "url": "adminui/metadata/patients/patientidentifiertypes/managePatientIdentifierTypes.page",
+        "requiredPrivilege": "Manage Patient Identifier Types",
+        "extensionParams":{
+            "group": "${project.parent.groupId}.${project.parent.artifactId}.patients.group"
+        }
+    },
+    
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.manageProviderAttributeTypes.link",
+        "extensionPointId": "${project.parent.groupId}.${project.parent.artifactId}.adminLinks",
+        "type": "link",
+        "label": "adminui.manageProviderAttributeTypes.title",
+        "url": "adminui/metadata/providers/providerattributetypes/manageProviderAttributeTypes.page",
+        "requiredPrivilege": "Manage Provider Attribute Types",
+        "extensionParams":{
+            "group": "${project.parent.groupId}.${project.parent.artifactId}.providers.group"
+        }
+    }
+]

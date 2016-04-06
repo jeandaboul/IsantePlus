@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+
+	<!-- Module Properties -->
+	<id>registrationcore</id>
+	<name>Registration Core Module</name>
+	<version>1.5-SNAPSHOT</version>
+	<package>org.openmrs.module.registrationcore</package>
+	<author>OpenMRS Developers</author>
+	<description>
+		Provides core utilities and services for patient registration.
+	</description>
+	<updateURL>https://modules.openmrs.org/modules/download/registrationcore/update.rdf</updateURL>
+	<require_version>1.11.3, 1.10.2 - 1.10.*, 1.9.9 - 1.9.*</require_version>
+	<!-- / Module Properties -->
+
+	
+	<!-- Module Activator -->
+	<activator>org.openmrs.module.registrationcore.RegistrationCoreActivator</activator>
+    <require_modules>
+
+    <require_module version="4.3">
+        org.openmrs.module.idgen
+    </require_module>
+        <require_module version="2.3">
+            org.openmrs.event
+        </require_module>
+    </require_modules>
+    
+    <aware_of_modules>
+       <aware_of_module version="1.4">org.openmrs.module.namephonetics</aware_of_module>
+       <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+	</aware_of_modules>
+	
+	<!-- Global properties -->
+	<globalProperty>
+		<property>registrationcore.identifierSourceId</property>
+		<defaultValue></defaultValue>
+		<description>
+			Specifies the identifier source to use when generating patient identifiers
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>registrationcore.givenNameAutoSuggestList</property>
+		<defaultValue></defaultValue>
+		<description>
+			A comma separated list of common names to auto suggest for the given name field, when registering patients.
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>registrationcore.familyNameAutoSuggestList</property>
+		<defaultValue></defaultValue>
+		<description>
+			A comma separated list of common names to auto suggest for the family name field, when registering patients.
+		</description>
+	</globalProperty>
+
+    <globalProperty>
+        <property>registrationcore.patientNameSearch</property>
+        <defaultValue>registrationcore.BasicPatientNameSearch</defaultValue>
+        <description>
+            Specifies a bean used for the auto suggest name feature.
+        </description>
+    </globalProperty>
+    
+    <globalProperty>
+        <property>registrationcore.fastSimilarPatientSearchAlgorithm</property>
+        <defaultValue>registrationcore.BasicSimilarPatientSearchAlgorithm</defaultValue>
+        <description>
+            Specifies a bean used for the fast similar patient search algorithm.
+        </description>
+    </globalProperty>
+    
+    <globalProperty>
+        <property>registrationcore.preciseSimilarPatientSearchAlgorithm</property>
+        <defaultValue>registrationcore.BasicExactPatientSearchAlgorithm</defaultValue>
+        <description>
+            Specifies a bean used for the precise similar patient search algorithm.
+        </description>
+    </globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.openempi.globalIdentifierDomainId</property>
+		<defaultValue></defaultValue>
+		<description>
+			Specifies main identifier on MPI server (e.g. "xyz" for OpenEMPI)
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.mpi.implementation</property>
+		<defaultValue></defaultValue>
+		<description>
+			Which MPI to should we connect to? Specify a Spring bean name, or leave blank to disable MPI integration
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.mpi.url</property>
+		<defaultValue></defaultValue>
+		<description>
+			Specifies url to MPI server
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.mpi.username</property>
+		<defaultValue></defaultValue>
+		<description>
+			Specifies username for authentication to MPI server
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.mpi.username</property>
+		<defaultValue></defaultValue>
+		<description>
+			Specifies password for authentication to MPI server
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.openempi.enableProbabilisticMatching</property>
+		<defaultValue>false</defaultValue>
+		<description>
+			Specifies if probably matching should be used
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>registrationcore.mpi.personIdentifierId</property>
+		<defaultValue></defaultValue>
+		<description>
+			Specifies id of identifier type which will be used for Mpi Person Id
+		</description>
+	</globalProperty>
+
+
+
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
+				
+		RegistrationEvent.hbm.xml
+				
+	</mappingFiles>
+
+	<!-- Internationalization -->
+	<!-- All message codes should start with registrationcore. -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<messages>
+		<lang>fr</lang>
+		<file>messages_fr.properties</file>
+	</messages>
+	<messages>
+		<lang>es</lang>
+		<file>messages_es.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
+</module>
+

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.webservices.rest.web.v1_0.controller.openmrs1_10.OrderController1_10Test
 -------------------------------------------------------------------------------
-Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.998 sec
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.469 sec

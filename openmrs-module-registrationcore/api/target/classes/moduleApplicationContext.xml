@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  		    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Add here beans related to the API context -->
+    <bean id="registrationCoreService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+            <ref bean="transactionManager" />
+        </property>
+        <property name="target">
+            <bean class="org.openmrs.module.registrationcore.api.impl.RegistrationCoreServiceImpl">
+                <property name="dao" ref="registrationCoreDAO" />
+                <property name="patientService" ref="patientService" />
+                <property name="personService" ref="personService" />
+                <property name="adminService" ref="adminService" />
+                <property name="locationService" ref="locationService"/>
+                <property name="mpiPatientFilter" ref="registrationcore.openEmpiPatientFilter"/>
+                <property name="registrationCoreProperties" ref="registrationcore.coreProperties"/>
+            </bean>
+        </property>
+        <property name="preInterceptors">
+            <ref bean="serviceInterceptors" />
+        </property>
+        <property name="transactionAttributeSource">
+            <ref bean="transactionAttributeSource" />
+        </property>
+    </bean>
+
+    <bean id="registrationcore.identifierBuilder" class="org.openmrs.module.registrationcore.api.impl.IdentifierBuilder">
+        <property name="locationService" ref="locationService"/>
+        <property name="patientService" ref="patientService"/>
+    </bean>
+
+    <bean id="registrationcore.patientCreationListener"
+          class="org.openmrs.module.registrationcore.api.impl.PatientCreationListener" init-method="init">
+        <property name="coreProperties" ref="registrationcore.coreProperties"/>
+        <property name="patientService" ref="patientService"/>
+        <property name="mpiProperties" ref="registrationcore.mpiProperties"/>
+        <property name="identifierBuilder" ref="registrationcore.identifierBuilder"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="registrationcore.patientEditListener"
+          class="org.openmrs.module.registrationcore.api.impl.PatientEditListener" init-method="init">
+        <property name="coreProperties" ref="registrationcore.coreProperties"/>
+        <property name="patientService" ref="patientService"/>
+    </bean>
+
+    <bean id="registrationcore.coreProperties"
+          class="org.openmrs.module.registrationcore.api.impl.RegistrationCoreProperties"/>
+
+    <!-- Services accessible via Context.getService() -->
+    <bean parent="serviceContext">
+        <property name="moduleService">
+            <list>
+                <value>org.openmrs.module.registrationcore.api.RegistrationCoreService</value>
+                <ref local="registrationCoreService" />
+            </list>
+        </property>
+    </bean>
+
+    <bean name="registrationCoreDAO" class="org.openmrs.module.registrationcore.api.db.hibernate.HibernateRegistrationCoreDAO">
+        <property name="sessionFactory">
+            <ref bean="dbSessionFactory" />
+        </property>
+    </bean>
+
+    <!-- Mpi implementation part -->
+    <bean id="registrationcore.mpi.implementation.OpenEMPI"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiConnector"/>
+
+    <bean id="registrationcore.mpiProperties"
+          class="org.openmrs.module.registrationcore.api.mpi.common.MpiProperties"/>
+
+    <bean id="registrationcore.mpiAuthenticator"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiAuthenticator"/>
+
+    <bean id="registrationcore.mpiPatientFetcher"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiPatientFetcher"/>
+
+    <bean id="registrationcore.mpiPatientExporter"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiPatientExporter"/>
+
+    <bean id="registrationcore.mpiPatientUpdater"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiPatientUpdater"/>
+
+    <bean id="registrationcore.mpiPatientSearcher"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiPatientsSearcher"/>
+
+    <!--help classes related to MPI implementation:-->
+
+    <bean id="registrationcore.identifierMapper"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.PatientIdentifierMapper"/>
+
+    <bean id="registrationcore.restUrlBuilder"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.RestUrlBuilder"/>
+
+    <bean id="registrationcore.restQueryExecutor"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.RestQueryExecutor"/>
+
+    <bean id="registrationcore.patientBuilder"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.PatientBuilder"/>
+
+    <bean id="registrationcore.openEmpiPatientQueryBuilder"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiPatientQueryBuilder"/>
+
+    <bean id="registrationcore.openEmpiPatientFilter"
+          class="org.openmrs.module.registrationcore.api.mpi.openempi.OpenEmpiPatientFilter"/>
+</beans>

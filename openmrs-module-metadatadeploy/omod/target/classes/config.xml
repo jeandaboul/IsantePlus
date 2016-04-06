@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module configVersion="1.2">
+	<id>metadatadeploy</id>
+	<name>Metadata Deploy</name>
+	<version>1.8-SNAPSHOT</version>
+	<package>org.openmrs.module.metadatadeploy</package>
+	<author>I-TECH</author>
+	<description>Metadata deployment support</description>
+	<updateURL>https://dev.openmrs.org/modules/download/metadatadeploy/update.rdf</updateURL>
+	<require_version>1.9.4</require_version>
+
+	<require_modules>
+		<require_module version="1.1.8">org.openmrs.module.metadatasharing</require_module>
+	</require_modules>
+
+	<activator>org.openmrs.module.metadatadeploy.MetadataDeployActivator</activator>
+
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+</module>

@@ -1,0 +1,11 @@
+org\openmrs\module\dataexchange\DataExporter.class
+org\openmrs\module\dataexchange\DataExporter$2.class
+org\openmrs\module\dataexchange\TableDefinition.class
+org\openmrs\module\dataexchange\DataExchangeActivator.class
+org\openmrs\module\dataexchange\DataImporter.class
+org\openmrs\module\dataexchange\TableDefinition$1.class
+org\openmrs\module\dataexchange\TableDefinition$Reference.class
+org\openmrs\module\dataexchange\TableDefinition$Builder.class
+org\openmrs\module\dataexchange\ColumnReplacementTable.class
+org\openmrs\module\dataexchange\DataImporter$1.class
+org\openmrs\module\dataexchange\DataExporter$1.class
