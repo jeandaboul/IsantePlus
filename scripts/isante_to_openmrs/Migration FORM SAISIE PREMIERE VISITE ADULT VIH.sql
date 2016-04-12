@@ -90,7 +90,7 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
 	AND itech.encounter.encounterType=1
 	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
-	AND vitals.vitalHr<>'';
+	AND itech.vitals.vitalHr<>'';
 	
 	/*DATA Migration for vitals FR*/
 	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
@@ -104,11 +104,11 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
 	AND itech.encounter.encounterType=1
 	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
-	AND vitals.vitalHr<>'';
+	AND itech.vitals.vitalHr<>'';
 	
 	/*DATA Migration for vitals TAILLE*/
 	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
-	SELECT itech.patient_id_itech.id_patient_openmrs,5090,itech.encounter_vitals_obs.id,
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5090,itech.encounter_vitals_obs.id,
 	itech.encounter.visitDate,itech.encounter.siteCode,
 	CASE WHEN itech.vitals.vitalHeightCm<>'' THEN itech.vitals.vitalHeightCm
 	WHEN itech.vitals.vitalHeight<>''  THEN vitalHeight*100
@@ -122,10 +122,11 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
 	AND itech.encounter.encounterType=1
 	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
-	AND vitals.vitalHeight<>'';
+	AND itech.vitals.vitalHeight<>''
+	OR itech.vitals.itech.vitals.vitalHeightCm<>'';
 	/*DATA Migration for vitals POIDS*/
 	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
-	SELECT itech.patient_id_itech.id_patient_openmrs,5089,itech.encounter_vitals_obs.id,
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5089,itech.encounter_vitals_obs.id,
 	itech.encounter.visitDate,itech.encounter.siteCode,
 	CASE WHEN itech.vitals.vitalWeightUnits=1 THEN itech.vitals.vitalWeight
 	WHEN itech.vitals.vitalWeightUnits=2  THEN itech.vitals.vitalWeight/2.2046
@@ -139,6 +140,385 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
 	AND itech.encounter.encounterType=1
 	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
-	AND vitals.vitalWeight<>'';
-	
+	AND itech.vitals.vitalWeight<>'';
 	/*END OF SIGNES VITAUX MENU*/
+	
+	/*STARTING SOURCE DE RÉFÉRENCE MENU*/
+	/*MIGRATION FOR Hôpital (patient a été hospitalisé antérieurement)*/
+	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+	itech.encounter.visitDate,itech.encounter.siteCode,
+	CASE WHEN itech.vitals.referHosp=1 THEN 5485
+	ELSE NULL
+	END,1,itech.encounter.createDate,UUID()
+	FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+	INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+	INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+	WHERE itech.vitals.siteCode=itech.encounter.siteCode
+	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+	AND itech.encounter.encounterType=1
+	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+	AND itech.vitals.referHosp=1;
+	
+	/*MIGRATION FOR Centres CDV intégrés*/
+	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+	itech.encounter.visitDate,itech.encounter.siteCode,
+	CASE WHEN itech.vitals.referVctCenter=1 THEN 159940
+	ELSE NULL
+	END,1,itech.encounter.createDate,UUID()
+	FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+	INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+	INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+	WHERE itech.vitals.siteCode=itech.encounter.siteCode
+	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+	AND itech.encounter.encounterType=1
+	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+	AND itech.vitals.referVctCenter=1;
+	
+	/*MIGRATION FOR Programme PTME*/
+	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+	itech.encounter.visitDate,itech.encounter.siteCode,
+	CASE WHEN itech.vitals.referPmtctProg=1 THEN 159937
+	ELSE NULL
+	END,1,itech.encounter.createDate,UUID()
+	FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+	INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+	INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+	WHERE itech.vitals.siteCode=itech.encounter.siteCode
+	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+	AND itech.encounter.encounterType=1
+	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+	AND itech.vitals.referPmtctProg=1;
+	/*MIGRATION FOR Clinique Externe*/
+	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+	itech.encounter.visitDate,itech.encounter.siteCode,
+	CASE WHEN itech.vitals.referOutpatStd=1 THEN 160542
+	ELSE NULL
+	END,1,itech.encounter.createDate,UUID()
+	FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+	INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+	INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+	WHERE itech.vitals.siteCode=itech.encounter.siteCode
+	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+	AND itech.encounter.encounterType=1
+	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+	AND itech.vitals.referOutpatStd=1;
+		/*MIGRATION FOR Programmes communautaires*/
+	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+	itech.encounter.visitDate,itech.encounter.siteCode,
+	CASE WHEN itech.vitals.referCommunityBasedProg=1 THEN 159938
+	ELSE NULL
+	END,1,itech.encounter.createDate,UUID()
+	FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+	INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+	INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+	WHERE itech.vitals.siteCode=itech.encounter.siteCode
+	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+	AND itech.encounter.encounterType=1
+	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+	AND itech.vitals.referCommunityBasedProg=1;
+	
+	/*MIGRATION FOR Transfert d'un autre établissement de santé*/
+	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,comments,creator,date_created,uuid)
+	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+	itech.encounter.visitDate,itech.encounter.siteCode,
+	CASE WHEN itech.vitals.firstCareOtherFacText<>'' THEN 5622
+	ELSE NULL
+	END,itech.vitals.firstCareOtherFacText,1,itech.encounter.createDate,UUID()
+	FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+	INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+	INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+	WHERE itech.vitals.siteCode=itech.encounter.siteCode
+	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+	AND itech.encounter.encounterType=1
+	AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+	AND itech.vitals.firstCareOtherFacText<>'';
+	
+	/*END OF SOURCE DE RÉFÉRENCE MENU*/
+	
+	/*STARTING TEST ANTICORPS VIH MENU*/
+	   /*Migration for Date du premier test (anticorps) VIH positif*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160082,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.firstTestYy<>'' AND itech.vitals.firstTestMm<>'' THEN CONCAT(itech.vitals.firstTestYy,'-',itech.vitals.firstTestMm,'-',01)
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.firstTestYy<>''
+		AND itech.vitals.firstTestMm<>'';
+		
+		/*Migration for Établissement où le test a été réalisé*/
+		 /*Cet établissement */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.firstTestThisFac=1 THEN 163266
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.firstTestThisFac=1;
+		
+		/*Autre */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,comments,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159936,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.firstTestOtherFac=1 THEN 5622
+		ELSE NULL
+		END,itech.vitals.firstTestOtherFacText,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.firstTestOtherFac=1;
+		
+	/*END OF TEST ANTICORPS VIH MENU*/
+	
+	/*STARTING ANTECEDENTS OBSTETRIQUES ET GROSSESSE MENU*/
+		/*GRAVIDA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5624,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.gravida<>'' THEN itech.vitals.gravida
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.gravida<>'';
+		
+		/*PARA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1053,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.para<>'' THEN itech.vitals.para
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.para<>'';
+		
+		/*Aborta*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1823,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.aborta<>'' THEN itech.vitals.aborta
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.aborta<>'';
+		
+		/*Enfants vivants*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1825,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.children<>'' THEN itech.vitals.children
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.children<>'';
+		
+		/*Grossesse actuelle*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5272,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.pregnant=1 THEN 1065
+		WHEN itech.vitals.pregnant=2 THEN 1066
+		WHEN itech.vitals.pregnant=4 THEN 1067
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.pregnant<>'';
+		
+		/*Migration for Date du dernier Pap Test*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,163267,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.papTestDd<1 AND itech.vitals.papTestMm<1 AND itech.vitals.papTestYy>0 THEN CONCAT(itech.vitals.papTestYy,01,01)
+		WHEN itech.vitals.papTestDd<1 AND itech.vitals.papTestMm>0 AND itech.vitals.papTestYy>0 THEN CONCAT(itech.vitals.papTestYy,itech.vitals.papTestMm,01)
+		WHEN itech.vitals.papTestDd>0 AND itech.vitals.papTestMm>0 AND itech.vitals.papTestYy>0
+		THEN CONCAT(itech.vitals.papTestYy,itech.vitals.papTestMm,itech.vitals.papTestDd)  
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.papTestYy>0;
+		
+		/* Migration for Date des dernières règles*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1427,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.papTestDd<1 AND itech.vitals.pregnantLmpMm<1 AND itech.vitals.pregnantLmpYy>0 THEN CONCAT(itech.vitals.pregnantLmpDd,01,01)
+		WHEN itech.vitals.pregnantLmpDd<1 AND itech.vitals.pregnantLmpMm>0 AND itech.vitals.pregnantLmpYy>0 THEN CONCAT(itech.vitals.pregnantLmpYy,itech.vitals.pregnantLmpMm,01)
+		WHEN itech.vitals.pregnantLmpDd>0 AND itech.vitals.pregnantLmpMm>0 AND itech.vitals.pregnantLmpYy>0
+		THEN CONCAT(itech.vitals.pregnantLmpYy,itech.vitals.pregnantLmpMm,itech.vitals.pregnantLmpDd)  
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.pregnantLmpYy>0;
+	
+	/*END OF ANTECEDENTS OBSTETRIQUES ET GROSSESSE MENU*/
+	
+	/*STARTING ANTECEDENTS ÉTAT DE FONCTIONNEMENT MENU*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,162753,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.functionalStatus=1 THEN 159468
+		WHEN itech.vitals.functionalStatus=2 THEN 160026
+		WHEN itech.vitals.functionalStatus=4 THEN 162752
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.functionalStatus>0;
+	/*END OF ANTECEDENTS ÉTAT DE FONCTIONNEMENT MENU*/
+	/*STARTING MIGRATION FOR PLANNING FAMILIAL MENU*/
+		/*YES OR NO / OUI OU Non */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,374,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.famPlan=1 THEN 965
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.famPlan=1;
+		
+		/*Préservatif */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,374,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.famPlan=1 AND itech.vitals.famPlanMethodCondom=1 THEN 190
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.famPlan=1
+		AND itech.vitals.famPlanMethodCondom=1;
+		
+		/*DMPA */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,374,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.famPlan=1 AND itech.vitals.famPlanMethodDmpa=1 THEN 5279
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.famPlan=1
+		AND itech.vitals.famPlanMethodDmpa=1;
+		
+		/*Pilules*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,374,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.vitals.famPlan=1 AND itech.vitals.famPlanMethodOcPills=1 THEN 780
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.vitals ON itech.encounter.patientID=itech.vitals.patientID
+		WHERE itech.vitals.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter.visitDate=CONCAT(itech.vitals.visitDateYy,itech.vitals.visitDateMm,itech.vitals.visitDateDd)
+		AND itech.vitals.famPlan=1
+		AND itech.vitals.famPlanMethodOcPills=1;
