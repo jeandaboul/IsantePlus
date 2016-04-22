@@ -1464,7 +1464,7 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.obs.value_boolean=1
 		GROUP BY itech.patient_id_itech.id_patient_openmrs;
 		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-		/*migration for Anorexie/Perte d'appétit*/
+		/*migration for Toux*/
 	  /*concept group */
 		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
 		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
@@ -1480,15 +1480,15 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.obs.concept_id=7004
 		AND itech.obs.value_boolean=1;
 		
-	/*	INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
 		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
 		FROM openmrs.obs
 		WHERE openmrs.obs.concept_id=1727 
-		AND openmrs.obs.obs_id NOT IN(SELECT openmrs.obs.obs_group_id FROM openmrs.obs)
-		GROUP BY openmrs.obs.person_id;*/
+		GROUP BY openmrs.obs.person_id;
 		
 		/*migration for the concept*/
-		/*INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
 		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
 		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
 		CASE WHEN itech.obs.concept_id=7004 AND itech.obs.value_boolean=1 THEN 143264
@@ -1508,9 +1508,9 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.obs_concept_group.concept_id=1727
 		AND itech.obs.concept_id=7004 
 		AND itech.obs.value_boolean=1
-		GROUP BY itech.patient_id_itech.id_patient_openmrs; */
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
 		/*Migration for YES */
-		/*INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
 		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
 		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
 		CASE WHEN itech.obs.concept_id=7004 AND itech.obs.value_boolean=1 THEN 1065
@@ -1531,8 +1531,822 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.obs.concept_id=7004 
 		AND itech.obs.value_boolean=1
 		GROUP BY itech.patient_id_itech.id_patient_openmrs;
-		*/
-		/*On going IMPORTANT */
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Toux/Expectoration (sauf hémoptysie)*/
+		
+		 /*concept group */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7008
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7008 AND itech.obs.value_boolean=1 THEN 5957
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7008 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7008 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7008 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Dyspnée*/
+		 /*concept group */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7007
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7007 AND itech.obs.value_boolean=1 THEN 122496
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7007 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7007 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7007 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+	/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Céphalée*/
+	 /*concept group */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7011
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7011 AND itech.obs.value_boolean=1 THEN 139084
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7011 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7011 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7011 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*=============================================================================================================*/
+		/*Migration for Hémoptysie*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7012
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7012 AND itech.obs.value_boolean=1 THEN 138905
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7012 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7012 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7012 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*=================================================================================================================*/
+		/*Migration for Nausée*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7013
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7013 AND itech.obs.value_boolean=1 THEN 5978
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7013 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7013 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7013
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Sueurs nocturnes*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7014
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7014 AND itech.obs.value_boolean=1 THEN 133027
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7014 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7014 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7014
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Perte de sensibilité*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7015
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7015 AND itech.obs.value_boolean=1 THEN 141635
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7015 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7015 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7015
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Odynophagie/dysphagie*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7016
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7016 AND itech.obs.value_boolean=1 THEN 118789
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7016 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7016 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7016
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Eruption cutanée*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7024
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7024 AND itech.obs.value_boolean=1 THEN 512
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7024 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7024 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7024
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Vomissement*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7025
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7025 AND itech.obs.value_boolean=1 THEN 122983
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7025 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7025 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7025
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Prurigo*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7042
+		AND itech.obs.value_boolean=1;
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7042 AND itech.obs.value_boolean=1 THEN 128319
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7042 
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7042 AND itech.obs.value_boolean=1 THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7042
+		AND itech.obs.value_boolean=1
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Autres, préciser :*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1727,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.obs.concept_id=7044
+		AND itech.obs.value_text<>'';
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=1727;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=1727 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,comments,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1728,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7044 AND itech.obs.value_text<>'' AND itech.obs.value_boolean=1 THEN 5622
+		ELSE NULL
+		END,itech.obs.value_text,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727 
+		AND itech.obs.concept_id=7044
+		AND itech.obs.value_text<>''
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for YES */
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1729,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.obs.concept_id=7044 AND itech.obs.value_text<>'' THEN 1065
+		ELSE NULL
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs ON itech.encounter.encounter_id=itech.obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.patient ON itech.obs.person_id=itech.patient.person_id
+		WHERE itech.obs.location_id=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=1727
+		AND itech.obs.concept_id=7044
+		AND itech.obs.value_text<>''
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
 	/*END OF MIGRATION FOR SYMPTÔMES MENU*/
 	/*MIGRATION FOR EXAMEN CLINIQUE*/
 		/* Migration for Général*/
@@ -3424,7 +4238,7 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND (itech.conditions.conditionActive=1 OR itech.conditions.conditionActive=2);
 	/*END OF MIGRATION FOR ANTÉCEDENTS MÉDICAUX ET DIAGNOSTICS ACTUELS*/
 	
-	
+	/*MIGRATION FOR ARV : TRAITEMENTS PRÉCÉDENTS MENU*/
 	
 	
 	
