@@ -4237,8 +4237,1201 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.conditions.conditionID=371 
 		AND (itech.conditions.conditionActive=1 OR itech.conditions.conditionActive=2);
 	/*END OF MIGRATION FOR ANTÉCEDENTS MÉDICAUX ET DIAGNOSTICS ACTUELS*/
+	/*Migration for Est-ce que le patient a déjà utilisé des ARV ?*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160117,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,
+		CASE WHEN itech.arvEnrollment.arvEver=1 THEN 160119
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.arvEnrollment ON itech.encounter.patientID=itech.arvEnrollment.patientID
+		WHERE itech.arvEnrollment.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.arvEnrollment.visitDateYy,'-',itech.arvEnrollment.visitDateMm,'-',itech.arvEnrollment.visitDateDd)
+		AND itech.arvEnrollment.arvEver=1;
+	/*(-) INTIs*/
+	/*Migration for Abacavir (ABC)*/
+	/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1282,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),70056,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*==================================================*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160742,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),138405,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		
+		/*Migration for Début MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1190,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.startMm<1 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',01,'-',01)
+		WHEN itech.drugs.startMm>0 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',itech.drugs.startMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.startYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Arrêt MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1191,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.stopMm<1 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',01,'-',01)
+		WHEN itech.drugs.stopMm>0 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',itech.drugs.stopMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.stopYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Utilisation courante*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159367,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1065,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.isContinued=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Arrêt : raison*/
+		/*Migration for Tox*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),102,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.toxicity=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Intol*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),987,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.intolerance=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Ech*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),843,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.failure=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Inconnu*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1067,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.discUnknown=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Fin PTME*/
+			INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1253,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=1
+		AND itech.drugs.finPTME=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+	/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+	/*Migration for Combivir (AZT+3TC)*/
+		/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=8
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1282,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),630,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*==================================================*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160742,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),138405,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		
+		/*Migration for Début MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1190,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.startMm<1 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',01,'-',01)
+		WHEN itech.drugs.startMm>0 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',itech.drugs.startMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.startYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Arrêt MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1191,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.stopMm<1 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',01,'-',01)
+		WHEN itech.drugs.stopMm>0 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',itech.drugs.stopMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.stopYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Utilisation courante*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159367,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1065,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.isContinued=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Arrêt : raison*/
+		/*Migration for Tox*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),102,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.toxicity=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Intol*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),987,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.intolerance=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Ech*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),843,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.failure=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Inconnu*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1067,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.discUnknown=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Fin PTME*/
+			INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1253,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=8
+		AND itech.drugs.finPTME=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
 	
-	/*MIGRATION FOR ARV : TRAITEMENTS PRÉCÉDENTS MENU*/
+	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+	/*Migration for Didanosine (ddI) */
+	/*Concept group*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=10
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		
+		/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1282,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),74807,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*==================================================*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160742,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),138405,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		
+		/*Migration for Début MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1190,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.startMm<1 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',01,'-',01)
+		WHEN itech.drugs.startMm>0 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',itech.drugs.startMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.startYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Arrêt MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1191,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.stopMm<1 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',01,'-',01)
+		WHEN itech.drugs.stopMm>0 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',itech.drugs.stopMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.stopYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Utilisation courante*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159367,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1065,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.isContinued=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Arrêt : raison*/
+		/*Migration for Tox*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),102,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.toxicity=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Intol*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),987,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.intolerance=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Ech*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),843,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.failure=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Inconnu*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1067,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.discUnknown=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Fin PTME*/
+			INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1253,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=10
+		AND itech.drugs.finPTME=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+	/*======================================================================================================================*/
+	/*Migration for Emtricitabine (FTC)*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=12
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		
+			/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1282,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),75628,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*==================================================*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160742,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),138405,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		
+		/*Migration for Début MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1190,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.startMm<1 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',01,'-',01)
+		WHEN itech.drugs.startMm>0 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',itech.drugs.startMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.startYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Arrêt MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1191,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.stopMm<1 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',01,'-',01)
+		WHEN itech.drugs.stopMm>0 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',itech.drugs.stopMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.stopYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Utilisation courante*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159367,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1065,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.isContinued=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Arrêt : raison*/
+		/*Migration for Tox*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),102,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.toxicity=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Intol*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),987,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.intolerance=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Ech*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),843,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.failure=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Inconnu*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1067,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.discUnknown=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Fin PTME*/
+			INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1253,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=12
+		AND itech.drugs.finPTME=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		
+	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/	
+	/*Migration for Lamivudine (3TC)*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=20
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+			/*migration for the concept*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1282,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),78643,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*==================================================*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160742,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),138405,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		
+		/*Migration for Début MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1190,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.startMm<1 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',01,'-',01)
+		WHEN itech.drugs.startMm>0 AND itech.drugs.startYy>0 THEN CONCAT(itech.drugs.startYy,'-',itech.drugs.startMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.startYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Arrêt MM/AA*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_datetime,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,1191,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),
+		CASE WHEN itech.drugs.stopMm<1 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',01,'-',01)
+		WHEN itech.drugs.stopMm>0 AND itech.drugs.stopYy>0 THEN CONCAT(itech.drugs.stopYy,'-',itech.drugs.stopMm,'-',01)
+		END,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.stopYy>0
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs; 
+		/*Migration for Utilisation courante*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,159367,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1065,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.isContinued=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Arrêt : raison*/
+		/*Migration for Tox*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),102,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.toxicity=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Intol*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),987,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.intolerance=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Ech*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),843,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.failure=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Inconnu*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1067,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.discUnknown=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		/*Migration for Fin PTME*/
+			INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,obs_group_id,value_coded,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,6098,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,MAX(itech.obs_concept_group.obs_id),1253,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.obs_concept_group ON itech.patient_id_itech.id_patient_openmrs=itech.obs_concept_group.person_id
+		INNER JOIN itech.drugs ON itech.drugs.patientID=itech.encounter.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.encounter_vitals_obs.id=itech.obs_concept_group.encounter_id
+		AND itech.encounter.siteCode=itech.obs_concept_group.location_id
+		AND itech.obs_concept_group.concept_id=160741 
+		AND itech.drugs.drugID=20
+		AND itech.drugs.finPTME=1
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd)
+		GROUP BY itech.patient_id_itech.id_patient_openmrs;
+		
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Stavudine (d4T)*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=29
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Tenofovir (TNF)*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=31
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Trizivir (ABC+AZT+3TC)*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=33
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+		/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+		/*Migration for Zidovudine (AZT)*/
+		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,creator,date_created,uuid)
+		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160741,itech.encounter_vitals_obs.id,
+		itech.encounter.visitDate,itech.encounter.siteCode,1,itech.encounter.createDate,UUID()
+		FROM itech.encounter INNER JOIN itech.patient_id_itech ON itech.encounter.patientID=itech.patient_id_itech.id_patient_isante
+		INNER JOIN itech.encounter_vitals_obs ON itech.encounter.encounter_id=itech.encounter_vitals_obs.encounter_id
+		INNER JOIN itech.drugs ON itech.encounter.patientID=itech.drugs.patientID
+		WHERE itech.drugs.siteCode=itech.encounter.siteCode
+		AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
+		AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
+		AND itech.encounter.encounterType=1
+		AND itech.drugs.drugID=34
+		AND DATE(itech.encounter.visitDate)=CONCAT(itech.drugs.visitDateYy,'-',itech.drugs.visitDateMm,'-',itech.drugs.visitDateDd);
+		
+		DELETE FROM itech.obs_concept_group WHERE itech.obs_concept_group.concept_id=160741;
+		INSERT INTO itech.obs_concept_group (obs_id,person_id,concept_id,encounter_id,location_id,obs_datetime)
+		SELECT MAX(openmrs.obs.obs_id),openmrs.obs.person_id,openmrs.obs.concept_id,openmrs.obs.encounter_id,openmrs.obs.location_id,openmrs.obs.obs_datetime
+		FROM openmrs.obs
+		WHERE openmrs.obs.concept_id=160741 
+		GROUP BY openmrs.obs.person_id;
+	/*END OF MIGRATION FOR ARV : TRAITEMENTS PRÉCÉDENTS MENU*/
 	
 	
 	
