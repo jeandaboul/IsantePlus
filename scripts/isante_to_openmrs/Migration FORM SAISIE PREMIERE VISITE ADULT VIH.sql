@@ -61,7 +61,7 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.encounterType=1
 	AND DATE(itech.encounter.visitDate)=CONCAT(itech.vitals.visitDateYy,'-',itech.vitals.visitDateMm,'-',itech.vitals.visitDateDd)
 	AND itech.vitals.vitalBp1<>'';
-	
+	/* Migration for / */
 	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
 	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5086,itech.encounter_vitals_obs.id,
 	itech.encounter.visitDate,itech.encounter.siteCode,
@@ -122,8 +122,8 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode
 	AND itech.encounter.encounterType=1
 	AND DATE(itech.encounter.visitDate)=CONCAT(itech.vitals.visitDateYy,'-',itech.vitals.visitDateMm,'-',itech.vitals.visitDateDd)
-	AND itech.vitals.vitalHeight<>''
-	OR itech.vitals.itech.vitals.vitalHeightCm<>'';
+	AND (itech.vitals.vitalHeight<>''
+	OR itech.vitals.vitalHeightCm<>'');
 	/*DATA Migration for vitals POIDS*/
 	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
 	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5089,itech.encounter_vitals_obs.id,
