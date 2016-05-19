@@ -10,11 +10,16 @@ CREATE TABLE itech.encounter_vitals_obs (
   date_created datetime,
   CONSTRAINT pkpatientiditech PRIMARY KEY (id)
 );
+
 INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, itech.encounter_vitals_obs.patient_id,
 	itech.encounter_vitals_obs.siteCode,itech.encounter_vitals_obs.date_created)
 	SELECT itech.encounter.encounter_id,itech.encounter.patientID,itech.encounter.siteCode,itech.encounter.createDate FROM itech.encounter;
 	
 	/*Encounter Migration*/
+	SET foreign_key_checks = 0;
+	TRUNCATE encounter;
+	SET foreign_key_checks = 1;
+	
 	INSERT INTO encounter(encounter_id,encounter_type,patient_id,location_id,form_id,encounter_datetime,creator,date_created,date_changed,uuid)
 	SELECT itech.encounter_vitals_obs.id,1,itech.patient_id_itech.id_patient_openmrs,itech.encounter.siteCode,6,
 	itech.encounter.visitDate,1,itech.encounter.createDate,itech.encounter.lastModified,UUID()
@@ -24,6 +29,9 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	AND itech.encounter.patientID=itech.encounter_vitals_obs.patient_id
 	AND itech.encounter.siteCode=itech.encounter_vitals_obs.siteCode; 
 	/* SIGNES VITAUX MENU */
+	SET foreign_key_checks = 0;
+	TRUNCATE obs;
+	SET foreign_key_checks = 1;
 	/*DATA Migration for vitals Temp*/
 	INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_numeric,creator,date_created,uuid)
 	SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,5088,itech.encounter_vitals_obs.id,
@@ -432,7 +440,7 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 	
 	/*END OF ANTECEDENTS OBSTETRIQUES ET GROSSESSE MENU*/
 	
-	/*STARTING ANTECEDENTS ÉTAT DE FONCTIONNEMENT MENU*/
+	/*STARTING ÉTAT DE FONCTIONNEMENT MENU*/
 		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
 		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,162753,itech.encounter_vitals_obs.id,
 		itech.encounter.visitDate,itech.encounter.siteCode,
@@ -450,7 +458,7 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.encounter.encounterType=1
 		AND DATE(itech.encounter.visitDate)=CONCAT(itech.vitals.visitDateYy,'-',itech.vitals.visitDateMm,'-',itech.vitals.visitDateDd)
 		AND itech.vitals.functionalStatus>0;
-	/*END OF ANTECEDENTS ÉTAT DE FONCTIONNEMENT MENU*/
+	/*END OF ÉTAT DE FONCTIONNEMENT MENU*/
 	/*STARTING MIGRATION FOR PLANNING FAMILIAL MENU*/
 		/*YES OR NO / OUI OU Non */
 		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
@@ -4215,6 +4223,8 @@ INSERT INTO itech.encounter_vitals_obs(itech.encounter_vitals_obs.encounter_id, 
 		AND itech.conditions.conditionID=371 
 		AND (itech.conditions.conditionActive=1 OR itech.conditions.conditionActive=2);
 	/*END OF MIGRATION FOR ANTÉCEDENTS MÉDICAUX ET DIAGNOSTICS ACTUELS*/
+	
+	/*MIGRATION FOR ARV : TRAITEMENTS PRÉCÉDENTS MENU*/
 	/*Migration for Est-ce que le patient a déjà utilisé des ARV ?*/
 		INSERT INTO obs(person_id,concept_id,encounter_id,obs_datetime,location_id,value_coded,creator,date_created,uuid)
 		SELECT DISTINCT itech.patient_id_itech.id_patient_openmrs,160117,itech.encounter_vitals_obs.id,
