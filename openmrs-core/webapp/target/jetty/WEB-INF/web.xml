@@ -31,7 +31,7 @@
     <!-- These init parameter(s) are read in by org.openmrs.web.Listener -->
     <context-param>
         <param-name>build.timestamp</param-name>
-        <param-value>2016-03-31 13:57</param-value>
+        <param-value>2016-05-19 16:06</param-value>
     </context-param>
     <context-param>
       <param-name>module.repository.url</param-name>

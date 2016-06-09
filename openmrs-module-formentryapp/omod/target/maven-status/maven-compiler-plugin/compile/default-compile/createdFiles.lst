@@ -1,6 +1,0 @@
-org\openmrs\module\formentryapp\page\controller\forms\ExtensionForm.class
-org\openmrs\module\formentryapp\page\controller\forms\ExtensionPageController.class
-org\openmrs\module\formentryapp\page\controller\forms\DeleteExtensionPageController.class
-org\openmrs\module\formentryapp\FormManager.class
-org\openmrs\module\formentryapp\page\controller\FormsPageController.class
-org\openmrs\module\formentryapp\FormManager$1.class
