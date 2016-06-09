@@ -426,6 +426,17 @@
         setValue('pyrazinamide.value', '82900');
     }
 	
+	if ((getValue('rifampicine_start.value') == '') &amp;&amp; (getValue('rifampicine_end.value') == '') &amp;&amp; (getValue('rifampicine_current.value') == '')) {
+       setValue('rifampicine.value', '');
+    } else {
+        setValue('rifampicine.value', '767');
+    }
+	if ((getValue('streptomycine_start.value') == '') &amp;&amp; (getValue('streptomycine_end.value') == '') &amp;&amp; (getValue('streptomycine_current.value') == '')) {
+       setValue('streptomycine.value', '');
+    } else {
+        setValue('streptomycine.value', '84360');
+    }
+	
 	/* Autres traitements */
 	if ((getValue('acyclovir_start.value') == '') &amp;&amp; (getValue('acyclovir_end.value') == '') &amp;&amp; (getValue('acyclovir_current.value') == '')) {
        setValue('acyclovir.value', ''); 
@@ -537,6 +548,7 @@
 				</section>
 			</td>
 			<td width="50%" height="100%" valign="TOP">
+	<includeIf velocityTest="($patient.person.gender=='F')">	
 	<section headerLabel="GROSSESSE">
 		<table width="100%">
 			<tr>			
@@ -563,6 +575,7 @@
 			En cas de statut Inconnu, procéder à un test de grossesse (documenter sur la Fiche d'analyses de laboratoire).</td></tr>
 		</table>				
 	</section>
+	</includeIf>
 	<section headerLabel="ÉTAT GENERAL">
 		<table width="100%">
 			<tr><td colspan="2"><obs conceptId="CIEL:162676" answerConceptId="CIEL:162679" answerLabel="Inchangé"/></td></tr>
@@ -627,7 +640,8 @@
 					</tr>	
 				</table>
 				</section>
-	<section headerLabel="PLANNING FAMILIAL">
+			<includeIf velocityTest="($patient.person.gender=='F')">
+				<section headerLabel="PLANNING FAMILIAL">
 					<table>
 						<tr>
 							<td>
@@ -645,7 +659,7 @@
 						</tr>	
 					</table>
 				</section>
-	
+			</includeIf>
 	<h5 class="section_b">SECTION MÉDECIN</h5>
 	<section headerLabel="SYMPTÔMES">
 		<table>
