@@ -1,0 +1,1320 @@
+<htmlform> 
+	<macros>
+		paperFormId = (Fill this in)
+		<!--headerColor =#009d8e-->
+		headerColor =#000000
+		fontOnHeaderColor = white
+	</macros>
+	<style>
+		.section {
+			border: 1px solid $headerColor;
+			padding: 2px;
+			text-align: left;
+			margin-bottom: 1em;
+		}
+		.section_b {
+			background-color: #2F4F4F;
+			color:#FFFFFF;
+			padding: 2px;
+			text-align: center;
+			margin-bottom: 1em;
+		}
+		.sectionHeader {
+			background-color: $headerColor;
+			color: $fontOnHeaderColor;
+			display: block;
+			padding: 2px;
+			font-weight: bold;
+		}
+		table.baseline-aligned td {
+			vertical-align: baseline;
+		}
+	</style>
+	
+	<section headerLabel="FICHE DE SAISIE POUR LA PREMIÈRE VISITE : PÉDIATRIQUE; ENFANTS EXPOSÉS AU VIH OU INFECTÉS AU VIH"></section>
+	<section headerLabel="DETAILS DE LA RENCONTRE">
+		<table class="baseline-aligned">
+			<tr>
+				<td>Date visite:</td>
+				<td><encounterDate default="today"/><br/>
+				<span style="display: none"><encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/></span>
+				</td>
+			</tr>
+			<!--<tr>
+			<td>Location:</td>
+			<td><encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/></td>
+			</tr>
+			<tr>
+			<td>Provider:</td>
+			<td><encounterProvider/></td>
+			</tr>-->
+		</table>
+	</section>
+	<section headerLabel="DIVULGATION DU STATUT VIH">
+		L'enfant est-il au courant de son statut VIH? <br/>
+		Le parent/substitut est-il au courant du statut VIH?
+	</section>
+	<section headerLabel="ANTÉCÉDENTS MÉDICAUX DE LA MÈRE BIOLOGIQUE">
+		<obs conceptId="CIEL:1856" answerConceptId="CIEL:1067" answerLabel="Inconnus, passer à la section Antécédents Médicaux de la Fratrie" style="checkbox"/>
+		<table width="100%">
+			<tr>
+				<td>
+					<obsgroup groupingConceptId="160593">
+						<table width="100%">
+							<tr>
+								
+								<td>Date de naissance de la mère</td><td><obs conceptId="CIEL:160751"/></td>
+								
+							</tr>
+						</table>
+						<b>Statut TB</b>
+						<table width="100%">
+							<tr>
+								<td width="400">TB récente</td><td width="300">
+									<obs conceptId="CIEL:160592" answerConceptId="CIEL:42" answerLabel=""/>
+								</td>
+								<td width="400">Si TB active, traitement TB en cours</td><td width="300">
+								<obs conceptId="CIEL:160749" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Oui,Non" style="radio"/></td>
+							</tr>
+							<tr>
+								<td width="400">TB active (avec crachats positifs)</td><td width="300"><obs conceptId="CIEL:160592" answerConceptId="CIEL:113489" answerLabel=""/></td>
+								<td width="400">Date de début de traitment</td><td width="300"></td>
+							</tr>
+						</table>
+					</obsgroup>
+				</td>
+			</tr>
+		</table>
+		<b>Grossesse</b><br/>
+		Gravida<obs conceptId="CIEL:5624"/>Para<obs conceptId="CIEL:1053"/>Aborta<obs conceptId="CIEL:1823"/>Enfants vivants<obs conceptId="CIEL:1825"/>
+		<table width="100%">
+			<tr><td>Enfants décédés:</td><td>Âge au décès</td><td>Cause du décès:<obs conceptId="CIEL:159482"/></td><td>Cause inconnue</td></tr>
+			<tr><td></td><td>Âge au décès</td><td>Cause du décès:</td><td>Cause inconnue</td></tr>
+			<tr><td></td><td>Âge au décès</td><td>Cause du décès:</td><td>Cause inconnue</td></tr>
+		</table>
+		<table width="100%">
+			<tr><td>Histoire d'IST pendant la grossesse?</td><td></td><td>Si Oui, préciser le trimestre:</td><td><obs conceptId="CIEL:160665" answerConceptIds="CIEL:1721,CIEL:1722,CIEL:1723" answerLabels="1er,2eme,3eme" style="radio"/></td></tr>
+			<tr><td>Soins prénatals</td><td></td><td></td></tr>
+			<tr><td>Si Oui, préciser lieu des soins</td><td></td><td>No. du dossier médical de la mère</td></tr>
+			<tr><td>Méthode d'accouchement</td><td><obs conceptId="CIEL:5630" answerConceptIds="CIEL:1170,CIEL:1171,CIEL:1067" answerLabels="Vaginale,Césarienne,Inconnue" style="radio"/></td><td></td></tr>
+			<tr><td>Lieu d'accouchement</td><td><obs conceptId="CIEL:1572" answerConceptIds="CIEL:1536,CIEL:1589" answerLabels="Domicile, Hôpital - préciser" style="radio" showCommentField="true" commentFieldLabel=""/></td><td></td></tr> 	
+			<tr><td colspan="4"><b>VIH/SIDA</b></td></tr>
+			<tr><td>Statut VIH</td><td colspan="2"><obs conceptId="CIEL:1396" answerConceptIds="CIEL:664,CIEL:703,CIEL:1067" answerLabels="VIH Négatif,VIH Positif,Statut VIH inconnu" style="radio"/></td><td>Mère décédée du SIDA/probablement du SIDA <obs conceptId="CIEL:5590" style="yes_no" yesLabel="Oui" noLabel="Non"/></td></tr>
+			<tr><td>Fait partie d'un programme PTME</td><td></td><td>Si Oui, préciser institution:</td><td></td></tr>
+			<tr><td>Prophylaxie ARV pendant la grossesse</td><td></td><td></td><td></td></tr>
+			<tr><td>Si Oui, Date de début</td><td></td><td>Date d'arrêt</td><td></td></tr>
+			<tr><td>Trithérapie pendant la grossesse</td><td></td><td></td><td></td></tr>
+			<tr><td>Si Oui, Date de début</td><td></td><td>Date d'arrêt</td><td></td></tr>
+			<tr><td>Prophylaxie ARV pendant l'accouchement</td><td><obs conceptId="CIEL:159595" style="yes_no" yesLabel="Oui" noLabel="Non"/></td><td></td><td></td></tr>
+		</table>
+		Si prophylaxie ARV pendant la grossesse ou pendant l'accouchement, ou si trithérapie pendant la grossesse, préciser régime ARV:
+	</section>
+	<section headerLabel="ANTÉCÉDENTS MÉDICAUX DE LA FRATRIE">
+		Inconnus, passer à la section Prophylaxie du Nouveau Né et de l'Enfant. Si statut VIH de la fratrie est inconnu, conseiler et référer vers un CDV.
+		VIH/SIDA
+		<table width="100%">
+			<tr><td>Status du père</td><td><obs conceptId="CIEL:1397" answerConceptIds="CIEL:664,CIEL:703,CIEL:1067" answerLabels="VIH Négatif,VIH Positif,Statut VIH inconnu" style="radio"/></td><td>Père décédé du SIDA/probablement du SIDA <obs conceptId="CIEL:5590" style="yes_no" yesLabel="Oui" noLabel="Non"/></td><td></td></tr>
+			<tr><td>Statut des frères ou soeurs</td><td><obs conceptId="CIEL:5587" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Statut VIH inconnu" style="radio"/></td><td>Frères ou soeurs décédés du SIDA/probablement du SIDA</td><td></td></tr>
+			<tr><td>Nombre de cas par statut VIH (fratrie):</td><td><obs conceptId="CIEL:159906"/>VIH Positif</td><td></td><td></td></tr>
+		</table>
+	</section>
+	<section headerLabel="PROPHYLAXIE DU NOUVEAU NÉ ET DE L'ENFANT">
+		<table width="100%">
+			<tr><td>A reçu prophylaxie ARV dans les 72 heures suivant la naissance</td><td><obs conceptId="CIEL:5665" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Inconnu" style="radio"/></td></tr>
+			<tr><td>A reçu prophylaxie contre PCP</td><td></td></tr>
+			<tr><td>A reçu prophylaxie contre MAC</td><td></td></tr>
+		</table>
+		Si l'enfant a reçu une prophylaxie, préciser dans la section Autres Traitements Précédents. Si l'enfant n'a pas reçu de prophylaxie contre PCP, initier à partir de 4-6 semaines ou à la première visite si l'enfant est âgé de moins de 12 mois.
+	</section>
+	<table width="100%">
+	<tr>
+		<td valign="TOP" width="45%">
+			<section headerLabel="TESTS SEROLOGIQUES">
+				<table width="100%">
+					<tr>
+					<td>
+						<tr><td>Âge</td></tr>
+						<tr><td colspan="2" width="50%">Tests rapides</td><td width="50%">Résultat (Ind=Indeterminé)</td></tr>
+						<tr><td colspan="2">&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+						<td></td></tr>
+						<tr><td colspan="2">&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+						<td></td>
+						</tr>
+						<tr><td colspan="2">&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+						<td></td>
+						</tr>
+						<tr><td colspan="2">ELISA</td></tr>
+						<tr><td colspan="2">&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+						 <td><obs conceptId="CIEL:1042" answerConceptIds="CIEL:664,CIEL:703,CIEL:1138" answerLabels="Nég,Positif,Ind" style="radio"/></td>
+						</tr>
+						<tr><td colspan="2">&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+						<td><obs conceptId="CIEL:1042" answerConceptIds="CIEL:664,CIEL:703,CIEL:1138" answerLabels="Nég,Positif,Ind" style="radio"/></td></tr>
+						<tr><td colspan="2">&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+						<td><obs conceptId="CIEL:1042" answerConceptIds="CIEL:664,CIEL:703,CIEL:1138" answerLabels="Nég,Positif,Ind" style="radio"/></td></tr>
+					</td>
+					</tr>
+				</table>
+				Les tests sérologiques sont recommandés à 12 mois et à 18 mois et doivent être réalisés 6 semaines après l'arrêt de l'allaitement maternel.
+			</section>
+		</td>
+		<td valign="TOP" width="45%">
+			<section headerLabel="TESTS VIROLOGIQUES">
+				<table width="100%">
+					<tr><td width="50%">Âge</td><td width="50%">Résultat (Ind=Indeterminé)</td></tr>
+					<tr><td>PCR</td></tr>
+					<tr><td>&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+					<td><obs conceptId="CIEL:1030" answerConceptIds="CIEL:664,CIEL:703,CIEL:1138" answerLabels="Nég,Positif,Ind" style="radio"/></td>
+					</tr>
+					<tr><td>&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+					<td><obs conceptId="CIEL:1030" answerConceptIds="CIEL:664,CIEL:703,CIEL:1138" answerLabels="Nég,Positif,Ind" style="radio"/></td>
+					</tr>
+					<tr><td>&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td>
+					<td><obs conceptId="CIEL:1030" answerConceptIds="CIEL:664,CIEL:703,CIEL:1138" answerLabels="Nég,Positif,Ind" style="radio"/></td>
+					</tr>
+					<tr><td>Antigénémie P24 (UP24)</td></tr>
+					<tr><td>&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td></tr>
+					<tr><td>&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td></tr>
+					<tr><td>&#160;&#160;<obs conceptId="CIEL:161244" answerConceptIds="CIEL:1072,CIEL:1074" answerLabels="en jours,en mois" style="radio"/></td></tr>
+					
+				</table>
+				Les tests virologiques sont recommandés à partir de 4 semaines d'âge. Un test diagnostic du VIH doit être répété 6 semaines après l'arrêt de l'allaitement maternel.
+			</section>
+		</td>
+	</tr>
+	</table>
+	<section headerLabel="COMPTE CD4/VIRÉMIE">
+		<table width="100%">
+			<tr><td>Dernier compte CD4</td><td>c/mm3</td><td></td><td>Date</td><td></td></tr>
+			<tr><td>Jamais effectué,Inconnu</td></tr>
+			<tr><td>Virémie la plus récente</td><td>copies/ml</td><td></td><td>Date</td><td></td></tr>
+			<tr><td>Jamais effectué,Inconnu</td></tr>
+		</table>
+	</section>
+	<section headerLabel="MODE DE TRANSMISSION PROBABLE DU PATIENT PÉDIATRIQUE">
+	Cocher pour chaque risque. (Inc = Inconnu)
+		<table width="100%">
+			<tr>
+				<td width="50%" valign="TOP">
+						<table>
+							
+								<tr><td>Rapports sexuels avec un homme
+								</td><td><obs conceptId="CIEL:1061" answerConceptId="CIEL:163290" answerLabel=""/>
+								</td></tr>
+								<tr><td>Rapports sexuels avec une femme</td>
+								<td><obs conceptId="CIEL:1061" answerConceptId="CIEL:163291" answerLabel=""/>
+								</td></tr>
+								<tr><td>Injection de drogues</td>
+								<td><obs conceptId="CIEL:1061" answerConceptId="CIEL:105" answerLabel=""/></td><!-- A VERIFIER -->
+								</tr>
+								<tr><td>Bénéficier de sang/dérivé sanguin</td>
+								<td><obs conceptId="CIEL:1061" answerConceptId="CIEL:1063" answerLabel=""/><obs conceptId="CIEL:163268"/></td><!-- A VERIFIER -->
+								</tr>
+								<tr><td>Transmission mère a enfant</td>
+								<td><obs conceptId="CIEL:1061" answerConceptId="CIEL:163273" answerLabel=""/></td></tr>
+								<tr><td>Accident d'exposition au sang</td>
+								<td><!--<obs conceptId="CIEL:1061" answerConceptId="CIEL:163274" answerLabel=""/>-->
+								<obsgroup groupingConceptId="163288">
+								<obs conceptId="CIEL:160581" answerConceptId="CIEL:163274" answerLabel=""/>
+								<obs conceptId="CIEL:162601" allowTime="false"/>
+								</obsgroup>
+								</td></tr>
+						</table>
+				</td>
+				<td width="50%" valign="TOP">
+						<table>
+							<tr>
+								<td>
+								<tr><td>Rapports hétérosexuelles avec :</td></tr>
+								<tr><td>- personne SIDA/VIH+
+								</td><td><obs conceptId="CIEL:1061" answerConceptId="CIEL:163289" answerLabel=""/>
+								</td></tr>
+								<tr><td>- personne qui s'injecte de la drogue</td>
+								<td><obs conceptId="CIEL:1061" answerConceptId="CIEL:105" answerLabel=""/></td>
+								</tr>
+								<tr><td>- homme bisexuel</td><td><obs conceptId="CIEL:1061" answerConceptId="CIEL:163275" answerLabel=""/></td></tr>
+								<tr><td>- bénéficier de sang/dérivé sanguin</td>
+								<td><obs conceptId="CIEL:1061" answerConceptId="CIEL:1063" answerLabel=""/></td>
+								</tr>
+								</td>
+							</tr>	
+						</table>
+					
+				</td>
+			
+			</tr>
+		</table>
+	</section>	
+	<section headerLabel="AUTRES FACTEURS DE RISQUE">
+		<table width="100%">
+			<tr>
+				<td width="40%" valign="TOP">
+					<table width="100%">
+							<obsgroup groupingConceptId="163292">
+							<tr>
+							
+								<td>Histoire ou présence de syphilis</td>
+								<td>
+								<obs conceptId="CIEL:163276" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Inc" style="radio"/>
+								
+								</td>
+							</tr>
+							<tr>
+								<td>Histoire ou présence d'autre IST</td>
+								<td>
+								<obs conceptId="CIEL:156660" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Inc" style="radio"/>
+								
+								</td>
+							</tr>
+							<tr>
+								<td>Victime d'agression sexuelle</td>
+								<td>
+									<obs conceptId="CIEL:123160" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Inc" style="radio"/>
+								</td>
+							</tr>
+							</obsgroup>
+							
+					</table>
+				</td>
+				<td width="50%" valign="TOP">
+						<table width="100%">
+						<!-- Error! java.lang.RuntimeException: Boolean with style = null not yet implemented (concept = 5567) -->
+							<tr>
+								<td>
+								<tr><td>Rapports sexuels :</td></tr>
+								<tr><td>
+								<!--<obs conceptId="CIEL:5567" answerConceptId="CIEL:1357,CIEL:1358,CIEL:1090" answerLabel="- ≥ 2 personnes dans les 3 dernières mois"/>-->
+								- ≥ 2 personnes dans les 3 dernières mois</td><td><obs conceptId="CIEL:160581" answerConceptId="CIEL:5567" answerLabel=""/>
+								</td></tr>
+								<tr><td>- sans préservatif</td><td><obs conceptId="CIEL:160581" answerConceptId="CIEL:159218" answerLabel="" style="radio"/></td></tr>
+								<tr><td>- par voie anale</td><td>
+								<!--<obs conceptId="CIEL:160581" answerConceptId="CIEL:163278" answerLabel="" style="radio"/>-->
+								<obs conceptId="CIEL:163278" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Oui,Non" style="radio"/>
+								</td></tr>
+								<tr><td><obs conceptId="CIEL:160581" answerConceptId="CIEL:160580" answerLabel="- avec travailleur/euse de sexe" style="radio"/></td>
+								<td><obs conceptId="CIEL:160580" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Oui,Non" style="radio"/></td></tr>
+								<tr><td><obs conceptId="CIEL:160581" answerConceptId="CIEL:160579" answerLabel="- L'échange de sexe pour argent/choses" style="radio"/></td>
+								<td><obs conceptId="CIEL:160579" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Oui,Non" style="radio"/></td></tr>
+								</td>
+							</tr>	
+						</table>
+					
+				</td>
+			
+			</tr>
+		</table>
+	</section>
+	<section headerLabel="ÉVALUATION DU RISQUE">
+		A eu dans les dernier 3 mois (cocher pour le ou les cas ci-dessous)
+		<table width="100%">
+			<tr>
+				<td>
+					<obsgroup groupingConceptId="163279">
+						Rapports sexuels <!-- Concept Set a ajouter 163279 -->
+						<obs conceptId="CIEL:160109" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Oui,Non" style="radio"/><br/>
+						Rapports sexuels avec préservatif
+						<obs conceptId="CIEL:1357" answerConceptIds="CIEL:1358,CIEL:1090" answerLabels="Oui,Non" style="radio"/>
+					</obsgroup>
+				</td>
+				<td valign="TOP" style="padding-left:5%">
+					<obsgroup groupingConceptId="163279">
+						Statut sérologique du conjoint(e)
+						<obs conceptId="CIEL:1436" answerConceptIds="CIEL:703,CIEL:664,CIEL:1067" answerLabels="VIH pos,VIH nég,Inconnu" style="radio"/>
+					</obsgroup>
+				</td>
+			</tr>	
+		</table>
+	</section>
+	<section headerLabel="ÉVALUATION GYNÉCOLOGIQUE (ADOLESCENTE EN ÂGE DE PROCRÉER)">
+	  <table width="100%">
+		<tr><td width="20%"><b>Menstruations</b></td><td width="30%"><obs conceptId="CIEL:160600" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Inconnu" style="radio"/></td><td width="20%">Dernières règles</td><td width="20%"><obs conceptId="CIEL:1427"/></td></tr>
+		<tr><td colspan="4">Si Non, passer à la section Immunisation</td></tr>
+		<tr><td><b>Grossesse</b></td><td><obs conceptId="CIEL:1434" style="yes_no" yesLabel="Oui" noLabel="Non"/></td><td>Si Oui, suivie en clinique prénatale?</td><td><obs conceptId="CIEL:1622" style="yes_no" yesLabel="Oui" noLabel="Non"/></td></tr>
+		<tr><td colspan="2"></td><td>Date de première visite de suivi prénatale</td><td></td></tr>
+		<tr><td colspan="2"></td><td>Date de dernière visite de suivi prénatale</td><td></td></tr>
+		<tr><td><b>Pap Test</b></td><td></td><td>Si Oui, résultat</td><td></td></tr>
+		<tr><td colspan="2"></td><td>Si Oui, date du dernier test</td><td><obs conceptId="CIEL:163267"/></td></tr>
+	  </table>
+	  Si suspicion de grossesse, procéder à un test de grossesse (utiliser la Fiche d'Analyses de Laboratoire). Si grossesse confirmée, référer la patiente aux services de soins prénatals.
+	</section>
+	<section headerLabel="IMMUNISATION">
+		Le patient a-t-il été vacciné? <obs conceptId="CIEL:5853" style="yes_no" yesLabel="Oui" noLabel="Non"/><br/>
+		Préciser la date de chaque dose (JJ/MM/AA).
+		<table width="100%">
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td width="20%">{drugname}<span class="immunisation" style="display: none"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			<td width="20%">3<immunization showDate="true" id="{id}_3" vaccineConceptId="{concept}" sequenceNumber="3" label=""/></td>
+			</tr>
+			</template>
+			<render concept="CIEL:782" drugname="Hépatite B" id="hepatiteb" color="#D8D8D8"/>
+			</repeat>
+			
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td>{drugname}<span class="immunisation" style="display: none"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			<td width="20%">3<immunization showDate="true" id="{id}_3" vaccineConceptId="{concept}" sequenceNumber="3" label=""/></td>
+			<td width="20%">4<immunization showDate="true" id="{id}_4" vaccineConceptId="{concept}" sequenceNumber="4" label=""/></td>
+			
+			</tr>
+			</template>
+			<render concept="CIEL:1422" drugname="Polio (OPV/IPV)" id="polio" color="#FFFFFF"/>
+			<render concept="CIEL:781" drugname="DiTePer" id="diTePer" color="#D8D8D8"/>
+			<render concept="CIEL:5261" drugname="HIB" id="hib" color="#FFFFFF"/>
+			</repeat>
+			
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td>{drugname}<span class="immunisation" style="display: none"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			<td width="20%">3<immunization showDate="true" id="{id}_3" vaccineConceptId="{concept}" sequenceNumber="3" label=""/></td>
+			</tr>
+			</template>
+			<render concept="CIEL:1423" drugname="Pentavalent" id="pentavalent" color="#D8D8D8"/>
+			<render concept="CIEL:82214" drugname="Pneumocoque" id="pneumocoque" color="#FFFFFF"/>
+			</repeat>
+			
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td>{drugname}<span class="immunisation" style="display: none"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			</tr>
+			</template>
+			<render concept="CIEL:83531" drugname="Rotavirus" id="rotavirus" color="#D8D8D8"/>
+			</repeat>
+			
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td>{drugname}<span class="immunisation" style="display: none"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			<td width="20%">3<immunization showDate="true" id="{id}_3" vaccineConceptId="{concept}" sequenceNumber="3" label=""/></td>
+			</tr>
+			</template>
+			<render concept="CIEL:159701" drugname="ROR" id="ror" color="#FFFFFF"/>
+			</repeat>
+			
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td>{drugname}<span class="immunisation" style="display: none"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			</tr>
+			</template>
+			<render concept="CIEL:162586" drugname="RR" id="rr" color="#D8D8D8"/>
+			<render concept="CIEL:17" drugname="DT" id="dt" color="#FFFFFF"/>
+			<render concept="CIEL:73193" drugname="Varicelle" id="varicelle" color="#D8D8D8"/>
+			<render concept="CIEL:86208" drugname="Typhimvi" id="typhimvi" color="#FFFFFF"/>
+			<render concept="CIEL:105030" drugname="Meningo AC" id="meningo" color="#D8D8D8"/>
+			<render concept="CIEL:77424" drugname="Hépatite A" id="hepatitea" color="#FFFFFF"/>
+			<render concept="CIEL:73354" drugname="Cholera" id="cholera" color="#D8D8D8"/>
+			</repeat>
+			
+			<repeat>
+			<template>
+			<tr bgcolor="{color}"><td>{drugname}</td>
+			<td width="20%"><obs conceptId="CIEL:984" id="{id}" answerConceptId="{concept}" answerLabel="" style="none" showCommentField="true" commentFieldLabel=""/></td>
+			<td width="20%">1<immunization showDate="true" id="{id}_1" vaccineConceptId="{concept}" sequenceNumber="1" label=""/></td>
+			<td width="20%">2<immunization showDate="true" id="{id}_2" vaccineConceptId="{concept}" sequenceNumber="2" label=""/></td>
+			</tr>
+			</template>
+			<render concept="CIEL:5622" drugname="Autre - préciser" id="autre_preciser" color="#FFFFFF"/>
+			</repeat>
+		</table>
+	</section>
+	<section headerLabel="ALIMENTATION DE L'ENFANT">
+		<table width="100%">
+			<tr>
+				<td>Allaitement exclusif</td><td><obs conceptId="CIEL:5526" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui,Non,Inconnu" style="radio"/></td>
+				<td>Âge au sevrage (en mois)</td>
+			</tr>
+			<tr>
+				<td>Lait artificiel</td><td></td>
+				<td>Âge au sevrage (en mois)</td>
+			</tr>
+			<tr>
+				<td>Alimentation mixte</td><td></td>
+				<td>Âge au sevrage (en mois)</td>
+			</tr>
+			<tr>
+				<td>Autre alimentation</td><td></td>
+				<td>Âge au sevrage (en mois)</td>
+			</tr>
+			<tr>
+				<td>Si lait artificiel, préciser type:</td>
+				<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td>Si autre alimentation, préciser type:</td>
+				<td colspan="2"></td>
+			</tr>
+		</table>
+		Alimentation mixte = lait maternel + lait artificiel. Si alimentation mixte, fournir assistance/conseil pour le choix d'une seule méthode d'alimentation.
+	</section>
+	<section headerLabel="SIGNES VITAUX ET ANTHROPOMÉTRIE À LA NAISSANCE">
+		<table width="100%">
+			<tr><td>Poids à la naissance <obs conceptId="CIEL:5916"/>kg</td><td>Taille à la naissance cm</td></tr>
+			<tr><td>Périmètre crânien (PC) à la naissance cm</td><td>Âge gestationnel à la naissance <obs conceptId="CIEL:1409"/> semaines</td></tr>
+		</table>
+	</section>
+	<section headerLabel="SIGNES VITAUX ET ANTHROPOMÉTRIE ACTUELS">
+		<table width="100%">
+			<tr><td>Température <obs conceptId="CIEL:5088"/></td><td>Pouls <obs conceptId="CIEL:5087"/></td></tr>
+			<tr><td>TA <obs conceptId="CIEL:5085"/><obs conceptId="CIEL:5086" labelText="/"/> cm</td><td>FR <obs conceptId="CIEL:5242"/></td></tr>
+			<tr><td>Poids <obs conceptId="CIEL:5089"/> kg</td><td>Taille <obs conceptId="CIEL:5090"/>cm</td></tr>
+			<tr><td>Poids à la dernière visite kg</td><td>P/T2 kg</td></tr>
+			<tr><td>Périmètre crânien (PC) cm (Si enfant âgé de moins de 3 ans)</td><td>PB/PC % (Si enfant âgé de 1 mois - 5 ans)</td></tr>
+			<tr><td>Périmètre brachial (PB) cm (Si enfant âgé de 1 mois - 5 ans)</td><td>Saturation en oxygène %</td></tr>
+		</table>
+		Reporter ces paramètres sur les courbes de croissance se trouvant au verso du dossier.
+	</section>
+	<section headerLabel="SYMPTÔMES">
+		<table width="100%">
+			<tr>
+				<td valign="TOP">
+					<table width="100%" height="100%">
+						<tr>
+							<td><!--style="visibility:hidden;"-->
+								
+								<tr>
+									<td class="checkboxGroup">
+										<obsgroup groupingConceptId="1727">
+											<span id="symptomB"><obs conceptId="CIEL:1728" id="symptomb" answerConceptId="CIEL:6031" answerLabel="Anorexie/Perte d'appétit"/></span>
+											<span id="symptompresentb" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+										</obsgroup><br/>
+										Asthénie<br/>
+										<obsgroup groupingConceptId="1727">
+										<span id="symptomF"><obs conceptId="CIEL:1728" id="symptomf" answerConceptId="CIEL:139084" answerLabel="Céphalée"/></span>
+										<span id="symptompresentf" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+										</obsgroup><br/>
+										Convulsions<br/>
+										Diarrhée &lt; 14 <br/>
+										<obsgroup groupingConceptId="1727">
+										<span id="symptomA"><obs conceptId="CIEL:1728" id="symptoma" answerConceptId="CIEL:151" answerLabel="Douleur abdominale"/></span>
+										<span id="symptompresenta" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" style="checkbox"/></span>
+										</obsgroup><br/>
+										Douleurs musculaires<br/>
+										<obsgroup groupingConceptId="1727">
+											<span id="symptomE"><obs conceptId="CIEL:1728" id="symptome" answerConceptId="CIEL:122496" answerLabel="Dyspnée"/></span>
+											<span id="symptompresente" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+										</obsgroup><br/>
+										<!--<obsgroup groupingConceptId="1727">
+											<span id="symptomC"><obs conceptId="CIEL:1728" id="symptomc" answerConceptId="CIEL:143264" answerLabel="Toux"/></span>
+											<span id="symptompresentc" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+										</obsgroup><br/>
+										<obsgroup groupingConceptId="1727">
+											<span id="symptomD"><obs conceptId="CIEL:1728" id="symptomd" answerConceptId="CIEL:5957" answerLabel="Toux/Expectoration (sauf hémoptysie)"/></span>
+											<span id="symptompresentd" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+										</obsgroup><br/>-->
+										
+									</td>
+								</tr> 
+
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td>&#160;&#160;&#160;&#160;&#160;</td>
+				<td valign="TOP">
+					<table width="100%" height="100%">
+						<tr>
+							<td class="checkboxGroup">
+								
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomL"><obs conceptId="CIEL:1728" id="symptoml" answerConceptId="CIEL:512" answerLabel="Eruption cutanée - préciser" showCommentField="true" commentFieldLabel=""/></span>
+									<span id="symptompresentl" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								 	Fièvre inexpliquée &lt; 1 mois<br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomG"><obs conceptId="CIEL:1728" id="symptomg" answerConceptId="CIEL:138905" answerLabel="Hémoptysie"/></span>
+									<span id="symptompresentg" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065"/></span>
+								</obsgroup><br/>
+								Irritabilité<br/>
+								Malaise<br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomH"><obs conceptId="CIEL:1728" id="symptomh" answerConceptId="CIEL:5978" answerLabel="Nausée"/></span>
+									<span id="symptompresenth" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065"/></span>
+								</obsgroup><br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomM"><obs conceptId="CIEL:1728" id="symptomm" answerConceptId="CIEL:122983" answerLabel="Vomissements"/></span>
+									<span id="symptompresentm" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								Œdèmes bilateraux (nutritionnel)<br/>
+								<!--<obsgroup groupingConceptId="1727">
+									<span id="symptomI"><obs conceptId="CIEL:1728" id="symptomi" answerConceptId="CIEL:133027" answerLabel="Sueurs nocturnes"/></span>
+									<span id="symptompresenti" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomJ"><obs conceptId="CIEL:1728" id="symptomj" answerConceptId="CIEL:141635" answerLabel="Perte de sensibilité"/></span>
+									<span id="symptompresentj" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>-->
+								<!--<span id="symptomJ">Perte de sensibilité </span>--><!--A verifier -->
+							</td>
+						</tr>	
+					</table>
+				</td>
+				<td>&#160;&#160;&#160;&#160;&#160;</td>
+				<td valign="TOP">
+					<table width="100%" height="100%">
+						<tr>
+							<td class="checkboxGroup">
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomK"><obs conceptId="CIEL:1728" id="symptomk" answerConceptId="CIEL:118789" answerLabel="Odynophagie/dysphagie"/></span>
+									<span id="symptompresentk" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								Otalgie / Otorrhée<br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomJ"><obs conceptId="CIEL:1728" id="symptomj" answerConceptId="CIEL:141635" answerLabel="Perte de sensibilité"/></span>
+									<span id="symptompresentj" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								Poids, insuffisance de gain <br/>
+								Poids, perte jusqu'à 1 écart type (ET)<br/>
+								Problèmes de vision<br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomN"><obs conceptId="CIEL:1728"  id="symptomn" answerConceptId="CIEL:128319" answerLabel="Prurigo"/></span>
+									<span id="symptompresentn" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+							</td>
+						</tr>	
+					</table>
+				</td>
+				<td>&#160;&#160;&#160;&#160;&#160;</td>
+				<td valign="TOP">
+					<table width="100%">
+						<tr>
+							<td class="checkboxGroup">
+								Régurgitations<br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomI"><obs conceptId="CIEL:1728" id="symptomi" answerConceptId="CIEL:133027" answerLabel="Sueurs nocturnes"/></span>
+									<span id="symptompresenti" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomC"><obs conceptId="CIEL:1728" id="symptomc" answerConceptId="CIEL:143264" answerLabel="Toux persistante - " showCommentField="true" commentFieldLabel="préciser"/></span>
+									<span id="symptompresentc" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065" /></span>
+								</obsgroup><br/>
+								<obsgroup groupingConceptId="1727">
+									<span id="symptomO"><obs conceptId="CIEL:1728" id="symptomo" answerConceptId="CIEL:5622" answerLabel="Autres - " showCommentField="true" commentFieldLabel="préciser"/></span>
+									<span id="symptompresento" style="display: none"><obs conceptId="CIEL:1729" answerConceptId="CIEL:1065"/></span>
+								</obsgroup>
+							</td>
+						</tr>	
+					</table>
+				</td>
+			</tr>
+		</table>
+	</section>
+	<section headerLabel="SYMPTÔMES QUALIFIANT POUR LES STADES I-IV DE L'OMS">
+		<table width="100%">
+			<tr><td><b>OMS Stade I</b></td><td><b>OMS Stade II</b></td><td><b>OMS Stade III</b></td><td><b>OMS Stade IV</b></td></tr>
+			<tr><td>Asymptomatique</td><td>Diarrhée &gt; 14 jours</td><td>Perte de poids jusqu'à 2 écarts types (ET)</td><td>Perte de poids jusqu'à 3 écarts types (ET)</td></tr>
+			<tr><td></td><td>Fièvre inexpliquée &gt; 1 mois</td><td></td><td></td></tr>
+		</table>
+	</section>
+	<section headerLabel="EXAMEN CLINIQUE">
+		<table>
+			<tr>
+			<td valign="TOP">
+            <table class="tg">
+                <tr>
+                   <th class="tg-5cem">Normal</th>
+                   <th class="tg-5cem">Anormal</th>
+                   <th class="tg-5cem">Pas fait</th>
+                </tr>
+				<tr bgcolor="#D8D8D8" class="checkboxGroup">
+					<!-- New Concept added -->
+					<td><span id="normal1"><obs conceptId="CIEL:1119" answerConceptId="CIEL:159438" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:1119" answerConceptId="CIEL:163293" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:1119" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Général</td> <!--&#160;  &lt;br&#47;&gt;-->
+				</tr>
+				<tr class="checkboxGroup">
+					<td><span id="normal1"><obs conceptId="CIEL:1120" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:1120" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:1120" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Peau</td>
+				</tr>
+				<tr bgcolor="#D8D8D8" class="checkboxGroup">
+				<!-- New Concept Add (Mouth region examination findings)-->
+					<td><span id="normal1"><obs conceptId="CIEL:163308" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:163308" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:163308" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Bouche</td>
+				</tr>
+				<tr class="checkboxGroup">
+					<!-- New Concept Added (Ear exam findings)-->
+					<td><span id="normal1"><obs conceptId="CIEL:163337" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:163337" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:163337" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Oreilles</td>
+				</tr>
+				<tr bgcolor="#D8D8D8" class="checkboxGroup">
+					<!-- New Concept Added (Nose exam findings)-->
+					<td><span id="normal1"><obs conceptId="CIEL:163336" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:163336" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:163336" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Nez</td>
+				</tr>
+				
+				<tr class="checkboxGroup">
+				<!-- New Concept Added (Eye examination findings)-->
+					<td><span id="normal1"><obs conceptId="CIEL:163309" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:163309" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:163309" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Yeux</td>
+				</tr>
+				<tr bgcolor="#D8D8D8" class="checkboxGroup">
+				<!-- New Concept Added (Eye examination findings)-->
+					<td><span id="normal1"><obs conceptId="CIEL:163388" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:163388" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:163388" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Cou</td>
+				</tr>
+				<tr class="checkboxGroup">
+					<td><span id="normal1"><obs conceptId="CIEL:1121" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:1121" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:1121" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Ganglions lymphatiques</td>
+				</tr>
+				<tr bgcolor="#D8D8D8" class="checkboxGroup">
+					<td><span id="normal1"><obs conceptId="CIEL:1123" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+					<td><span id="anormal1"><obs conceptId="CIEL:1123" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+					<td><span id="pasconduit1"><obs conceptId="CIEL:1123" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+					<td>Poumons</td>
+				</tr>
+				<tr class="checkboxGroup">
+				<td><span id="normal1"><obs conceptId="CIEL:1124" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+				<td><span id="anormal1"><obs conceptId="CIEL:1124" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+				<td><span id="pasconduit1"><obs conceptId="CIEL:1124" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+				<td>Système cardiovasculaire</td>
+              </tr>
+			  <tr bgcolor="#D8D8D8" class="checkboxGroup">
+				<td><span id="normal1"><obs conceptId="CIEL:1125" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+				<td><span id="anormal1"><obs conceptId="CIEL:1125" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+				<td><span id="pasconduit1"><obs conceptId="CIEL:1125" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+				<td>Abdomen</td>
+              </tr>
+			   <tr class="checkboxGroup">
+				<td><span id="normal1"></span></td>
+				<td><span id="anormal1"></span></td>
+				<td><span id="pasconduit1"></span></td>
+				<td>Extremités</td>
+              </tr>
+			   <tr bgcolor="#D8D8D8" class="checkboxGroup">
+				<td><span id="normal1"><obs conceptId="CIEL:5311" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+				<td><span id="anormal1"><obs conceptId="CIEL:5311" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+				<td><span id="pasconduit1"><obs conceptId="CIEL:5311" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+				<td>Seins: Stade de Tanner</td>
+              </tr>
+			   <tr class="checkboxGroup">
+				<td><span id="normal1"><obs conceptId="CIEL:1126" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+				<td><span id="anormal1"><obs conceptId="CIEL:1126" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+				<td><span id="pasconduit1"><obs conceptId="CIEL:1126" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+				<td>Système génito-urinaire: Stade de Tanner</td>
+              </tr>
+			   <tr bgcolor="#D8D8D8" class="checkboxGroup">
+				<td><span id="normal1"><obs conceptId="CIEL:1128" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+				<td><span id="anormal1"><obs conceptId="CIEL:1128" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+				<td><span id="pasconduit1"><obs conceptId="CIEL:1128" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+				<td>Système musculo-squelettique</td>
+              </tr>
+			   <tr class="checkboxGroup">
+				<td><span id="normal1"><obs conceptId="CIEL:1129" answerConceptId="CIEL:1115" answerLabel=""/></span></td>
+				<td><span id="anormal1"><obs conceptId="CIEL:1129" answerConceptId="CIEL:1116" answerLabel=""/></span></td>
+				<td><span id="pasconduit1"><obs conceptId="CIEL:1129" answerConceptId="CIEL:1118" answerLabel=""/></span></td>
+				<td>Système nerveux</td>
+              </tr>
+			  </table>
+			  </td>
+			  
+			  <td style="padding-left:1%" valign="TOP">
+				<br/>
+			     <table>
+					<tr><td>Description des conclusions anormales</td></tr>
+					<tr>
+						<td>
+							<obs conceptId="CIEL:1391" rows="18" cols="50"/>
+						</td>
+					</tr>
+				 </table>
+			  </td>
+			  </tr>
+			</table>
+	</section>
+	<section headerLabel="ÉVALUATION DU DÉVELOPPEMENT PSYCHOMOTEUR">
+		À voir les normes psychomoteurs de référence. Si retard du développement, préciser dans la section Commentaires.
+		<table width="100%">
+			<tr><td><b>Motricité globale</b></td><td><b>Motricité fine</b></td><td><b>Langage/Compréhension</b></td><td><b>Contact Social</b></td></tr>
+			<tr>
+				<td>
+					&#160;<obs conceptId="CIEL:160277" answerConceptIds="CIEL:160275,CIEL:160276" answerLabels="Développement normal pour l'âge&lt;br&#47;&gt;,Retard du développement" style="radio"/>
+				</td>
+				<td>
+					&#160;<obs conceptId="CIEL:160277" answerConceptIds="CIEL:160275,CIEL:160276" answerLabels="Développement normal pour l'âge&lt;br&#47;&gt;,Retard du développement" style="radio"/>
+				</td>
+				<td>
+					&#160;<obs conceptId="CIEL:160277" answerConceptIds="CIEL:160275,CIEL:160276" answerLabels="Développement normal pour l'âge&lt;br&#47;&gt;,Retard du développement" style="radio"/>
+				</td>
+				<td>
+					&#160;<obs conceptId="CIEL:160277" answerConceptIds="CIEL:160275,CIEL:160276" answerLabels="Développement normal pour l'âge&lt;br&#47;&gt;,Retard du développement" style="radio"/>
+				</td>
+			</tr>
+		</table>
+	</section>
+	<section headerLabel="STATUT VIH ACTUEL">
+		<table>
+			<tr>
+				<td>
+					Exposé au VIH, statut VIH non confirmé (&lt; 18 mois, pas de test virologique)<br/>
+					VIH positif, confirmé par test virologique<br/>
+					VIH positif, confirmé par test sérologique &gt; 18 mois<br/>
+					Diagnostic probable d'infection sévère à VIH (&lt; 18 mois en absence de test virologique) préciser critères:<br/>
+					<br/>
+					Pathologie indicatrice du SIDA (Pneumonie à Pneumocystis Cariini, Candidose oesophagienne, Méningite cryptococcique, Toxoplasmose cérébrale, Syndrome cachectique, Sarcome de Kaposi) <br/>
+					Présence de deux des pathologies suivantes (Muguet buccal, Candidose buccale, Pneumonie sévère, Septicémie sévère)
+				</td>
+			</tr>
+		</table>
+		Préciser les détails sur tout diagnostic dans la section Antécédents Médicaux et Diagnostics.
+	</section>
+	<section headerLabel="ÉVALUATION TB">
+		Antécédent de TB     Pas d'antécédent de TB<br/>
+		<table width="100%">
+			<tr>
+				<td valign="TOP">
+					<table width="100%" height="100%">
+						<tr>
+							<td colspan="2">Traitement TB</td><td>Traitement TB en cours</td>
+						</tr>
+						<tr>
+							<td>Date de début</td>
+							<td>Date d'arrêt</td>
+						</tr>
+						<tr>
+							<td colspan="2"><obs conceptId="CIEL:1110" answerConceptId="CIEL:1679" answerLabel="Prophylaxie TB à I'INH"/></td>
+							<td>Prophylaxie à l'INH en cours</td>
+						</tr>
+						<tr>
+							<td>Date de début <obs conceptId="CIEL:162320"/></td>
+							<td>Date d'arrêt <obs conceptId="CIEL:163284"/></td>
+						</tr>
+						<b>Statut TB actuel</b>
+						<tr>
+							<td colspan="2">Notion de contact TB</td><td><obs conceptId="CIEL:1659" answerConceptId="CIEL:142177" answerLabel="Suspicion de TB selon les symptômes "/></td>
+						</tr>
+						<tr>
+							<td colspan="2"><obs conceptId="CIEL:160265" answerConceptId="CIEL:1065" answerLabel="Présence de cicatrice BCG"/></td>
+							<td><obs conceptId="CIEL:1659" answerConceptId="CIEL:1660" answerLabel="Aucun signe ou sympôtme indicatif de TB"/></td>
+						</tr>
+						<tr>
+							<td>Récent PPD <obs conceptId="CIEL:160265" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui, Non, Inconnu" style="radio"/></td>
+							<td colspan="2">Si Oui, Date</td>
+						</tr>
+						<!--
+						<tr>
+							<td>
+							
+								<tr><td><obs conceptId="CIEL:160265" answerConceptId="CIEL:1065" answerLabel="Présence de cicatrice BCG"/></td>
+								<td>&#32;&#32;</td>
+								<td><obs conceptId="CIEL:1659" answerConceptId="CIEL:142177" answerLabel="Suspicion de TB selon les symptômes "/></td></tr>
+								<tr><td><obs conceptId="CIEL:160265" answerConceptId="CIEL:1065" answerLabel="Récent PPD négatif"/></td>
+								<td>&#32;&#32;</td>
+								<td><obs conceptId="CIEL:1659" answerConceptId="CIEL:1660" answerLabel="Aucun signe ou sympôtme indicatif de TB"/></td>
+								</tr>
+								<tr><td><obs conceptId="CIEL:160265" answerConceptId="CIEL:1065" answerLabel="Statut PPD inconnu"/></td>
+								
+								</tr>
+							</td>
+						</tr>-->	
+					</table>
+				</td>
+			</tr>
+		</table>
+	</section>
+	<section headerLabel="ANTÉCÉDENTS MÉDICAUX ET SYMPTÔMES ET DIAGNOSTICS ACTUELS">
+		<table width="100%">
+			<tr>
+				<td width="50%" valign="TOP">
+					Aucun diagnostic fait ou reporté aujourd'hui <br/>
+					Indiquer les diagnostics actuels ou passés. <br/> 'Hosp' = Hospitalisation à cause de la condition.<br/>
+					<table width="100%">
+						<tr style="outline: thin solid">
+							<th width="35%" class="tg-5cem">Actif (Date de début de la condition)</th>
+							<th width="35%" class="tg-5cem">Guéri (Date de début de la condition)</th>
+							<th width="30%" class="tg-5cem">Diagnostic</th>
+						</tr>
+						<tr><td colspan="2"></td><td><b>Stade clinique de l'OMS I</b></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5328" drugname="Syndrome de lymphadénopathie généralisée" id="lymphadenopathie" color="#D8D8D8"/>
+							<render concept="CIEL:5327" drugname="Asymptomatique" id="asymptomatique" color="#FFFFFF"/>
+						</repeat>
+						<tr><td colspan="2"></td><td><b>Stade clinique de l'OMS II</b></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5018" drugname="Diarrhée &gt; 14 jours" id="diarrhee" color="#D8D8D8"/>
+							<render concept="CIEL:5027" drugname="Fièvre inexpliquée &gt; 1 mois" id="fievre" color="#FFFFFF"/>
+							<!-- ++++++++++++++++++++++++++++++==== AJOUTER VRAI VALEUR --> 
+							<render concept="CIEL:5027" drugname="Aphtes buccaux récidivants" id="Aphtes" color="#D8D8D8"/>
+							<!-- ++++++++++++++++++++++++++++++==== -->
+							<!-- ++++++++++++++++++++++++++++++==== AJOUTER VRAI VALEUR --> 
+							<render concept="CIEL:5027" drugname="Éruptions papulaires prurigineuses" id="eruptions" color="#FFFFFF"/>
+							<!-- ++++++++++++++++++++++++++++++==== -->
+							<!-- ++++++++++++++++++++++++++++++==== AJOUTER VRAI VALEUR --> 
+							<render concept="CIEL:5027" drugname="Érythème gingival linéaire" id="erytheme" color="#D8D8D8"/>
+							<!-- ++++++++++++++++++++++++++++++==== -->	
+							<!-- ++++++++++++++++++++++++++++++==== AJOUTER VRAI VALEUR --> 
+							<render concept="CIEL:5027" drugname="Gonflement parotidien persistant inexpliqué" id="gonflement" color="#FFFFFF"/>
+							<!-- ++++++++++++++++++++++++++++++==== -->
+							<render concept="CIEL:5027" drugname="Hépatosplénomégalie persistante inexpliquée" id="hepatosplenomegalie" color="#D8D8D8"/>
+							<render concept="CIEL:5027" drugname="Infection étendue au virus de la verrue humaine" id="infection_verrue" color="#FFFFFF"/>
+							<render concept="CIEL:5027" drugname="Infection étendue à Molluscum Contagiosum" id="infection_mo" color="#D8D8D8"/>
+							<render concept="CIEL:5027" drugname="Infection des voies respriatoires supérieures (IVRS) récidivante" id="infection_resp" color="#FFFFFF"/>
+							<render concept="CIEL:5027" drugname=" 	Mycoses des ongles" id="mycoses" color="#D8D8D8"/>
+							<render concept="CIEL:117543" drugname="Zona" id="zona" color="#FFFFFF"/>
+						</repeat>
+						<tr><td colspan="2"></td><td><b>Stade clinique de l'OMS III</b></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept_b}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5339" concept_b="CIEL:5339" drugname="Perte de poids jusqu'à 2 écarts types (ET)" id="perte_poids" color="#D8D8D8"/>
+							<render concept="CIEL:1226" concept_b="CIEL:121629" drugname="Anémie inexpliquée, neutropénie, ou thrombopénie chronique" id="anemie" color="#FFFFFF"/>
+							<render concept="CIEL:5334" concept_b="CIEL:5334" drugname="Candidose buccale" id="candidose_bucc" color="#D8D8D8"/>
+							<!-- +++++++++++++++++++++++++==  ADD VALUE -->
+							<render concept="CIEL:5334" concept_b="CIEL:5334" drugname="Gingivite ou stomatite ulcéreuse nécrosante aiguë, ou parodontite ulcéreuse nécrosante aiguë" id="gingivite" color="#FFFFFF"/>
+							<!-- FFFFFF -->
+							<render concept="CIEL:5337" concept_b="CIEL:5337" drugname="Leucoplasie buccale velue" id="leucoplasie" color="#D8D8D8"/>
+							<!-- ADD CONCEPT -->
+							<render concept="CIEL:1226" concept_b="CIEL:121629" drugname="Maladie pulmonaire chronique associée au VIH (y compris bronchectasie)" id="pulmonaire_chro" color="#FFFFFF"/>
+							<render concept="CIEL:5337" concept_b="CIEL:5337" drugname="Malnutrition modérée inexpliquée" id="malnutrition" color="#D8D8D8"/>
+							<render concept="CIEL:1226" concept_b="CIEL:121629" drugname="PIL symptomatique" id="pil_symptomatique" color="#FFFFFF"/>
+							<render concept="CIEL:5337" concept_b="CIEL:5337" drugname="Pneumonie bactérienne chronique grave" id="pneumonie" color="#D8D8D8"/>
+							<render concept="CIEL:1226" concept_b="CIEL:121629" drugname="Tuberculose ganglionnaire" id="tuberculose_gang" color="#FFFFFF"/>
+						</repeat>
+						<tr><td colspan="2"></td><td><i>Si actif, complétez la section Tuberculose</i></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5328" drugname="Tuberculose pulmonaire" id="tuberculose_pul" color="#D8D8D8"/>
+						</repeat>
+						<tr><td colspan="2"></td><td><i>Si actif, complétez la section Tuberculose</i></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5328" drugname="Tuberculose multirésistante" id="tuberculose_mul" color="#D8D8D8"/>
+						</repeat>
+						<tr><td colspan="2"></td><td><i>Si actif, complétez la section Tuberculose</i></td></tr>
+						<tr><td colspan="2"></td><td><b>Stade clinique de l'OMS IV</b></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5328" drugname="Amaigrissement, malnutrition grave" id="amaigrissement" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Candidose oesophagienne" id="oesophagienne" color="#D8D8D8"/>
+						</repeat>
+					</table>
+				</td>
+				<td width="50%" height="100%" valign="TOP" style="border-left:1px solid">
+					<table width="100%">
+						<tr style="outline: thin solid">
+							<th width="35%" class="tg-5cem">Actif (Date de début de la condition)</th>
+							<th width="35%" class="tg-5cem">Guéri (Date de début de la condition)</th>
+							<th width="30%" class="tg-5cem">Diagnostic</th>
+						</tr>
+						<tr><td colspan="2"></td><td><b>Stade clinique de l'OMS IV</b></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5328" drugname="Cardiomyopathie symptomatique associée au VIH" id="cardiomyopathie" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Cryptococcose extrapulmonaire (y compris méningite)" id="cryptococcose" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Cryptosporidiose chronique" id="cryptosporidiose" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Encéphalopathie à VIH" id="encephalopathie" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Infection bactérienne grave récidivante" id="cryptosporidiose" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Infection herpétique chronique" id="herpetique" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Isosporidiose chronique" id="isosporidiose" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Leucoencéphalopathie multifocale progressive (LMP)" id="leucoencephalopathie" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Lymphome cérébral ou lymphome B non hodgkinien" id="lymphome_cer" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Mycobactériose disséminée, autre que la tuberculose" id="mycobacteriose" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Mycose disséminée (coccidioïdomycose, histoplasmose, pénicilliose)" id="mycose_diss" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Néphropathie symptomatique associée au VIH" id="nephropathie_symp" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Pneumonie à Pneumocystis cariniï (PCP)" id="pneumonie_car" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Rétinite causée par le CMV" id="retinite_cmv" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Sarcome de Kaposi" id="sarcome_kaposi" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Septicémie sévère" id="septicemie_sev" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Toxoplasmose du SNC (cérébrale)" id="toxoplasmose_snv" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Tuberculose extrapulmonaire / disséminée" id="tuberculose_extra" color="#FFFFFF"/>
+						</repeat>
+						<tr><td colspan="2"></td><td><i>Si actif, complétez la section Tuberculose</i></td></tr>
+						<tr><td colspan="2"></td><td><b>Autres Diagnostics</b></td></tr>
+						<repeat>
+							<template>
+								<tr bgcolor="{color}">
+									<td><obs conceptId="CIEL:6042" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td><obs conceptId="CIEL:6097" answerConceptId="{concept}" showDate="true" answerLabel=""/></td>
+									<td>{drugname}</td>
+								</tr>
+							</template>
+							<render concept="CIEL:5328" drugname="Amygdalites" id="amygdalites" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Drépanocytose" id="drepanocytose" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Gastro-entérite" id="gastro_ent" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Malaria, suspecté" id="malaria_susp" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Malaria" id="malaria" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Malaria, grave" id="malaria_grave" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Otite aiguë" id="otite" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Rougeole" id="rougeole" color="#FFFFFF"/>
+							<render concept="CIEL:5328" drugname="Thrombocytopénie" id="thrombocytopenie" color="#D8D8D8"/>
+							<render concept="CIEL:5328" drugname="Syphilis" id="syphilis" color="#FFFFFF"/>
+						</repeat>	
+					</table>
+				</td>
+			</tr>
+		</table>
+	</section>
+	<section headerLabel="COMMENTAIRES">
+		<obs conceptId="CIEL:163322" rows="5" cols="90"/> 
+	</section>
+	<section headerLabel="ARV: TRAITEMENTS PRÉCÉDENTS">
+		<table>
+	<tr>
+	<td>
+	Est-ce que le patient a déjà utilisé des ARV ? <obs conceptId="CIEL:160117" answerConceptId="CIEL:160119" answerLabel=""/>
+	
+	</td>
+	<td>
+	<br/>
+   &#32;&#32;&#32;&#32;<b>CODES</b> :  <span style="border-left:10px"><b>Tox</b>=Toxicité &#32;&#32;&#32;&#32;  <b>Intol</b>=Intolérance  &#32;&#32; <b>Ech</b>=Échec au traitement  &#32;&#32; <b>Fin PTME</b>=Fin du traitement PTME</span>
+   </td>
+   </tr>
+   </table>
+   <table width="100%">
+	<tr width="100%">
+	   <td width="100%" colspan="5" style="border-top:1px solid">
+	   </td>
+    </tr>
+	<tr>	
+		<th></th><th>Début</th><th>Arrêt</th><th>Utilisation <br/> courante</th><th colspan="5">Arrêt : raison</th>
+		
+	</tr>
+	<tr width="100%">
+	   <td width="100%" colspan="5" style="border-top:1px solid">
+	   </td>
+    </tr>
+	<tr>
+		<th>(-) INTIs</th><th></th><th></th><th></th><th>Tox</th><th>Intol</th><th>Ech</th><th>Proph</th><th>Inconnu</th>
+	</tr>
+		<repeat>
+		<template>
+			<obsgroup groupingConceptId="160741">
+			<tr bgcolor="{color}" class="checkboxGroup">
+				<td>{drugname}<span class="arv1_div" style="display: none"><span id="trigger"><obs conceptId="CIEL:1282" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span>
+				<obs conceptId="CIEL:160742" id="{id}_hiv" answerConceptId="CIEL:138405" defaultValue="CIEL:138405" /></span>
+							</td>
+							<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+							<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+							<td><span id="disabled3"><obs conceptId="CIEL:159367" id="{id}_current" answerConceptId="CIEL:1065" answerLabel=""/></span></td>
+							<td><span id="disabled4"><obs conceptId="CIEL:6098" id="{id}_tox" answerConceptId="CIEL:102" answerLabel=""/></span></td>
+							<td><span id="disabled5"><obs conceptId="CIEL:6098" id="{id}_intol" answerConceptId="CIEL:987" answerLabel=""/></span></td>
+							<td><span id="disabled6"><obs conceptId="CIEL:6098" id="{id}_ech" answerConceptId="CIEL:843" answerLabel=""/></span></td>
+							
+							<td><span id="disabled8"><obs conceptId="CIEL:6098" id="{id}_fin" answerConceptId="CIEL:1253" answerLabel=""/></span></td>
+					        <td><span id="disabled7"><obs conceptId="CIEL:6098" id="{id}_inc" answerConceptId="CIEL:1067" answerLabel=""/></span></td>
+			</tr>
+			</obsgroup>
+			</template>
+			<render concept="CIEL:70056" drugname="Abacavir (ABC)" id="abacavir" color="#D8D8D8"/>
+			<render concept="CIEL:630" drugname="Combivir (AZT+3TC)" id="combivir" color="#FFFFFF"/>
+			<render concept="CIEL:74807" drugname="Didanosine (ddI)" id="didanosine" color="#D8D8D8"/>
+			<render concept="CIEL:75628" drugname="Emtricitabine (FTC)" id="emtricitabine" color="#FFFFFF"/>
+			<render concept="CIEL:78643" drugname="Lamivudine (3TC)" id="lamivudine" color="#D8D8D8"/>
+			<render concept="CIEL:84309" drugname="Stavudine (d4T)" id="stavudine" color="#FFFFFF"/>
+			<render concept="CIEL:84795" drugname="Tenofovir (TNF)" id="tenofovir" color="#D8D8D8"/>
+			<render concept="CIEL:817" drugname="Trizivir (ABC+AZT+3TC)" id="trizivir" color="#FFFFFF"/>
+			<render concept="CIEL:86663" drugname="Zidovudine (AZT)" id="zidovudine" color="#D8D8D8"/>
+		</repeat>
+	<tr>
+		<td><b>(-) INNTIs</b></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+<repeat>
+<template>
+	<obsgroup groupingConceptId="160741">
+	<tr bgcolor="{color}" class="checkboxGroup"><!-- Attente d'un concept group -->
+		
+					<td>{drugname}<span class="arv1_div" style="display: none"><span id="trigger"><obs conceptId="CIEL:1282" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span>
+					<obs conceptId="CIEL:160742" id="{id}_hiv" answerConceptId="CIEL:138405" defaultValue="CIEL:138405" /></span>
+					</td>
+					<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+							<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+							<td><span id="disabled3"><obs conceptId="CIEL:159367" id="{id}_current" answerConceptId="CIEL:1065" answerLabel=""/></span></td>
+							<td><span id="disabled4"><obs conceptId="CIEL:6098" id="{id}_tox" answerConceptId="CIEL:102" answerLabel=""/></span></td>
+							<td><span id="disabled5"><obs conceptId="CIEL:6098" id="{id}_intol" answerConceptId="CIEL:987" answerLabel=""/></span></td>
+							<td><span id="disabled6"><obs conceptId="CIEL:6098" id="{id}_ech" answerConceptId="CIEL:843" answerLabel=""/></span></td>
+							<td><span id="disabled8"><obs conceptId="CIEL:6098" id="{id}_fin" answerConceptId="CIEL:1253" answerLabel=""/></span></td>
+							<td><span id="disabled7"><obs conceptId="CIEL:6098" id="{id}_inc" answerConceptId="CIEL:1067" answerLabel=""/></span></td>
+	</tr>
+	</obsgroup>
+</template>
+<render concept="CIEL:75523" drugname="Efavirenz (EFV)" id="efavirenz" color="#FFFFFF"/>
+<render concept="CIEL:80586" drugname="Nevirapine (NVP)" id="nevirapine" color="#D8D8D8"/>
+</repeat>
+	<tr bgcolor="#FFFFFF">
+		<td><b>(-) IPs</b></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<repeat>
+		<template>
+			<obsgroup groupingConceptId="160741">
+				<tr bgcolor="{color}" class="checkboxGroup"><!-- Attente d'un concept group -->
+					<td>{drugname}<span class="arv1_div" style="display: none"><span id="trigger"><obs conceptId="CIEL:1282" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/></span>
+					<obs conceptId="CIEL:160742" id="{id}_hiv" answerConceptId="CIEL:138405" defaultValue="CIEL:138405" /></span>
+					</td>
+					<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+							<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+							<td><span id="disabled3"><obs conceptId="CIEL:159367" id="{id}_current" answerConceptId="CIEL:1065" answerLabel=""/></span></td>
+							<td><span id="disabled4"><obs conceptId="CIEL:6098" id="{id}_tox" answerConceptId="CIEL:102" answerLabel=""/></span></td>
+							<td><span id="disabled5"><obs conceptId="CIEL:6098" id="{id}_intol" answerConceptId="CIEL:987" answerLabel=""/></span></td>
+							<td><span id="disabled6"><obs conceptId="CIEL:6098" id="{id}_ech" answerConceptId="CIEL:843" answerLabel=""/></span></td>
+							<td><span id="disabled8"><obs conceptId="CIEL:6098" id="{id}_fin" answerConceptId="CIEL:1253" answerLabel=""/></span></td>
+							<td><span id="disabled7"><obs conceptId="CIEL:6098" id="{id}_inc" answerConceptId="CIEL:1067" answerLabel=""/></span></td>
+							
+				</tr>
+			</obsgroup>
+		</template>
+		<render concept="CIEL:71647" drugname="Atazanavir (ATZN)" id="atazanavir" color="#D8D8D8"/>
+		<render concept="CIEL:159809" drugname="Atazanavir+BostRTV" id="atazanavir_bost" color="#FFFFFF"/>
+		<render concept="CIEL:77995" drugname="Indinavir (IDV)" id="indinavir" color="#D8D8D8"/>
+		<!--<render concept="77995" drugname="Indinavir+BostRTV" id="indinavir_bost" color="#FFFFFF"/>--> <!-- Verification Important -->
+		<render concept="CIEL:794" drugname="Lopinavir+BostRTV (Kaletra)" id="lopinavir_bost" color="#FFFFFF"/>
+	</repeat>
+	
+	<repeat>
+		<template>
+			<obsgroup groupingConceptId="160741">
+				<tr bgcolor="{color}" class="checkboxGroup"><!-- Attente d'un concept group defaultValue="{concept}"-->
+					<td>{drugname}&lt;br&gt;<obs conceptId="CIEL:1282" id="{id}" answerLabel=""  style="autocomplete" answerClasses="Drug"/>
+					<span class="arv1_div" style="display: none"><obs conceptId="CIEL:160742" id="{id}_hiv" answerConceptId="CIEL:138405" defaultValue="CIEL:138405" /></span>
+					</td>
+					<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+							<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+							<td><span id="disabled3"><obs conceptId="CIEL:159367" id="{id}_current" answerConceptId="CIEL:1065" answerLabel=""/></span></td>
+							<td><span id="disabled4"><obs conceptId="CIEL:6098" id="{id}_tox" answerConceptId="CIEL:102" answerLabel=""/></span></td>
+							<td><span id="disabled5"><obs conceptId="CIEL:6098" id="{id}_intol" answerConceptId="CIEL:987" answerLabel=""/></span></td>
+							<td><span id="disabled6"><obs conceptId="CIEL:6098" id="{id}_ech" answerConceptId="CIEL:843" answerLabel=""/></span></td>
+							
+							<td><span id="disabled8"><obs conceptId="CIEL:6098" id="{id}_fin" answerConceptId="CIEL:1253" answerLabel=""/></span></td>
+				        <td><span id="disabled7"><obs conceptId="CIEL:6098" id="{id}_inc" answerConceptId="CIEL:1067" answerLabel=""/></span></td>
+				</tr>
+			</obsgroup>
+		</template>
+		<render concept="CIEL:5424" drugname="Autre ARV, préciser" id="autre_arv_a" color="#D8D8D8"/>
+	</repeat>
+   </table>
+	</section>
+	<section headerLabel="REMARQUES">
+	<obs conceptId="CIEL:163322" rows="5" cols="70"/>
+	</section>
+	<section headerLabel="AUTRES TRAITEMENTS ANTÉRIEURES">
+	<table width="100%">
+		<tr>
+		<td valign="TOP">
+			<table width="100%">
+				<tr>
+					<th>Traitements</th>
+					<th>Début</th>
+					<th>Arrêt</th>
+					<th>Utilisation <br/>courante</th>
+				</tr>
+				<tr width="100%">
+					<td width="100%" colspan="5" style="border-top:1px solid">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">Médicaments Anti-TB Si oui, entrez des informations dans la section Tuberculose 
+					<span class="arv1_div" style="display: none"><obs conceptId="CIEL:160742" answerConceptId="CIEL:42" answerLabel=""/></span><br/></td><!-- Important A verifier -->
+				</tr>
+				<repeat>
+					<template>
+						<obsgroup groupingConceptId="160741">
+							<tr bgcolor="{color}" class="checkboxGroup"><!-- Attente d'un concept group -->
+								<td>{drugname}<span class="arv1_div" style="display: none">
+								<obs conceptId="CIEL:1282" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/>
+								</span>
+								</td>
+								<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+								<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+								<td><obs conceptId="CIEL:1282" id="{id}_current" answerConceptId="CIEL:159367" answerLabel=""/></td>	
+							</tr>
+						</obsgroup>
+					</template>
+					<render concept="CIEL:75948" drugname="Ethambutol" id="ethambutol" color="#D8D8D8"/>
+					<render concept="CIEL:78280" drugname="Isoniazide (INH)" id="isoniazide" color="#FFFFFF"/>
+					<render concept="CIEL:82900" drugname="Pyrazinamide" id="pyrazinamide" color="#D8D8D8"/>
+					<render concept="CIEL:767" drugname="Rifampicine" id="rifampicine" color="#FFFFFF"/>
+					<render concept="CIEL:84360" drugname="Streptomycine" id="streptomycine" color="#D8D8D8"/>
+				</repeat>
+				<tr>
+					<td colspan="4"><b>Autres traitements</b>
+					<!--<span class="arv1_div" style="display: none">
+					<obs conceptId="CIEL:160742" id="autreTraitement" answerConceptId="CIEL:5622" defaultValue="5622" answerLabel=""/>
+					</span>--></td>
+				</tr>
+				<repeat>
+				<template>
+				<obsgroup groupingConceptId="160741">
+				<tr bgcolor="{color}" class="checkboxGroup"><!-- Attente d'un concept group -->
+					<td>{drugname}<span class="arv1_div" style="display: none">
+					<obs conceptId="CIEL:1282" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/>
+					</span>
+					</td>
+					<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+					<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+					<td><obs conceptId="CIEL:1282" id="{id}_current" answerConceptId="CIEL:159367" answerLabel=""/></td>
+				</tr>
+				</obsgroup>
+				</template>
+				<render concept="CIEL:70245" drugname="Acyclovir" id="acyclovir" color="#D8D8D8"/>
+				<render concept="CIEL:105281" drugname="Cotrimoxazole (TMS)" id="cotrimoxazole" color="#FFFFFF"/>
+				<render concept="CIEL:76488" drugname="Fluconazole" id="fluconazole" color="#D8D8D8"/>
+				<render concept="CIEL:78476" drugname="Ketaconazole" id="ketaconazole" color="#FFFFFF"/>
+				<render concept="CIEL:5841" drugname="Traitement traditionnelle" id="traitement_trad" color="#D8D8D8"/> 
+				</repeat>
+	
+				<repeat>
+					<template>
+						<obsgroup groupingConceptId="160741">
+							<tr bgcolor="{color}" class="checkboxGroup">
+								<td>{drugname}<span class="arv1_div" style="display: none">
+								<obs conceptId="CIEL:1282" id="{id}" answerConceptId="{concept}" defaultValue="{concept}" answerLabel="{drugname}"/>
+								</span>
+								<obs conceptId="CIEL:160632" answerLabel=""/>
+								</td>
+								<td><obs conceptId="CIEL:1190" id="{id}_start"/></td>
+								<td><obs conceptId="CIEL:1191" id="{id}_end"/></td>
+								<td><obs conceptId="CIEL:1282" id="{id}_current" answerConceptId="CIEL:159367" answerLabel=""/></td>
+							</tr>
+						</obsgroup>
+					</template>
+					<render concept="CIEL:5622" drugname="Autres, préciser :" id="autres_traitement_arv" color="#FFFFFF"/>
+				</repeat>
+			</table>	
+		</td>
+		<td style="padding-left:2%" valign="TOP">
+		<br/>
+			<b>Commentaire</b><br/><br/>
+			<obs conceptId="CIEL:163323" rows="17" cols="35"/> <!-- New concept added (TB Treatment comment) -->
+		</td>
+	</tr>
+	</table>
+	</section>
+	<section headerLabel="ÉLIGIBILITÉ MÉDICALE AUX ARV">
+		<table width="100%">
+				<tr class="checkboxGroup">
+					<td valign="TOP" style="padding-left:1px">
+						<b>Stade OMS actuel</b><br/>
+						Sélectionner le stade le plus avance selon les symptômes et le diagnostic<br/>
+						
+						&#160;<obs conceptId="CIEL:5356" answerConceptIds="CIEL:1204,CIEL:1205,CIEL:1206,CIEL:1207" answerLabels="Stade I (Asymptomatique)&lt;br&#47;&gt;,Stade II (Symptomatique)&lt;br&#47;&gt;,Stade III (Symptomatique)&lt;br&#47;&gt;,Stade IV (Symptomatique)" style="radio"/><br/>
+						<br/>
+						Éligibilité médicale aux ARV <br/>
+						<span id="eligibilite_arv">&#160;<obs conceptId="CIEL:162703" id="eligibilite_ar" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Oui, préciser dans la section Raison d'éligibilité médicale aux ARV&lt;br&#47;&gt;,Non - pas d'éligibilité médicale aujourd'hui&lt;br&#47;&gt;,À déterminer" style="radio"/></span><br/>
+					</td>
+					<!--<td width="50%" style="padding-left: 10%"> -->
+					<td>
+						<b>Raison d'éligibilité médicale aux ARV</b><br/>
+						Cocher le ou les cas ci-dessous<br/>
+						
+							<span id="disabled1">
+								<obs conceptId="CIEL:162225" answerConceptId="CIEL:730" answerLabel="Pourcentage de cd4 &lt; 25%" style="checkbox"/><br/>
+								<obs conceptId="CIEL:162225" answerConceptId="CIEL:163326" answerLabel="OMS Stade III" style="checkbox"/> <!--valeur ajoutee--><br/>
+								<obs conceptId="CIEL:162225" answerConceptId="CIEL:1207" answerLabel="OMS Stade IV" style="checkbox"/><br/>
+								<obs conceptId="CIEL:162225" answerConceptId="CIEL:160538" answerLabel="PTME" style="checkbox"/><br/>
+								<obs conceptId="CIEL:162225" answerConceptId="CIEL:163327" answerLabel="Éligibilité médicale établie à la visite antérieure" style="checkbox"/> <!--valeur ajoutee--><br/>
+								<obs conceptId="CIEL:162225" answerConceptId="CIEL:1087" answerLabel="ARV trithérapie antérieure" style="checkbox"/><br/>
+							</span>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:163328" answerLabel="Enfant avec âge &#62; 5 ans"/><!-- New concept added --><br/>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:163324" answerLabel="Coinfection TB/HIV"/> <!-- New concept added--><br/>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:163325" answerLabel="Coinfection HBV/HIV"/><!-- New concept added--><br/>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:1434" answerLabel="Femme enceinte (Grossesse)"/> <br/>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:5632" answerLabel="Femme allaitante"/> <br/>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:153701" answerLabel="Néphropathie à VIH"/> <br/>
+						<obs conceptId="CIEL:162225" answerConceptId="CIEL:163329" answerLabel="Protocole Test et Traitement"/><!-- New Concept added --><br/>
+						Se référer aux directives nationales sur les critères cliniques et immunologiques d'éligibilité médicale.
+					</td>
+				</tr>
+			</table>
+	</section>
+	<section headerLabel="ÉVALUATION ET PLAN">
+		Utiliser la section Antécédents Médicaux pour indiquer tous les diagnostics. Utiliser la fiche Ordonnance Médicale pour prescrire les médicaments, et la fiche d'Analyses de Laboratoire pour prescrire les analyses de laboratoire.<br/>
+		<obs conceptId="CIEL:159395" rows="10" cols="80"/>
+	</section>
+	Analyses de laboratoire nécessaires<br/>
+	Ordonnance Médicale<br/>
+	Intervalle recommandé pour la prochaine visite clinique
+	<br/>
+	<br/>
+	<br/>
+	Date de prochaine visite     <obs conceptId="CIEL:5096"/><br/>
+	<br/><br/>
+	Nom d'auteur de la fiche :<encounterProviderAndRole encounterRole="2" autocompleteProvider="true" providerMatchMode="ANYWHERE"/>
+	<br/><br/>
+	Statut de la fiche<br/>
+	&#160;<obs conceptId="CIEL:163340" answerConceptIds="CIEL:163339,CIEL:1267" answerLabels="Incomplète. A mettre à jour ultérieurement.&lt;br&#47;&gt;, Complète." defaultValue="CIEL:1267" style="radio"/>
+	<br/>
+	&#160;<obs conceptId="CIEL:163341" answerConceptId="CIEL:1065" answerLabel="La fiche doit être passée en revue par la personne responsable de la qualité des données."/> <br/><br/>
+	
+	<submit/>
+</htmlform> 	
