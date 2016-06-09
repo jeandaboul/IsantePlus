@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.calculation.patient.PatientCalculationServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.832 sec
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.044 sec

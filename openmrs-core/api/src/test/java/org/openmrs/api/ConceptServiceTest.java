@@ -63,7 +63,6 @@ import org.openmrs.ConceptSet;
 import org.openmrs.ConceptSource;
 import org.openmrs.ConceptStopWord;
 import org.openmrs.Drug;
-import org.openmrs.DrugIngredient;
 import org.openmrs.Encounter;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
@@ -859,26 +858,6 @@ public class ConceptServiceTest extends BaseContextSensitiveTest {
 	@Verifies(value = "should return null if no object found with given uuid", method = "getDrugByUuid(String)")
 	public void getDrugByUuid_shouldReturnNullIfNoObjectFoundWithGivenUuid() throws Exception {
 		Assert.assertNull(Context.getConceptService().getDrugByUuid("some invalid uuid"));
-	}
-	
-	/**
-	 * @see {@link ConceptService#getDrugIngredientByUuid(String)}
-	 */
-	@Test
-	@Verifies(value = "should find object given valid uuid", method = "getDrugIngredientByUuid(String)")
-	public void getDrugIngredientByUuid_shouldFindObjectGivenValidUuid() throws Exception {
-		String uuid = "6519d653-393d-4118-9c83-a3715b82d4dc";
-		DrugIngredient ingredient = Context.getConceptService().getDrugIngredientByUuid(uuid);
-		Assert.assertEquals(88, (int) ingredient.getIngredient().getConceptId());
-	}
-	
-	/**
-	 * @see {@link ConceptService#getDrugIngredientByUuid(String)}
-	 */
-	@Test
-	@Verifies(value = "should return null if no object found with given uuid", method = "getDrugIngredientByUuid(String)")
-	public void getDrugIngredientByUuid_shouldReturnNullIfNoObjectFoundWithGivenUuid() throws Exception {
-		Assert.assertNull(Context.getConceptService().getDrugIngredientByUuid("some invalid uuid"));
 	}
 	
 	@Test
@@ -1728,18 +1707,6 @@ public class ConceptServiceTest extends BaseContextSensitiveTest {
 		//trust is included in 2 names for conceptid=3000 and in one name for conceptid=4000.
 		//So we should see 2 results only
 		Assert.assertEquals(2, searchResults.size());
-	}
-	
-	@Test
-	@Verifies(value = "should return concept search results that match unique concepts", method = "getConcepts(String,List<Locale>,null,List<ConceptClass>,List<ConceptClass>,List<ConceptDatatype>,List<ConceptDatatype>,Concept,Integer,Integer)")
-	public void getConcepts_shouldReturnConceptSearchResultsThatMatchUniqueConceptsEvenIfDifferentMatchingWords()
-	        throws Exception {
-		executeDataSet("org/openmrs/api/include/ConceptServiceTest-names.xml");
-		List<ConceptSearchResult> searchResults = conceptService.getConcepts("now", Collections
-		        .singletonList(Locale.ENGLISH), false, null, null, null, null, null, null, null);
-		// "now matches both concept names "TRUST NOW" and "TRUST NOWHERE", but these are for the same concept (4000), so there should only be one item in the result set
-		Assert.assertEquals(1, searchResults.size());
-		Assert.assertEquals(new Integer(4000), searchResults.get(0).getConcept().getId());
 	}
 	
 	/**

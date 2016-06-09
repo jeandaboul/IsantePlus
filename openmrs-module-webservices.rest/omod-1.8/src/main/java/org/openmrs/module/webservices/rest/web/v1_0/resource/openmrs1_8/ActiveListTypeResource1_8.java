@@ -17,9 +17,7 @@ import org.openmrs.activelist.ActiveListType;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
-import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource;
-import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
 import org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
@@ -30,15 +28,6 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
  */
 @Resource(name = RestConstants.VERSION_1 + "/activelisttype", supportedClass = ActiveListType.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
 public class ActiveListTypeResource1_8 extends MetadataDelegatingCrudResource<ActiveListType> {
-	
-	/**
-	 * @see DelegatingCrudResource#getRepresentationDescription(Representation)
-	 */
-	@Override
-	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
-		//Let the superclass handle this
-		return null;
-	}
 	
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
@@ -53,7 +42,7 @@ public class ActiveListTypeResource1_8 extends MetadataDelegatingCrudResource<Ac
 	 */
 	@Override
 	public ActiveListType save(ActiveListType activeListType) {
-		return null;
+		throw new ResourceDoesNotSupportOperationException();
 	}
 	
 	/**
@@ -61,7 +50,7 @@ public class ActiveListTypeResource1_8 extends MetadataDelegatingCrudResource<Ac
 	 */
 	@Override
 	public ActiveListType getByUniqueId(String uuid) {
-		return null;
+		throw new ResourceDoesNotSupportOperationException();
 	}
 	
 	/**
@@ -78,6 +67,6 @@ public class ActiveListTypeResource1_8 extends MetadataDelegatingCrudResource<Ac
 	 */
 	@Override
 	protected NeedsPaging<ActiveListType> doGetAll(RequestContext context) {
-		return null;
+		throw new ResourceDoesNotSupportOperationException();
 	}
 }

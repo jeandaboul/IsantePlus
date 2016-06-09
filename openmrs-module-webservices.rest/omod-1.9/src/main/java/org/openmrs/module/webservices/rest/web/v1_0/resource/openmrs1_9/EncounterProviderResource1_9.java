@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * {@link org.openmrs.module.webservices.rest.web.annotation.Resource} for EncounterProvider, supporting standard CRUD operations
  */
-@SubResource(path = "encounterprovider", parent = EncounterResource1_9.class, supportedClass = EncounterProvider.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@SubResource(path = "encounterprovider", parent = EncounterResource1_9.class, supportedClass = EncounterProvider.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class EncounterProviderResource1_9 extends DelegatingSubResource<EncounterProvider, Encounter, EncounterResource1_9> {
 
     @Override
@@ -46,7 +46,7 @@ public class EncounterProviderResource1_9 extends DelegatingSubResource<Encounte
             description.addProperty("provider", Representation.DEFAULT);
             description.addProperty("encounterRole", Representation.DEFAULT);
             description.addProperty("voided");
-            description.addProperty("auditInfo", findMethod("getAuditInfo"));
+            description.addProperty("auditInfo");
             description.addSelfLink();
             return description;
         }

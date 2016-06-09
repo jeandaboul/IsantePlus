@@ -40,7 +40,7 @@ import org.openmrs.util.OpenmrsClassLoader;
 /**
  * {@link Resource} for PersonAttributes, supporting standard CRUD operations
  */
-@SubResource(parent = PersonResource1_8.class, path = "attribute", supportedClass = PersonAttribute.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@SubResource(parent = PersonResource1_8.class, path = "attribute", supportedClass = PersonAttribute.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttribute, Person, PersonResource1_8> {
 
 	/**
@@ -65,7 +65,7 @@ public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttr
 			description.addProperty("value");
 			description.addProperty("attributeType", Representation.REF);
 			description.addProperty("voided");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addProperty("hydratedObject");
 			description.addSelfLink();
 			return description;
@@ -73,6 +73,7 @@ public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttr
 		return null;
 	}
 
+	@Override
 	public DelegatingResourceDescription getCreatableProperties() {
 		DelegatingResourceDescription description = new DelegatingResourceDescription();
 		description.addProperty("value");

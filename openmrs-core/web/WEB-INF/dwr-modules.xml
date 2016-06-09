@@ -3,7 +3,4 @@
 <allow moduleId="mymodule">
 <create/>
 </allow>
-<allow moduleId="mymodule">
-<create/>
-</allow>
 </dwr>

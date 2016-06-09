@@ -30,7 +30,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
@@ -53,6 +52,31 @@ public class ConversionUtilTest extends BaseModuleWebContextSensitiveTest {
 		for (int i = 0; i < dateFormats.length; i++) {
 			Date result = (Date) ConversionUtil.convert(dateFormats[i], Date.class);
 			Assert.assertEquals(result, expected);
+		}
+	}
+	
+	/**
+	 * @see ConversionUtil#convert(Object,Type)
+	 * @verifies String to Date conversion for multiple formatted date/dateTime strings having
+	 *           timezone
+	 */
+	@Test
+	public void convert_shouldReturnCorrectDateWhenParsingStringHavingTimeZone() throws Exception {
+		Date expectedDate1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse("2016-01-12T06:00:00+0530");
+		//Added to check against more ISO8601 format dates im 'dates2' array
+		Date expectedDate2 = (Date) ConversionUtil.convert("2014-02-20T11:00:00.000-0500", Date.class);
+		
+		String[] dates1 = { "2016-01-12T06:00:00+05:30", "2016-01-12T06:00:00+0530" };
+		String[] dates2 = { "2014-02-20T11:00:00.000-05:00", "2014-02-20T11:00:00.000-05" };
+		
+		for (String date : dates1) {
+			Date actualDate = (Date) ConversionUtil.convert(date, Date.class);
+			Assert.assertEquals(expectedDate1, actualDate);
+		}
+		
+		for (String date : dates2) {
+			Date actualDate = (Date) ConversionUtil.convert(date, Date.class);
+			Assert.assertEquals(expectedDate2, actualDate);
 		}
 	}
 	

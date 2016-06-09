@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 /**
  * {@link Resource} for {@link ConceptSource}, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/conceptsource", supportedClass = ConceptSource.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/conceptsource", supportedClass = ConceptSource.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class ConceptSourceResource1_8 extends MetadataDelegatingCrudResource<ConceptSource> {
 	
 	/**
@@ -61,7 +61,7 @@ public class ConceptSourceResource1_8 extends MetadataDelegatingCrudResource<Con
 			description.addProperty("description");
 			description.addProperty("hl7Code");
 			description.addProperty("retired");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.metadatasharing.downloader.impl.HTTPDownloaderTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.779 sec
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 1.583 sec

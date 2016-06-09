@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>reporting</artifactId>
-	<version>0.9.8.1</version>
+	<version>0.9.6</version>
 	<packaging>pom</packaging>
 	<name>Reporting</name>
 	<description>Parent project for Reporting</description>
@@ -14,7 +14,7 @@
 		<connection>scm:git:git@github.com:openmrs/openmrs-module-reporting.git</connection>
 		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-reporting.git</developerConnection>
 		<url>https://github.com/openmrs/openmrs-module-reporting/</url>
-        <tag>0.9.8.1</tag>
+        <tag>0.9.6</tag>
     </scm>
 	
 	<distributionManagement>
@@ -43,14 +43,14 @@
 		<calculationVersion>1.1</calculationVersion>
 		<jacksonVersion>1.5.0</jacksonVersion>
 		<quartzVersion>2.1.1</quartzVersion>
-		<poiVersion>3.12</poiVersion>
+		<poiVersion>3.9</poiVersion>
 		<groovyVersion>1.8.7</groovyVersion>
         <jodatimeVersion>2.3</jodatimeVersion>
         <handlebarsVersion>1.1.2</handlebarsVersion>
         <openmrsTestutilsVersion>1.2</openmrsTestutilsVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<MODULE_ID>${project.parent.artifactId}</MODULE_ID>
-		<MODULE_NAME>Reporting</MODULE_NAME>
+		<MODULE_NAME>${project.parent.name}</MODULE_NAME>
 		<MODULE_VERSION>${project.parent.version}</MODULE_VERSION>
 		<MODULE_PACKAGE>${project.parent.groupId}.${project.parent.artifactId}</MODULE_PACKAGE>
 	</properties>
@@ -246,14 +246,6 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>${poiVersion}</version>
 			<exclusions>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>stax</groupId>
-                    <artifactId>stax-api</artifactId>
-                </exclusion>
 				<exclusion>
 					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
@@ -355,7 +347,7 @@
 					<version>2.5</version>
 					<configuration>
 						<!-- Some tests are locale specific -->
-                        <argLine>-Xmx1024m -Xms1024m -XX:MaxPermSize=512m -Duser.language=en -Duser.region=US</argLine>
+						<argLine>-Duser.language=en -Duser.region=US</argLine>
 						<!-- Bamboo agents require a different tmp folder -->
 						<systemPropertyVariables>
 							<java.io.tmpdir>${java.io.tmpdir}</java.io.tmpdir>

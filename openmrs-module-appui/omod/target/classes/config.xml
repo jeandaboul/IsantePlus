@@ -5,7 +5,7 @@
 	<!-- Module Properties -->
 	<id>appui</id>
 	<name>App UI Module</name>
-	<version>1.5.1</version>
+	<version>1.6-SNAPSHOT</version>
 	<package>org.openmrs.module.appui</package>
 	<author>OpenMRS</author>
 	<description>

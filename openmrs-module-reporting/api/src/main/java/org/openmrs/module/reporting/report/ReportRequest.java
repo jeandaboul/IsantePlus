@@ -1,5 +1,9 @@
 package org.openmrs.module.reporting.report;
 
+import java.util.Comparator;
+import java.util.Date;
+import java.util.UUID;
+
 import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
@@ -9,10 +13,6 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.renderer.RenderingMode;
 import org.openmrs.util.OpenmrsUtil;
-
-import java.util.Comparator;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * Represents a request to run and render a report.
@@ -36,7 +36,6 @@ public class ReportRequest extends BaseOpenmrsObject {
 	private Date evaluateStartDatetime;
 	private Date evaluateCompleteDatetime;
 	private Date renderCompleteDatetime;
-    private Integer minimumDaysToPreserve;
 	private String description;
 
 	//*****  CONSTRUCTORS ******
@@ -71,14 +70,10 @@ public class ReportRequest extends BaseOpenmrsObject {
 	 */
 	@Override
 	public String toString() {
-        StringBuilder sb = new StringBuilder("Report Request (" + getUuid() + ")");
-        if (reportDefinition != null && reportDefinition.getParameterizable() != null) {
-            sb.append("for " + reportDefinition.getParameterizable().getName());
-        }
-        if (renderingMode != null && renderingMode.getRenderer() != null) {
-            sb.append(" to " + renderingMode.getRenderer().getClass().getSimpleName());
-        }
-        return sb.toString();
+		StringBuilder sb = new StringBuilder();
+		sb.append(reportDefinition);
+		sb.append(" rendered to " + renderingMode);
+		return sb.toString();
 	}
 
 	/**
@@ -303,21 +298,7 @@ public class ReportRequest extends BaseOpenmrsObject {
 		this.renderCompleteDatetime = renderCompleteDatetime;
 	}
 
-    /**
-     * @return the minimumDaysToPreserve
-     */
-    public Integer getMinimumDaysToPreserve() {
-        return minimumDaysToPreserve;
-    }
-
-    /**
-     * @param minimumDaysToPreserve the minimumDaysToPreserve to set
-     */
-    public void setMinimumDaysToPreserve(Integer minimumDaysToPreserve) {
-        this.minimumDaysToPreserve = minimumDaysToPreserve;
-    }
-
-    /**
+	/**
 	 * @return the description
 	 */
 	public String getDescription() {

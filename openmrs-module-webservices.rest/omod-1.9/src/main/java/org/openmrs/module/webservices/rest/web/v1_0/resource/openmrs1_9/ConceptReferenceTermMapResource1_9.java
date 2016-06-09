@@ -15,8 +15,6 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptReferenceTermMap;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -36,7 +34,7 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 /**
  * {@link Resource} for {@link ConceptReferenceTermMap}, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/conceptreferencetermmap", supportedClass = ConceptReferenceTermMap.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/conceptreferencetermmap", supportedClass = ConceptReferenceTermMap.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class ConceptReferenceTermMapResource1_9 extends DelegatingCrudResource<ConceptReferenceTermMap> {
 	
 	/**
@@ -68,7 +66,7 @@ public class ConceptReferenceTermMapResource1_9 extends DelegatingCrudResource<C
 			description.addProperty("termA", Representation.DEFAULT);
 			description.addProperty("termB", Representation.DEFAULT);
 			description.addProperty("conceptMapType", Representation.DEFAULT);
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}
@@ -104,15 +102,6 @@ public class ConceptReferenceTermMapResource1_9 extends DelegatingCrudResource<C
 		        + conceptReferenceTermMap.getTermA().getCode() + " - "
 		        + conceptReferenceTermMap.getTermB().getConceptSource().getName() + ": "
 		        + conceptReferenceTermMap.getTermB().getCode();
-	}
-	
-	public SimpleObject getAuditInfo(ConceptReferenceTermMap delegate) throws Exception {
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(delegate, "creator", Representation.REF));
-		ret.put("dateCreated", ConversionUtil.convertToRepresentation(delegate.getDateCreated(), Representation.DEFAULT));
-		ret.put("changedBy", ConversionUtil.getPropertyWithRepresentation(delegate, "changedBy", Representation.REF));
-		ret.put("dateChanged", ConversionUtil.convertToRepresentation(delegate.getDateChanged(), Representation.DEFAULT));
-		return ret;
 	}
 	
 	/**

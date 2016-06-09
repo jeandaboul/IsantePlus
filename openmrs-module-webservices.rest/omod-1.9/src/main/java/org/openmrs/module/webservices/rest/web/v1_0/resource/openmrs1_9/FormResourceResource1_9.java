@@ -28,7 +28,7 @@ import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @SubResource(parent= FormResource1_8.class ,path = "resource", supportedClass = FormResource.class,
-        supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+        supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class FormResourceResource1_9 extends DelegatingSubResource<FormResource, Form, FormResource1_8> {
 
     @RepHandler(RefRepresentation.class)
@@ -113,7 +113,8 @@ public class FormResourceResource1_9 extends DelegatingSubResource<FormResource,
         return Context.getFormService().getFormResourceByUuid(uniqueId);
     }
 
-    public DelegatingResourceDescription getCreatableProperties() throws ResourceDoesNotSupportOperationException {
+    @Override
+	public DelegatingResourceDescription getCreatableProperties() throws ResourceDoesNotSupportOperationException {
         DelegatingResourceDescription description = new DelegatingResourceDescription();
         description.addProperty("form");
         description.addProperty("name");

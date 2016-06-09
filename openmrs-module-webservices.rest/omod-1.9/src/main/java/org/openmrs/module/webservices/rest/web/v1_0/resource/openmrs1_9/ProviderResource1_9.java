@@ -36,7 +36,7 @@ import java.util.Set;
 /**
  * {@link Resource} for Provider, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/provider", supportedClass = Provider.class, supportedOpenmrsVersions = { "1.9.*", "1.10.*", "1.11.*", "1.12.*" })
+@Resource(name = RestConstants.VERSION_1 + "/provider", supportedClass = Provider.class, supportedOpenmrsVersions = { "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*" })
 public class ProviderResource1_9 extends MetadataDelegatingCrudResource<Provider> {
 	
 	public ProviderResource1_9() {
@@ -66,7 +66,7 @@ public class ProviderResource1_9 extends MetadataDelegatingCrudResource<Provider
 			description.addProperty("identifier");
 			description.addProperty("attributes", "activeAttributes", Representation.DEFAULT);
 			description.addProperty("retired");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}

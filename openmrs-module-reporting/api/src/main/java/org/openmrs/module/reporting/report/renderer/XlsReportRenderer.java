@@ -36,7 +36,6 @@ public class XlsReportRenderer extends ReportTemplateRenderer {
 	private Log log = LogFactory.getLog(this.getClass());
 
 	public static String INCLUDE_DATASET_NAME_AND_PARAMETERS_PROPERTY = "includeDataSetNameAndParameters";
-    public static String PASSWORD_PROPERTY = "password";
 	
 	public XlsReportRenderer() { }
     
@@ -104,16 +103,8 @@ public class XlsReportRenderer extends ReportTemplateRenderer {
                     }
                 }
             }
-
-			excelBuilder.write(out, getPassword(design));
+			excelBuilder.write(out);
         }
-    }
-
-    /**
-     * @return a password configured for this spreadsheet, or an empty string if none configured
-     */
-    public String getPassword(ReportDesign design) {
-        return design.getPropertyValue(PASSWORD_PROPERTY, "");
     }
 
 	/**

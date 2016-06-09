@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * {@link Resource} for {@link Form}, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/form", supportedClass = Form.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/form", supportedClass = Form.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class FormResource1_8 extends MetadataDelegatingCrudResource<Form> {
 	
 	/**
@@ -51,8 +51,6 @@ public class FormResource1_8 extends MetadataDelegatingCrudResource<Form> {
 			description.addProperty("build");
 			description.addProperty("published");
 			description.addProperty("formFields", Representation.REF);
-			//description.addProperty("xslt");
-			//description.addProperty("template");
 			description.addProperty("retired");
 			description.addSelfLink();
 			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
@@ -71,7 +69,7 @@ public class FormResource1_8 extends MetadataDelegatingCrudResource<Form> {
 			description.addProperty("xslt");
 			description.addProperty("template");
 			description.addProperty("retired");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}

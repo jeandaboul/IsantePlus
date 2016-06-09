@@ -19,7 +19,7 @@ public class StringToDrugOrderConverter implements Converter<String, DrugOrder> 
         if (StringUtils.isBlank(id)) {
             return null;
         } else if (ConversionUtil.onlyDigits(id)) {
-            return (DrugOrder)service.getOrder(Integer.valueOf(id));
+            return service.getOrder(Integer.valueOf(id), DrugOrder.class);
         } else {
             return (DrugOrder) service.getOrderByUuid(id);
         }

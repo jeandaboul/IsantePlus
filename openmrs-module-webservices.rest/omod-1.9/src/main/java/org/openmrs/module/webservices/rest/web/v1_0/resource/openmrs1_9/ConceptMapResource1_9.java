@@ -29,7 +29,7 @@ import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.ConceptR
 /**
  * {@link Resource} for {@link ConceptMap}, supporting standard CRUD operations
  */
-@SubResource(path = "mapping", parent = ConceptResource1_8.class, supportedClass = ConceptMap.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@SubResource(path = "mapping", parent = ConceptResource1_8.class, supportedClass = ConceptMap.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class ConceptMapResource1_9 extends ConceptMapResource1_8 {
 	
 	@Override
@@ -49,7 +49,7 @@ public class ConceptMapResource1_9 extends ConceptMapResource1_8 {
 			description.addProperty("uuid");
 			description.addProperty("conceptReferenceTerm", Representation.DEFAULT);
 			description.addProperty("conceptMapType", Representation.DEFAULT);
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}
@@ -81,6 +81,7 @@ public class ConceptMapResource1_9 extends ConceptMapResource1_8 {
 	 * @param conceptMap the concept map object.
 	 * @return the display string.
 	 */
+	@Override
 	@PropertyGetter("display")
 	public String getDisplayString(ConceptMap conceptMap) {
 		if (conceptMap.getConceptReferenceTerm() == null || conceptMap.getConceptReferenceTerm().getConceptSource() == null) {

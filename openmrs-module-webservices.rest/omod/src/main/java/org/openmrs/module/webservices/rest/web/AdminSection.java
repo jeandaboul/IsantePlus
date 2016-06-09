@@ -19,7 +19,6 @@ import java.util.Map;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.Extension;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
-import org.openmrs.util.OpenmrsConstants;
 
 /**
  * This class defines the links that will appear on the administration page under the
@@ -58,7 +57,8 @@ public class AdminSection extends AdministrationSectionExt {
 		
 		if (Context.hasPrivilege(RestConstants.PRIV_VIEW_RESTWS) || Context.hasPrivilege(RestConstants.PRIV_MANAGE_RESTWS)) {
 			map.put("module/webservices/rest/test.htm", RestConstants.MODULE_ID + ".test");
-			map.put("module/webservices/rest/help.form", RestConstants.MODULE_ID + ".help");
+			map.put("module/webservices/rest/apiDocs.htm", RestConstants.MODULE_ID + ".swaggerDocumentation");
+			
 		}
 		
 		return map;

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.webservices.rest.web.v1_0.controller.openmrs1_8.ObsController1_8Test
 -------------------------------------------------------------------------------
-Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.974 sec
+Tests run: 24, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 1.641 sec

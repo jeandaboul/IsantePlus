@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.openmrs.OpenmrsMetadata;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -38,6 +37,29 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
  * @param <T>
  */
 public abstract class MetadataDelegatingCrudResource<T extends OpenmrsMetadata> extends DelegatingCrudResource<T> {
+	
+	/**
+	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingConverter#getRepresentationDescription(org.openmrs.module.webservices.rest.web.representation.Representation)
+	 */
+	@Override
+	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			DelegatingResourceDescription description = new DelegatingResourceDescription();
+			description.addProperty("uuid");
+			description.addProperty("display");
+			description.addProperty("name");
+			description.addProperty("description");
+			description.addProperty("retired");
+			description.addSelfLink();
+			if (rep instanceof DefaultRepresentation) {
+				description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			} else {
+				description.addProperty("auditInfo");
+			}
+			return description;
+		}
+		return null;
+	}
 	
 	@RepHandler(RefRepresentation.class)
 	public SimpleObject convertToRef(T delegate) throws ConversionException {
@@ -71,24 +93,9 @@ public abstract class MetadataDelegatingCrudResource<T extends OpenmrsMetadata> 
 		rep.addProperty("name");
 		rep.addProperty("description");
 		rep.addProperty("retired");
-		rep.addProperty("auditInfo", findMethod("getAuditInfo"));
+		rep.addProperty("auditInfo");
 		rep.addSelfLink();
 		return convertDelegateToRepresentation(delegate, rep);
-	}
-	
-	public SimpleObject getAuditInfo(T delegate) throws Exception {
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(delegate, "creator", Representation.REF));
-		ret.put("dateCreated", ConversionUtil.convertToRepresentation(delegate.getDateCreated(), Representation.DEFAULT));
-		if (delegate.isRetired()) {
-			ret.put("retiredBy", ConversionUtil.getPropertyWithRepresentation(delegate, "retiredBy", Representation.REF));
-			ret.put("dateRetired", ConversionUtil.convertToRepresentation(delegate.getDateRetired(), Representation.DEFAULT));
-			ret.put("retireReason",
-			    ConversionUtil.convertToRepresentation(delegate.getRetireReason(), Representation.DEFAULT));
-		}
-		ret.put("changedBy", ConversionUtil.getPropertyWithRepresentation(delegate, "changedBy", Representation.REF));
-		ret.put("dateChanged", ConversionUtil.convertToRepresentation(delegate.getDateChanged(), Representation.DEFAULT));
-		return ret;
 	}
 	
 	/**

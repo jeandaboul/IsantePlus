@@ -1,5 +1,6 @@
 package org.openmrs.module.webservices.rest.web.v1_0.controller.openmrs1_9;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -64,7 +65,15 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
      */
     @Override
     public long getAllCount() {
-	    return Context.getEncounterService().getAllEncounters(null).size();
+        Map<Integer, List<Encounter>> allPatientEncounters = Context.getEncounterService().getAllEncounters(null);
+        int totalEncounters = 0;
+        for (Integer integer : allPatientEncounters.keySet()) {
+            List<Encounter> encounters = allPatientEncounters.get(integer);
+            if (encounters != null) {
+                totalEncounters = totalEncounters + encounters.size();
+            }
+        }
+        return totalEncounters;
     }
     
     /**
@@ -77,18 +86,63 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
     }
 	
 	/**
-	 * @see org.openmrs.module.webservices.rest.web.v1_0.controller.EncounterController1_9Test#createEncounter_shouldCreateANewEncounterWithObs()
+	 * @see org.openmrs.module.webservices.rest.web.v1_0.controller.EncounterController1_9Test#createEncounter_shouldCreateEncounterWithObsAttributesUnordered()
 	 */
     @Test
+	public void createEncounter_shouldCreateEncounterWithObsAttributesUnordered() throws Exception {
+		long before = getAllCount();
+
+		List<SimpleObject> obs = new ArrayList<SimpleObject>();
+
+		SimpleObject weight = new SimpleObject();
+		weight.put("value", 70);
+		weight.put("concept", "c607c80f-1ea9-4da3-bb88-6276ce8868dd");
+		obs.add(weight);
+		
+		SimpleObject civilStatus = new SimpleObject();
+		civilStatus.put("value", "92afda7c-78c9-47bd-a841-0de0817027d4");
+		civilStatus.put("concept","89ca642a-dab6-4f20-b712-e12ca4fc6d36" );
+		obs.add(civilStatus);
+		
+		SimpleObject encounter = new SimpleObject();
+		encounter.put("location", "9356400c-a5a2-4532-8f2b-2361b3446eb8");
+		encounter.put("encounterType", "61ae96f4-6afe-4351-b6f8-cd4fc383cce1");
+		encounter.put("encounterDatetime", "2011-01-15");
+		encounter.put("patient", "da7f524f-27ce-4bb2-86d6-6d1d05312bd5");
+		encounter.put("provider", "ba1b19c2-3ed6-4f63-b8c0-f762dc8d7562");
+		encounter.put("obs", obs);
+			
+		MockHttpServletResponse response = handle(newPostRequest(getURI(), encounter));
+		SimpleObject newEncounter = deserialize(response);
+		
+		Assert.assertNotNull(newEncounter);
+		Assert.assertEquals(before + 1, getAllCount());
+
+        List<Map<String, String>> result = (List<Map<String, String>>) newEncounter.get("obs");
+		
+		Assert.assertEquals(2, result.size());
+		Set<String> obsDisplayValues = new HashSet<String>();
+		for (Map<String, String> o : result) {
+			obsDisplayValues.add(o.get("display"));
+		}
+		Assert.assertTrue(obsDisplayValues.contains("CIVIL STATUS: MARRIED"));
+		Assert.assertTrue(obsDisplayValues.contains("WEIGHT (KG): 70.0"));
+		
+	}
+    
+    @Test
 	public void createEncounter_shouldCreateANewEncounterWithObs() throws Exception {
-		int before = Context.getEncounterService().getAllEncounters(null).size();
-		SimpleObject post = createEncounterWithObs();
+		long before = getAllCount();
+        Util.log("before = ", before);
+
+        SimpleObject post = createEncounterWithObs();
 		
 		MockHttpServletResponse response = handle(newPostRequest(getURI(), post));
 		SimpleObject newEncounter = deserialize(response);
 		
 		Assert.assertNotNull(newEncounter);
-		Assert.assertEquals(before + 1, Context.getEncounterService().getAllEncounters(null).size());
+        Util.log("after = ", getAllCount());
+		Assert.assertEquals(before + 1, getAllCount());
 		
 		Util.log("created encounter with obs", newEncounter);
 		@SuppressWarnings("unchecked")
@@ -97,7 +151,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 		Assert.assertEquals(4, obs.size());
 		Set<String> obsDisplayValues = new HashSet<String>();
 		for (Map<String, String> o : obs) {
-			obsDisplayValues.add((String) o.get("display"));
+			obsDisplayValues.add(o.get("display"));
 		}
 		Assert.assertTrue(obsDisplayValues.contains("CIVIL STATUS: MARRIED"));
 		Assert.assertTrue(obsDisplayValues.contains("FAVORITE FOOD, NON-CODED: fried chicken"));
@@ -158,7 +212,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 		String triomuneConceptUuid = "d144d24f-6913-4b63-9660-a9108c2bebef";
 		String triomuneDrugUuid = "3cfcf118-931c-46f7-8ff6-7b876f0d4202";
 		
-		int before = Context.getEncounterService().getAllEncounters(null).size();
+		long before = getAllCount();
 		SimpleObject post = createEncounterWithObs();
 		List<SimpleObject> orders = new ArrayList<SimpleObject>();
 		orders.add(SimpleObject.parseJson("{ \"type\": \"order\", \"concept\": \"" + foodAssistanceUuid
@@ -170,7 +224,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 		SimpleObject newEncounter = deserialize(handle(newPostRequest(getURI(), post)));
 		
 		Assert.assertNotNull(newEncounter);
-		Assert.assertEquals(before + 1, Context.getEncounterService().getAllEncounters(null).size());
+		Assert.assertEquals(before + 1, getAllCount());
 		Util.log("created encounter with obs and orders", newEncounter);
 		
 		@SuppressWarnings("unchecked")
@@ -186,7 +240,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 	
 	@Test
 	public void createEncounter_shouldCreateANewEncounterWithAVisitProperty() throws Exception {
-		int before = Context.getEncounterService().getAllEncounters(null).size();
+		long before = getAllCount();
 		final String visitUuid = "1e5d5d48-6b78-11e0-93c3-18a905e044dc";
 		String json = "{\"visit\":\""
 		        + visitUuid
@@ -199,7 +253,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 		Assert.assertNotNull(newEncounterObject);
 		Encounter newEncounter = Context.getEncounterService().getEncounterByUuid(
                 ((SimpleObject) newEncounterObject).get("uuid").toString());
-		Assert.assertEquals(before + 1, Context.getEncounterService().getAllEncounters(null).size());
+		Assert.assertEquals(before + 1, getAllCount());
 		//the encounter should have been assigned to the visit
 		Assert.assertNotNull(newEncounter);
 		Assert.assertNotNull(newEncounter.getVisit());
@@ -239,7 +293,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 
         Util.log("Created a new encounter with a list of providers with different roles",newEncounter);
 
-        List<Map> encounterProviderList = (List<Map>)newEncounter.get("encounterProviders");
+        List<?> encounterProviderList = newEncounter.get("encounterProviders");
         Assert.assertEquals(2, encounterProviderList.size());
     }
 	/**
@@ -252,17 +306,16 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
 		
 		List<SimpleObject> obs = new ArrayList<SimpleObject>();
 		// weight in kg = 70
-		obs.add(SimpleObject.parseJson("{ \"concept\": \"c607c80f-1ea9-4da3-bb88-6276ce8868dd\", \"value\": 70 }"));
+		obs.add(SimpleObject.parseJson("{ \"concept\": \"c607c80f-1ea9-4da3-bb88-6276ce8868dd\",\"value\": 70 }"));
 		// civil status = married
-		obs
-		        .add(SimpleObject
-		                .parseJson("{ \"concept\": \"89ca642a-dab6-4f20-b712-e12ca4fc6d36\", \"value\": \"92afda7c-78c9-47bd-a841-0de0817027d4\" }"));
+		obs.add(SimpleObject.parseJson(
+				"{ \"concept\": \"89ca642a-dab6-4f20-b712-e12ca4fc6d36\", \"value\": \"92afda7c-78c9-47bd-a841-0de0817027d4\" }"));
 		// favorite food, non-coded = fried chicken
 		obs.add(SimpleObject
-		        .parseJson("{ \"concept\": \"96408258-000b-424e-af1a-403919332938\", \"value\": \"fried chicken\" }"));
+				.parseJson("{ \"concept\": \"96408258-000b-424e-af1a-403919332938\", \"value\": \"fried chicken\" }"));
 		// date of food assistance = 2011-06-21
-		obs.add(SimpleObject
-		        .parseJson("{ \"concept\": \"11716f9c-1434-4f8d-b9fc-9aa14c4d6126\", \"value\": \"2011-06-21 00:00\" }"));
+		obs.add(SimpleObject.parseJson(
+				"{ \"concept\": \"11716f9c-1434-4f8d-b9fc-9aa14c4d6126\", \"value\": \"2011-06-21 00:00\" }"));
 		
 		return new SimpleObject().add("location", "9356400c-a5a2-4532-8f2b-2361b3446eb8").add("encounterType",
 		    "61ae96f4-6afe-4351-b6f8-cd4fc383cce1").add("encounterDatetime", "2011-01-15").add("patient",
@@ -281,6 +334,47 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
                 "61ae96f4-6afe-4351-b6f8-cd4fc383cce1").add("encounterDatetime", "2015-06-17").add("patient",
                 "da7f524f-27ce-4bb2-86d6-6d1d05312bd5").add("encounterProviders",providers);
     }
+
+
+    @Test
+    public void getEncounter_shouldGetOnlyNonVoidedEncounterProviders() throws Exception {
+        Encounter encounter = Context.getEncounterService().getEncounterByUuid(RestTestConstants1_9.SECOND_ENCOUNTER_UUID);
+        Set<EncounterProvider> encounterProviders = encounter.getEncounterProviders();
+        String voidedEncounterProviderUuid = null;
+        if (encounterProviders != null) {
+            for (EncounterProvider encounterProvider : encounterProviders) {
+                if (encounterProvider.isVoided()) {
+                    voidedEncounterProviderUuid = encounterProvider.getUuid();
+                    break;
+                }
+            }
+        }
+        Assert.assertNotNull(voidedEncounterProviderUuid);
+        // the encounter has a voided encounter provider
+        Assert.assertEquals(RestTestConstants1_9.VOIDED_ENCOUNTER_PROVIDER, voidedEncounterProviderUuid);
+
+        // retrieve the same encounter via the encounter web service
+        MockHttpServletRequest req = request(RequestMethod.GET, getURI() + "/" + RestTestConstants1_9.SECOND_ENCOUNTER_UUID);
+        MockHttpServletResponse response = handle(req);
+        SimpleObject result = deserialize(response);
+
+        voidedEncounterProviderUuid = null;
+        List<Map<String,String>> encounterProviderList = result.get("encounterProviders");
+        // we now check to make sure the encounter REST web service does not return voided encounter provider
+        if (encounterProviderList != null) {
+            for (Map<String,String> wsEncounterProvider : encounterProviderList) {
+                if (StringUtils.equals(RestTestConstants1_9.VOIDED_ENCOUNTER_PROVIDER, wsEncounterProvider.get("uuid"))) {
+                    voidedEncounterProviderUuid = wsEncounterProvider.get("uuid");
+                    // we found the voided encounter provider
+                    break;
+                }
+
+            }
+        }
+        // the voided encounter provider is not returned by the encounter web service
+        Assert.assertNull(voidedEncounterProviderUuid);
+    }
+
 
     @Test
     public void updateEncounter_shouldUpdateEncounterProviders() throws Exception{
@@ -314,7 +408,7 @@ public class EncounterController1_9Test extends MainResourceControllerTest {
         ).add("uuid", encounter.getUuid());
 
         //Post the existing encounter
-        SimpleObject posted = deserialize(handle(newPostRequest(getURI() + "/" + encounter.getUuid(), encounterToModify)));
+        deserialize(handle(newPostRequest(getURI() + "/" + encounter.getUuid(), encounterToModify)));
 
         Encounter updatedEncounter = es.getEncounterByUuid(RestTestConstants1_9.ENCOUNTER_UUID);
 

@@ -11,7 +11,7 @@ import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
 import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.ProgramResource1_8;
 
-@Resource(name = RestConstants.VERSION_1 + "/program", supportedClass = Program.class, supportedOpenmrsVersions = {"1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/program", supportedClass = Program.class, supportedOpenmrsVersions = {"1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class ProgramResource1_10 extends ProgramResource1_8{
 
     @Override
@@ -38,7 +38,7 @@ public class ProgramResource1_10 extends ProgramResource1_8{
             description.addProperty("outcomesConcept");
             description.addProperty("allWorkflows", Representation.FULL);
             description.addSelfLink();
-            description.addProperty("auditInfo", findMethod("getAuditInfo"));
+            description.addProperty("auditInfo");
             return description;
         } else if(rep instanceof RefRepresentation){
             DelegatingResourceDescription description = new DelegatingResourceDescription();

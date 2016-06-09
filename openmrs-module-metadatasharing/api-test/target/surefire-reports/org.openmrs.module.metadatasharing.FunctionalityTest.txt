@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.metadatasharing.FunctionalityTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.978 sec
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 1.274 sec

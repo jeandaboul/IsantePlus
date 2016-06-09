@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.openmrs.api.APIException;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.api.Resource;
@@ -82,4 +84,7 @@ public interface RestService {
 	 * Initializes all Resources and Search handlers for use; called after module startup
 	 */
 	public void initialize();
+	
+	public List<SearchHandler> getAllSearchHandlers();
+	
 }

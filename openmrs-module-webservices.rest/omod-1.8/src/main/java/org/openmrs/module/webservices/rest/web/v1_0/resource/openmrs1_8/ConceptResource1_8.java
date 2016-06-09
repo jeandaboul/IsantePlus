@@ -31,9 +31,9 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptDescription;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptSearchResult;
 import org.openmrs.Drug;
-import org.openmrs.api.APIException;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;
@@ -53,7 +53,6 @@ import org.openmrs.module.webservices.rest.web.resource.api.PageableResult;
 import org.openmrs.module.webservices.rest.web.resource.impl.AlreadyPaged;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
-import org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ConversionException;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
@@ -146,8 +145,7 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 
         description.addProperty("answers", Representation.DEFAULT);
         description.addProperty("setMembers", Representation.DEFAULT);
-        //description.addProperty("conceptMappings", Representation.DEFAULT);  add as subresource
-        description.addProperty("auditInfo", findMethod("getAuditInfo"));
+        description.addProperty("auditInfo");
         description.addSelfLink();
         if (delegate.isNumeric()) {
             description.addProperty("hiNormal");
@@ -210,6 +208,17 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 		description.addProperty("mappings");
 		description.addProperty("answers");
 		description.addProperty("setMembers");
+		
+		//ConceptNumeric properties
+		description.addProperty("hiNormal");
+        description.addProperty("hiAbsolute");
+        description.addProperty("hiCritical");
+        description.addProperty("lowNormal");
+        description.addProperty("lowAbsolute");
+        description.addProperty("lowCritical");
+        description.addProperty("units");
+		description.addProperty("allowDecimal");
+		description.addProperty("displayPrecision");
 		return description;
 	}
 	
@@ -254,6 +263,9 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 	 */
 	@PropertySetter("names")
 	public static void setNames(Concept instance, List<ConceptName> names) {
+		for(ConceptName name : names){
+			name.setConcept(instance);
+		}
 		instance.setNames(new HashSet<ConceptName>(names));
 	}
 	
@@ -298,33 +310,23 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 	}
 	
 	/**
-	 * Must put this here because we cannot extend {@link MetadataDelegatingCrudResource}
+	 * {@link #newDelegate(SimpleObject)} is used instead to support ConceptNumeric
 	 * 
-	 * @param concept the delegate concept
-	 * @return audit information
-	 * @throws Exception
-	 */
-	public SimpleObject getAuditInfo(Concept concept) throws Exception {
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(concept, "creator", Representation.REF));
-		ret.put("dateCreated", ConversionUtil.convertToRepresentation(concept.getDateCreated(), Representation.DEFAULT));
-		if (concept.isRetired()) {
-			ret.put("retiredBy", ConversionUtil.getPropertyWithRepresentation(concept, "retiredBy", Representation.REF));
-			ret.put("dateRetired", ConversionUtil.convertToRepresentation(concept.getDateRetired(), Representation.DEFAULT));
-			ret.put("retireReason", ConversionUtil
-			        .convertToRepresentation(concept.getRetireReason(), Representation.DEFAULT));
-		}
-		ret.put("changedBy", ConversionUtil.getPropertyWithRepresentation(concept, "changedBy", Representation.REF));
-		ret.put("dateChanged", ConversionUtil.convertToRepresentation(concept.getDateChanged(), Representation.DEFAULT));
-		return ret;
-	}
-	
-	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */
 	@Override
 	public Concept newDelegate() {
-		return new Concept();
+		throw new ResourceDoesNotSupportOperationException("Should use newDelegate(SimpleObject) instead");
+	}
+	
+	@Override
+	public Concept newDelegate(SimpleObject object) {
+		String datatypeUuid = (String) object.get("datatype");
+		if (ConceptDatatype.NUMERIC_UUID.equals(datatypeUuid)) {
+			return new ConceptNumeric();
+		} else {
+			return new Concept();
+		}
 	}
 	
 	/**

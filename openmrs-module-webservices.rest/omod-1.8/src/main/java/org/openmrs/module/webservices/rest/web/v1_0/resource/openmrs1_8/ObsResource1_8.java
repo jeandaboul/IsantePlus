@@ -13,12 +13,21 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.Drug;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.ConversionUtil;
@@ -37,14 +46,8 @@ import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceD
 import org.openmrs.module.webservices.rest.web.resource.impl.EmptySearchResult;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ConversionException;
+import org.openmrs.module.webservices.rest.web.response.ObjectNotFoundException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 /**
  * {@link Resource} for Obs, supporting standard CRUD operations
@@ -117,7 +120,7 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> {
 			description.addProperty("order");
 			description.addProperty("encounter");
 			description.addProperty("voided");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addProperty("value");
 			description.addProperty("valueModifier");
 			description.addSelfLink();
@@ -205,16 +208,16 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> {
             return ConversionUtil.convert(obs.getValueDatetime(), Date.class);
         }
 
+		if (obs.getValueDrug() != null) {
+			return obs.getValueDrug();
+		}
+
 		if (obs.getValueCoded() != null) {
             return obs.getValueCoded();
         }
 		
 		if (obs.getValueComplex() != null) {
             return obs.getValueComplex();
-        }
-		
-		if (obs.getValueDrug() != null) {
-            return obs.getValueDrug();
         }
 		
 		if (obs.getValueText() != null) {
@@ -301,7 +304,20 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> {
 			if (obs.getConcept().getDatatype().isCoded()) {
 				// setValueAsString is not implemented for coded obs (in core)
 				Concept valueCoded = (Concept) ConversionUtil.convert(value, Concept.class);
-				obs.setValueCoded(valueCoded);
+				if (valueCoded == null) {
+					//try checking if this this is value drug
+					Drug valueDrug = (Drug) ConversionUtil.convert(value, Drug.class);
+					if (valueDrug != null) {
+						obs.setValueCoded(valueDrug.getConcept());
+						obs.setValueDrug(valueDrug);
+					} else {
+						throw new ObjectNotFoundException();
+					}
+
+				} else  {
+					obs.setValueCoded(valueCoded);
+				}
+
 			} else {
 				if (obs.getConcept().isNumeric()) {
 					//get the actual persistent object rather than the hibernate proxy
@@ -330,9 +346,22 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> {
                     } else if(value.equals(Context.getConceptService().getFalseConcept().getUuid())) {
                         value = false;
                     } else if(!value.getClass().isAssignableFrom(Boolean.class)) {
-                        throw new ConversionException("Unexpected value: " + value +
-                                " set as the value of boolean. Boolean, ConceptService.getTrueConcept or " +
-                                ", ConceptService.getFalseConcept expected");
+                    	List<String> trueValues = Arrays.asList("true", "1", "on", "yes");
+                    	List<String> falseValues = Arrays.asList("false", "0", "off", "no");
+                    	
+                    	String val = value.toString().trim().toLowerCase();
+                    	if (trueValues.contains(val)) {
+                    		value = Boolean.TRUE;
+                    	}
+                    	else if (falseValues.contains(val)) {
+                    		value = Boolean.FALSE;
+                    	}
+                    	
+                    	if (!(Boolean.TRUE.equals(value) || Boolean.FALSE.equals(value))) {
+	                        throw new ConversionException("Unexpected value: " + value +
+	                                " set as the value of boolean. " + trueValues + falseValues + ", ConceptService.getTrueConcept or " +
+	                                ", ConceptService.getFalseConcept expected");
+                    	}
                     }
 				}
 				obs.setValueAsString(value.toString());

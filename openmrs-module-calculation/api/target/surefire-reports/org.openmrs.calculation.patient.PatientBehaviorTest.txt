@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.calculation.patient.PatientBehaviorTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.412 sec
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.87 sec

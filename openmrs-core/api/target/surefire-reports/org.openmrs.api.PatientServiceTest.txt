@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.api.PatientServiceTest
 -------------------------------------------------------------------------------
-Tests run: 173, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 3.952 sec
+Tests run: 173, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 5.062 sec

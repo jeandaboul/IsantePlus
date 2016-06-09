@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.api.ProviderServiceTest
 -------------------------------------------------------------------------------
-Tests run: 41, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.592 sec
+Tests run: 41, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.651 sec

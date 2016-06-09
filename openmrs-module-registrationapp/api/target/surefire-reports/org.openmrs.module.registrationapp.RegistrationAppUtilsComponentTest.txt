@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.registrationapp.RegistrationAppUtilsComponentTest
 -------------------------------------------------------------------------------
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.231 sec
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.891 sec

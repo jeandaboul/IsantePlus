@@ -41,6 +41,7 @@ import org.openmrs.module.webservices.rest.util.ReflectionUtil;
 import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
+import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
 import org.openmrs.module.webservices.rest.web.annotation.RepHandler;
 import org.openmrs.module.webservices.rest.web.annotation.SubClassHandler;
 import org.openmrs.module.webservices.rest.web.api.RestService;
@@ -54,7 +55,6 @@ import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceD
 import org.openmrs.module.webservices.rest.web.response.ConversionException;
 import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
-
 import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 
@@ -250,6 +250,7 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 	 * @param context
 	 * @throws ResponseException
 	 */
+	@Override
 	public abstract void purge(T delegate, RequestContext context) throws ResponseException;
 	
 	/**
@@ -258,6 +259,7 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 	 * @return the description
 	 * @throws ResponseException
 	 */
+	@Override
 	public DelegatingResourceDescription getCreatableProperties() throws ResourceDoesNotSupportOperationException {
 		throw new ResourceDoesNotSupportOperationException();
 	}
@@ -271,6 +273,7 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 	 * @return the description
 	 * @throws ResponseException
 	 */
+	@Override
 	public DelegatingResourceDescription getUpdatableProperties() throws ResourceDoesNotSupportOperationException {
 		DelegatingResourceDescription description = getCreatableProperties();
 		for (String property : getPropertiesToExposeAsSubResources()) {
@@ -679,26 +682,13 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 	}
 	
 	/**
-	 * @see org.openmrs.module.webservices.rest.util.ReflectionUtil#findMethod(Class, String)
-	 * @deprecated It is always best to annotate the method with @PropertyGetter instead of finding
-	 *             it this way, because properties defined this way cannot be included in custom
-	 *             representations
-	 */
-	@Deprecated
-	protected Method findMethod(String name) {
-		// TODO replace this with something that looks specifically for a method that takes a single T argument
-		Method ret = ReflectionUtil.findMethod(getClass(), name);
-		return ret;
-	}
-	
-	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.api.Converter#getProperty(java.lang.Object,
 	 *      java.lang.String)
 	 */
 	@Override
 	public Object getProperty(T instance, String propertyName) throws ConversionException {
 		try {
-			DelegatingResourceHandler<? extends T> handler = getResourceHandler((T) instance);
+			DelegatingResourceHandler<? extends T> handler = getResourceHandler(instance);
 			
 			// try to find a @PropertyGetter-annotated method
 			Method annotatedGetter = ReflectionUtil.findPropertyGetterMethod(handler, propertyName);
@@ -847,4 +837,33 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 		}
 		throw new RuntimeException(getClass() + " needs a @Resource or @SubResource annotation");
 	}
+	
+	/**
+	 * @see org.openmrs.module.webservices.rest.util.ReflectionUtil#findMethod(Class,String)
+	 * @deprecated It is always best to annotate the method with @PropertyGetter instead of finding
+	 *             it this way, because properties defined this way cannot be included in custom
+	 *             representations
+	 */
+	@Deprecated
+	protected Method findMethod(String name) {
+		Method ret = ReflectionUtil.findMethod(getClass(), name);
+		return ret;
+	}
+	
+	/**
+	 * Gets the audit information of a resource.
+	 * 
+	 * @param resource the resource.
+	 * @return a {@link SimpleObject} with the audit information.
+	 */
+	@PropertyGetter("auditInfo")
+	public SimpleObject getAuditInfo(Object resource) {
+		return ConversionUtil.getAuditInfo(resource);
+	}
+	
+	@Override
+	public T newDelegate(SimpleObject object) {
+		return newDelegate();
+	}
+	
 }

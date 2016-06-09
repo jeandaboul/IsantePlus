@@ -32,7 +32,7 @@ import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9.ConceptR
 /**
  * {@link Resource} for {@link OrderFrequency}, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/orderfrequency", supportedClass = OrderFrequency.class, supportedOpenmrsVersions = {"1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/orderfrequency", supportedClass = OrderFrequency.class, supportedOpenmrsVersions = {"1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class OrderFrequencyResource1_10 extends MetadataDelegatingCrudResource<OrderFrequency> {
 	
 	/**
@@ -60,7 +60,7 @@ public class OrderFrequencyResource1_10 extends MetadataDelegatingCrudResource<O
 			description.addProperty("concept", Representation.DEFAULT);
 			description.addProperty("retired");
 			description.addSelfLink();
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			return description;
 		} else if (rep.getRepresentation().equals("fullconcept")) {
             DelegatingResourceDescription description = getRepresentationDescription(Representation.FULL);

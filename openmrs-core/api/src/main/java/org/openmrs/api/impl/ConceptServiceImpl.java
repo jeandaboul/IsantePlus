@@ -50,7 +50,6 @@ import org.openmrs.ConceptSet;
 import org.openmrs.ConceptSource;
 import org.openmrs.ConceptStopWord;
 import org.openmrs.Drug;
-import org.openmrs.DrugIngredient;
 import org.openmrs.Obs;
 import org.openmrs.api.APIException;
 import org.openmrs.api.AdministrationService;
@@ -1298,14 +1297,6 @@ public class ConceptServiceImpl extends BaseOpenmrsService implements ConceptSer
 	@Transactional(readOnly = true)
 	public Drug getDrugByUuid(String uuid) {
 		return dao.getDrugByUuid(uuid);
-	}
-	
-	/**
-	 * @see org.openmrs.api.ConceptService#getDrugIngredientByUuid(java.lang.String)
-	 */
-	@Transactional(readOnly = true)
-	public DrugIngredient getDrugIngredientByUuid(String uuid) {
-		return dao.getDrugIngredientByUuid(uuid);
 	}
 	
 	/**

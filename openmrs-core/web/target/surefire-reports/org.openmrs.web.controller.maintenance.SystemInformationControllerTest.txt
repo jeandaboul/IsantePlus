@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.web.controller.maintenance.SystemInformationControllerTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.05 sec
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.641 sec

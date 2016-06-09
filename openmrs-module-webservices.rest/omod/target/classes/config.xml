@@ -6,7 +6,7 @@
 	<!-- Base Module Properties -->
 	<id>webservices.rest</id>
 	<name>Rest Web Services</name>
-	<version>2.12.${revisionNumber}</version>
+	<version>2.14.${revisionNumber}</version>
 	<package>org.openmrs.module.webservices.rest</package>
 	<author>OpenMRS</author>
 	<description>
@@ -17,13 +17,24 @@
 	<updateURL>https://modules.openmrs.org/modules/download/webservices.rest/update.rdf</updateURL>
 	<!-- /Base Module Properties -->
 	
-	<require_version>1.8.4</require_version>
+	<require_version>1.9.10</require_version>
+	
+	<aware_of_modules>
+	    <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+	</aware_of_modules>
 	
 	<!-- Extensions -->
 	<extension>
 		<point>org.openmrs.admin.list</point>
 		<class>org.openmrs.module.webservices.rest.web.AdminSection</class>
 	</extension>
+	
+	<conditionalResources>
+		<conditionalResource>
+			<path>/lib/webservices.rest-omod-2.0.*</path>
+			<openmrsVersion>2.0.*</openmrsVersion>
+		</conditionalResource>
+	</conditionalResources>
 	
 	<!-- AOP -->
 	
@@ -50,6 +61,11 @@
         <description>A comma-separate list of IP addresses that are allowed to access the web services. An empty string allows everyone to access all ws. 
         IPs can be declared with bit masks e.g. 10.0.0.0/30 matches 10.0.0.0 - 10.0.0.3 and 10.0.0.0/24 matches 10.0.0.0 - 10.0.0.255.</description>
     </globalProperty>
+	<globalProperty>
+		<property>webservices.rest.quietDocs</property>
+		<defaultValue>true</defaultValue>
+		<description>If the value of this setting is "true", then nothing is logged while the Swagger specification is being generated.</description>
+	</globalProperty>
 
     <!-- DWR -->
 	

@@ -13,20 +13,6 @@
  */
 package org.openmrs.module.webservices.rest.web;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openmrs.api.APIException;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.api.RestService;
-import org.openmrs.module.webservices.rest.web.representation.Representation;
-import org.openmrs.module.webservices.rest.web.resource.api.Converter;
-import org.openmrs.module.webservices.rest.web.resource.api.Resource;
-import org.openmrs.module.webservices.rest.web.response.ConversionException;
-import org.openmrs.util.HandlerUtil;
-import org.openmrs.util.LocaleUtility;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -47,6 +33,29 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.openmrs.Auditable;
+import org.openmrs.Retireable;
+import org.openmrs.Voidable;
+import org.openmrs.api.APIException;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.webservices.rest.SimpleObject;
+import org.openmrs.module.webservices.rest.web.api.RestService;
+import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
+import org.openmrs.module.webservices.rest.web.representation.Representation;
+import org.openmrs.module.webservices.rest.web.resource.api.Converter;
+import org.openmrs.module.webservices.rest.web.resource.api.Resource;
+import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
+import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription.Property;
+import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceHandler;
+import org.openmrs.module.webservices.rest.web.response.ConversionException;
+import org.openmrs.util.HandlerUtil;
+import org.openmrs.util.LocaleUtility;
 
 public class ConversionUtil {
 	
@@ -229,15 +238,16 @@ public class ConversionUtil {
 				return converter.getByUniqueId(string);
 			
 			if (toClass.isAssignableFrom(Date.class)) {
-				ParseException pex = null;
+				IllegalArgumentException pex = null;
 				String[] supportedFormats = { "yyyy-MM-dd'T'HH:mm:ss.SSSZ", "yyyy-MM-dd'T'HH:mm:ss.SSS",
-				        "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd" };
+				        "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd'T'HH:mm:ss",
+				        "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd" };
 				for (int i = 0; i < supportedFormats.length; i++) {
 					try {
-						Date date = new SimpleDateFormat(supportedFormats[i]).parse(string);
+						Date date = DateTime.parse(string, DateTimeFormat.forPattern(supportedFormats[i])).toDate();
 						return date;
 					}
-					catch (ParseException ex) {
+					catch (IllegalArgumentException ex) {
 						pex = ex;
 					}
 				}
@@ -271,6 +281,11 @@ public class ConversionUtil {
 		} else if (toClass.isAssignableFrom(Integer.class) && object instanceof Number) {
 			return ((Number) object).intValue();
 		}
+		
+		if (toClass.isAssignableFrom(String.class) && object instanceof Boolean) {
+			return String.valueOf(object);
+		}
+		
 		throw new ConversionException("Don't know how to convert from " + object.getClass() + " to " + toType, null);
 	}
 	
@@ -297,6 +312,22 @@ public class ConversionUtil {
 		if (ret == null) {
 			String type = (String) map.get(RestConstants.PROPERTY_FOR_TYPE);
 			ret = converter.newInstance(type);
+		}
+		
+		// If the converter is a resource handler use the order of properties of its default representation
+		if (converter instanceof DelegatingResourceHandler) {
+			
+			DelegatingResourceHandler handler = (DelegatingResourceHandler) converter;
+			DelegatingResourceDescription resDesc = handler.getRepresentationDescription(new DefaultRepresentation());
+			
+			// Some resources do not have delegating resource description
+			if (resDesc != null) {
+				for (Map.Entry<String, Property> prop : resDesc.getProperties().entrySet()) {
+					if (map.containsKey(prop.getKey()) && !RestConstants.PROPERTY_FOR_TYPE.equals(prop.getKey())) {
+						converter.setProperty(ret, prop.getKey(), map.get(prop.getKey()));
+					}
+				}
+			}
 		}
 		
 		for (Map.Entry<String, ?> prop : map.entrySet()) {
@@ -436,4 +467,41 @@ public class ConversionUtil {
 		
 		return result;
 	}
+	
+	/**
+	 * Gets extra book-keeping info, for the full representation
+	 * 
+	 * @param delegate
+	 * @return
+	 */
+	public static SimpleObject getAuditInfo(Object delegate) {
+		SimpleObject ret = new SimpleObject();
+		
+		if (delegate instanceof Auditable) {
+			Auditable auditable = (Auditable) delegate;
+			ret.put("creator", getPropertyWithRepresentation(auditable, "creator", Representation.REF));
+			ret.put("dateCreated", convertToRepresentation(auditable.getDateCreated(), Representation.DEFAULT));
+			ret.put("changedBy", getPropertyWithRepresentation(auditable, "changedBy", Representation.REF));
+			ret.put("dateChanged", convertToRepresentation(auditable.getDateChanged(), Representation.DEFAULT));
+		}
+		if (delegate instanceof Retireable) {
+			Retireable retireable = (Retireable) delegate;
+			if (retireable.isRetired()) {
+				ret.put("retiredBy", getPropertyWithRepresentation(retireable, "retiredBy", Representation.REF));
+				ret.put("dateRetired", convertToRepresentation(retireable.getDateRetired(), Representation.DEFAULT));
+				ret.put("retireReason", convertToRepresentation(retireable.getRetireReason(), Representation.DEFAULT));
+			}
+		}
+		if (delegate instanceof Voidable) {
+			Voidable voidable = (Voidable) delegate;
+			if (voidable.isVoided()) {
+				ret.put("voidedBy", getPropertyWithRepresentation(voidable, "voidedBy", Representation.REF));
+				ret.put("dateVoided", convertToRepresentation(voidable.getDateVoided(), Representation.DEFAULT));
+				ret.put("voidReason", convertToRepresentation(voidable.getVoidReason(), Representation.DEFAULT));
+			}
+		}
+		
+		return ret;
+	}
+	
 }

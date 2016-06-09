@@ -40,7 +40,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -116,33 +115,13 @@ public class ModuleClassLoader extends URLClassLoader {
 		
 		File devDir = ModuleUtil.getDevelopmentDirectory(module.getModuleId());
 		if (devDir != null) {
-			try {
-				Map<String, String> startedRelatedModules = new HashMap<String, String>();
-				for (Module requiredModule : collectRequiredModuleImports(module)) {
-					startedRelatedModules.put(requiredModule.getModuleId(), requiredModule.getVersion());
-				}
-				for (Module awareOfModule : collectAwareOfModuleImports(module)) {
-					startedRelatedModules.put(awareOfModule.getModuleId(), awareOfModule.getVersion());
-				}
-				
-				List<String> sourceDirs = getSourceDirectories(devDir);
-				for (String dirName : sourceDirs) {
-					URL fileUrl = ModuleUtil.file2url(new File("lib" + File.separatorChar + module.getModuleId() + "-"
-					        + dirName));
-					boolean include = shouldResourceBeIncluded(module, fileUrl, OpenmrsConstants.OPENMRS_VERSION_SHORT,
-					    startedRelatedModules);
-					if (include) {
-						File dir = new File(devDir, dirName + File.separator + "target" + File.separator + "classes"
-						        + File.separator);
-						Collection<File> files = FileUtils.listFiles(dir, new String[] { "class" }, true);
-						addClassFilePackages(files, dir.getAbsolutePath().length() + 1);
-					}
-				}
-			}
-			catch (Exception ex) {
-				log.error("Failed to set devmode packages for module: " + module.getModuleId(), ex);
-			}
+			File dir = new File(devDir, "api" + File.separator + "target" + File.separator + "classes" + File.separator);
+			Collection<File> files = FileUtils.listFiles(dir, new String[] { "class" }, true);
+			addClassFilePackages(files, dir.getAbsolutePath().length() + 1);
 			
+			dir = new File(devDir, "omod" + File.separator + "target" + File.separator + "classes" + File.separator);
+			files = FileUtils.listFiles(dir, new String[] { "class" }, true);
+			addClassFilePackages(files, dir.getAbsolutePath().length() + 1);
 		} else {
 			for (URL url : urls) {
 				providedPackages.addAll(ModuleUtil.getPackagesFromFile(OpenmrsUtil.url2file(url)));
@@ -150,24 +129,13 @@ public class ModuleClassLoader extends URLClassLoader {
 		}
 	}
 	
-	private static List<String> getSourceDirectories(File devDir) {
-		List<String> directories = new ArrayList<String>();
-		String[] folders = devDir.list(FileFilterUtils.directoryFileFilter());
-		for (String folder : folders) {
-			if (folder.startsWith("api") || folder.startsWith("omod")) {
-				directories.add(folder);
-			}
-		}
-		return directories;
-	}
-	
 	private void addClassFilePackages(Collection<File> files, int dirLength) {
 		for (File file : files) {
 			String name = file.getAbsolutePath().substring(dirLength);
-			Integer indexOfLastSlash = name.lastIndexOf(File.separator);
+			Integer indexOfLastSlash = name.lastIndexOf("/");
 			if (indexOfLastSlash > 0) {
 				String packageName = name.substring(0, indexOfLastSlash);
-				packageName = packageName.replace(File.separator, ".");
+				packageName = packageName.replaceAll("/", ".");
 				providedPackages.add(packageName);
 			}
 		}
@@ -237,30 +205,15 @@ public class ModuleClassLoader extends URLClassLoader {
 		File devDir = ModuleUtil.getDevelopmentDirectory(module.getModuleId());
 		try {
 			if (devDir != null) {
-				Map<String, String> startedRelatedModules = new HashMap<String, String>();
-				for (Module requiredModule : collectRequiredModuleImports(module)) {
-					startedRelatedModules.put(requiredModule.getModuleId(), requiredModule.getVersion());
-				}
-				for (Module awareOfModule : collectAwareOfModuleImports(module)) {
-					startedRelatedModules.put(awareOfModule.getModuleId(), awareOfModule.getVersion());
-				}
+				File dir = new File(devDir, "omod" + File.separator + "target" + File.separator + "classes" + File.separator);
+				result.add(dir.toURI().toURL());
 				
-				List<String> sourceDirs = getSourceDirectories(devDir);
-				for (String dirName : sourceDirs) {
-					URL fileUrl = ModuleUtil.file2url(new File("lib" + File.separatorChar + module.getModuleId() + "-"
-					        + dirName));
-					boolean include = shouldResourceBeIncluded(module, fileUrl, OpenmrsConstants.OPENMRS_VERSION_SHORT,
-					    startedRelatedModules);
-					if (include) {
-						File dir = new File(devDir, dirName + File.separator + "target" + File.separator + "classes"
-						        + File.separator);
-						result.add(dir.toURI().toURL());
-					}
-				}
+				dir = new File(devDir, "api" + File.separator + "target" + File.separator + "classes" + File.separator);
+				result.add(dir.toURI().toURL());
 			}
 		}
-		catch (Exception ex) {
-			log.error("Failed to add development folder to the classpath for module: " + module.getModuleId(), ex);
+		catch (MalformedURLException ex) {
+			log.error("Failed to add development folder to the classpath", ex);
 		}
 		
 		File tmpModuleDir = getLibCacheFolderForModule(module);
@@ -335,11 +288,8 @@ public class ModuleClassLoader extends URLClassLoader {
 					
 					//if in dev mode, do not put the api jar file in the class path
 					if (devDir != null) {
-						if (file.getName().equals(module.getModuleId() + "-api-")) {
-							continue; //e.g uiframework-api-3.3-SNAPSHOT.jar or htmlformentry-api-1.10-2.8-SNAPSHOT
-						}
-						if (file.getName().startsWith(module.getModuleId() + "-omod-")) {
-							continue; //e.g webservices.rest-omod-2.0-2.13-SNAPSHOT.jar
+						if (file.getName().equals(module.getModuleId() + "-api-" + module.getVersion() + ".jar")) {
+							continue; //e.g uiframework-api-3.3-SNAPSHOT.jar
 						}
 					}
 					

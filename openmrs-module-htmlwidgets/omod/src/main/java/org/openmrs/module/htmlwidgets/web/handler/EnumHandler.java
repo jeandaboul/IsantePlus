@@ -15,20 +15,15 @@ package org.openmrs.module.htmlwidgets.web.handler;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.annotation.Handler;
-import org.openmrs.messagesource.MessageSourceService;
 import org.openmrs.module.htmlwidgets.web.WidgetConfig;
 import org.openmrs.module.htmlwidgets.web.html.CodedWidget;
 import org.openmrs.module.htmlwidgets.web.html.Option;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * FieldGenHandler for Enumerated Types
  */
 @Handler(supports={Enum.class}, order=50)
 public class EnumHandler extends CodedHandler {
-
-	@Autowired
-	MessageSourceService messageSourceService;
 
 	/** 
 	 * @see CodedHandler#populateOptions(WidgetConfig, CodedWidget)
@@ -38,37 +33,12 @@ public class EnumHandler extends CodedHandler {
 		Class<?> c = config.getType();
 		Object[] enums = c.getEnumConstants();
 		if (enums != null) {
-			String optionValues = config.getAttributeValue("optionValues");
-			if (StringUtils.isNotEmpty(optionValues)) {
-				for (String optionValue : optionValues.split(",")) {
-					for (Object enumValue : enums) {
-						String s = enumValue.toString();
-						if (s.equalsIgnoreCase(optionValue.trim())) {
-							addOption(enumValue, config, widget);
-
-						}
-					}
-				}
-			}
-			else {
-				for (Object o : enums) {
-					addOption(o, config, widget);
-				}
+			for (Object o : enums) {
+				widget.addOption(new Option(o.toString(), o.toString(), null, o), config);
 			}
 		}
 	}
-
-	protected void addOption(Object o, WidgetConfig config, CodedWidget widget) {
-		String code = o.toString();
-		String label = code;
-		String messageCodePrefix = config.getAttributeValue("optionLabelCodePrefix");
-		if (StringUtils.isNotEmpty(messageCodePrefix)) {
-			label = messageSourceService.getMessage(messageCodePrefix + code);
-		}
-		widget.addOption(new Option(code, label, null, o), config);
-
-	}
-
+	
 	/** 
 	 * @see WidgetHandler#parse(String, Class<?>)
 	 */

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <!--
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+    <changeSet author="ITECH" id="20160506-1">
+    	<comment>Create the vaccination_type table</comment>
+    	<createTable tableName="vaccination_type">
+    		<column autoIncrement="true" name="vaccination_type_id" type="int">
+    			<constraints primaryKey="true" nullable="false" />
+    		</column>
+    		<column name="name" type="varchar(255)" />
+    		<column name="description" type="varchar(255)" />
+    		<column name="uuid" type="char(38)" />
+    	</createTable>
+    </changeSet>
+</databaseChangeLog>

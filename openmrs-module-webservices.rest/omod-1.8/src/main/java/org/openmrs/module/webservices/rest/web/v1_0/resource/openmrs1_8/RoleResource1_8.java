@@ -36,7 +36,7 @@ import java.util.Set;
 /**
  * {@link Resource} for Role, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/role", supportedClass = Role.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/role", supportedClass = Role.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class RoleResource1_8 extends MetadataDelegatingCrudResource<Role> {
 	
 	/**
@@ -102,7 +102,7 @@ public class RoleResource1_8 extends MetadataDelegatingCrudResource<Role> {
 			description.addProperty("privileges", Representation.DEFAULT);
 			description.addProperty("inheritedRoles", Representation.DEFAULT);
 			description.addProperty("allInheritedRoles", Representation.DEFAULT);
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.validator.ConceptReferenceTermValidatorTest
 -------------------------------------------------------------------------------
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.235 sec
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.074 sec

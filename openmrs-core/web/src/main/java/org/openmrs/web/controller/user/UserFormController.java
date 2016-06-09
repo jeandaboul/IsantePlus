@@ -20,7 +20,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
-import org.openmrs.Provider;
 import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.PasswordException;
@@ -115,14 +114,6 @@ public class UserFormController {
 			model.addAttribute("changePassword", new UserProperties(user.getUserProperties()).isSupposedToChangePassword());
 		}
 		
-		if (user.getPerson().getId() != null
-		        && !Context.getProviderService().getProvidersByPerson(user.getPerson()).isEmpty()) {
-			model.addAttribute("isProvider", true);
-			model.addAttribute("providerList", Context.getProviderService().getProvidersByPerson(user.getPerson()));
-		} else {
-			model.addAttribute("isProvider", false);
-		}
-		
 		// not using the default view name because I'm converting from an existing form
 		return "admin/users/userForm";
 	}
@@ -140,7 +131,6 @@ public class UserFormController {
 	        @RequestParam(required = false, value = "forcePassword") Boolean forcePassword,
 	        @RequestParam(required = false, value = "roleStrings") String[] roles,
 	        @RequestParam(required = false, value = "createNewPerson") String createNewPerson,
-	        @RequestParam(required = false, value = "providerCheckBox") String addToProviderTableOption,
 	        @ModelAttribute("user") User user, BindingResult errors) {
 		
 		UserService us = Context.getUserService();
@@ -282,13 +272,6 @@ public class UserFormController {
 				us.changeQuestionAnswer(user, secretQuestion, secretAnswer);
 			}
 			
-			//Check if admin wants the person associated with the user to be added to the Provider Table
-			if (addToProviderTableOption != null) {
-				Provider provider = new Provider();
-				provider.setPerson(user.getPerson());
-				provider.setIdentifier(user.getSystemId());
-				Context.getProviderService().saveProvider(provider);
-			}
 			httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR, "User.saved");
 		}
 		return "redirect:users.list";

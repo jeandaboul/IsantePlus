@@ -3,8 +3,6 @@ package org.openmrs.module.reporting.common;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
@@ -110,8 +108,8 @@ public class DateUtil {
 	public static Date getStartOfMonth(Date d, int monthAdjustment) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(getStartOfDay(d));
-        c.add(Calendar.MONTH, monthAdjustment);
 		c.set(Calendar.DATE, 1);
+		c.add(Calendar.MONTH, monthAdjustment);
 		return c.getTime();
 	}
 
@@ -122,10 +120,11 @@ public class DateUtil {
 	public static Date getEndOfMonth(Date d, int monthAdjustment) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(getEndOfDay(d));
-        c.add(Calendar.MONTH, monthAdjustment);
 		c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+		c.add(Calendar.MONTH, monthAdjustment);
 		return c.getTime();
 	}
+
 	
 	/**
 	 * Get a string that represents the time span that has elapsed 
@@ -267,6 +266,7 @@ public class DateUtil {
 		return defaultIfNull;
 	}
 	
+	
 	/**
 	 * Utility method to determine the number of hours between two dates (rounding down)
 	 * 
@@ -282,12 +282,6 @@ public class DateUtil {
 		return (int) diff;
 	}
 
-    /**
-     * @return the days between two dates
-     */
-    public static int getDaysBetween(Date fromDate, Date toDate) {
-        return Days.daysBetween(new DateTime(fromDate), new DateTime(toDate.getTime())).getDays();
-    }
 	
 	/**
 	 * 

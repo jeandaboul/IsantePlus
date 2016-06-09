@@ -1,15 +1,15 @@
-/* line 1, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 1, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-container {
   width: 280px;
   z-index: 9999;
 }
 
-/* line 7, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 7, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 * html .toast-container {
   position: absolute;
 }
 
-/* line 11, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 11, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item {
   height: auto;
   background: #333;
@@ -30,13 +30,13 @@
   margin: 0 0 12px 0;
 }
 
-/* line 31, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 31, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item p {
   text-align: left;
   margin-left: 50px;
 }
 
-/* line 36, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 36, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item-close {
   background: url(../images/close.gif);
   width: 22px;
@@ -46,7 +46,7 @@
   right: 7px;
 }
 
-/* line 45, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 45, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item-image {
   width: 32px;
   height: 32px;
@@ -56,22 +56,22 @@
   left: 10px;
 }
 
-/* line 54, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 54, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item-image-notice {
   background: url(../images/notice.png);
 }
 
-/* line 58, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 58, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item-image-success {
   background: url(../images/success.png);
 }
 
-/* line 62, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 62, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item-image-warning {
   background: url(../images/warning.png);
 }
 
-/* line 66, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 66, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-item-image-error {
   background: url(../images/error.png);
 }
@@ -83,23 +83,23 @@
  * where 'value' is the real value of the plugin option 'type'
  *
  */
-/* line 78, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 78, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-type-notice {
   color: white;
 }
 
-/* line 82, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 82, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-type-success {
   color: white;
 }
 
-/* line 86, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 86, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-type-warning {
   color: white;
   border-color: #FCBD57;
 }
 
-/* line 91, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 91, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-type-error {
   color: white;
   border-color: #B32B2B;
@@ -112,14 +112,14 @@
  * where 'value' is the real value of the plugin option 'position'
  *
  */
-/* line 103, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 103, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-position-top-left {
   position: fixed;
   left: 20px;
   top: 20px;
 }
 
-/* line 109, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 109, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-position-top-center {
   position: fixed;
   top: 20px;
@@ -127,14 +127,14 @@
   margin-left: -140px;
 }
 
-/* line 116, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 116, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-position-top-right {
   position: fixed;
   top: 20px;
   right: 20px;
 }
 
-/* line 122, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 122, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-position-middle-left {
   position: fixed;
   left: 20px;
@@ -142,7 +142,7 @@
   margin-top: -40px;
 }
 
-/* line 129, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 129, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-position-middle-center {
   position: fixed;
   left: 50%;
@@ -151,7 +151,7 @@
   top: 50%;
 }
 
-/* line 137, C:/Users/jmaxy/workspace/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
+/* line 137, C:/Users/ITECH/Documents/GitHub/openmrs-module-uicommons/scss/src/main/resources/sass/styleguide/jquery.toastmessage.scss */
 .toast-position-middle-right {
   position: fixed;
   right: 20px;

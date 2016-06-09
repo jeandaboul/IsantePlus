@@ -1,0 +1,16 @@
+.classpath
+.settings
+.project
+.idea
+target
+
+*.iml
+*.sass-cache
+*.DS_Store
+
+*.css
+omod/src/main/compass/sass-external/*
+
+# Rubygems build directories #
+omod/.rubygems
+omod/.rubygems-provided

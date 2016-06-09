@@ -14,6 +14,8 @@
 package org.openmrs.module.webservices.rest.web.api.impl;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.proxy.HibernateProxy;
@@ -59,6 +63,8 @@ public class RestServiceImpl implements RestService {
 	private volatile Map<SearchHandlerIdKey, SearchHandler> searchHandlersByIds;
 	
 	private volatile Map<String, Set<SearchHandler>> searchHandlersByResource;
+	
+	private volatile List<SearchHandler> allSearchHandlers;
 	
 	public RestServiceImpl() {
 	}
@@ -313,7 +319,7 @@ public class RestServiceImpl implements RestService {
 			addSearchHandler(tempSearchHandlersByIds, tempSearchHandlersByParameters, tempSearchHandlersByResource,
 			    searchHandler);
 		}
-		
+		this.allSearchHandlers = allSearchHandlers;
 		searchHandlersByParameter = tempSearchHandlersByParameters;
 		searchHandlersByIds = tempSearchHandlersByIds;
 		searchHandlersByResource = tempSearchHandlersByResource;
@@ -578,6 +584,14 @@ public class RestServiceImpl implements RestService {
 	/* (non-Javadoc)
 	 * @see org.openmrs.module.webservices.rest.web.api.RestService#getSearchHandlers(java.lang.String)
 	 */
+	public List<SearchHandler> getAllSearchHandlers() {
+		
+		return allSearchHandlers;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.openmrs.module.webservices.rest.web.api.RestService#getSearchHandlers(java.lang.String)
+	 */
 	@Override
 	public Set<SearchHandler> getSearchHandlers(String resourceName) {
 		if (searchHandlersByResource == null) {
@@ -599,5 +613,4 @@ public class RestServiceImpl implements RestService {
 		initializeResources();
 		initializeSearchHandlers();
 	}
-	
 }

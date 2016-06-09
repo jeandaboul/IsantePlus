@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.api.ConceptServiceTest
 -------------------------------------------------------------------------------
-Tests run: 215, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 33.105 sec
+Tests run: 212, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 28.654 sec

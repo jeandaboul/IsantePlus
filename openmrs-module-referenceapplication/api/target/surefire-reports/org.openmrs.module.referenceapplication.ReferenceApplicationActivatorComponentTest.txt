@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.module.referenceapplication.ReferenceApplicationActivatorComponentTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.746 sec
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.308 sec

@@ -41,7 +41,7 @@ import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.PatientR
  * {@link org.openmrs.module.webservices.rest.web.annotation.Resource} for {@link org.openmrs.Order}
  * , supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/order", supportedClass = Order.class, supportedOpenmrsVersions = {"1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/order", supportedClass = Order.class, supportedOpenmrsVersions = {"1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class OrderResource1_10 extends OrderResource1_8 {
 	
 	/**
@@ -92,7 +92,7 @@ public class OrderResource1_10 extends OrderResource1_8 {
 			description.addProperty("instructions");
 			description.addProperty("commentToFulfiller");
 			description.addProperty("display");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		} else {

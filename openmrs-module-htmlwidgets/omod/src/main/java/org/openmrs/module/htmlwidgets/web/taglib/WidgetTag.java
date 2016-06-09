@@ -126,20 +126,7 @@ public class WidgetTag extends TagSupport {
 		config.setType(fieldType);
 		config.setGenericTypes(genericFieldTypes);
 		config.setFormat(getFormat());
-
-		Object defaultValue = propertyValue;
-		if (defaultValue == null) {
-			defaultValue = getDefaultValue();
-			try {
-				if (defaultValue != null && defaultValue instanceof String) {
-					defaultValue = handler.parse((String)defaultValue, fieldType);
-				}
-			}
-			catch (Exception e) {
-				throw new IllegalArgumentException("The default value of " + defaultValue + " is not valid for handler " + handler.getClass(), e);
-			}
-		}
-		config.setDefaultValue(defaultValue);
+		config.setDefaultValue(propertyValue != null ? propertyValue : getDefaultValue());
 		
 		config.setFixedAttribute("id", getId());
 		config.setFixedAttribute("name", getName());

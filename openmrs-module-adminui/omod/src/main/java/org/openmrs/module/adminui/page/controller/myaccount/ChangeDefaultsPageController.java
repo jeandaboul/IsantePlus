@@ -9,6 +9,8 @@
  */
 package org.openmrs.module.adminui.page.controller.myaccount;
 
+import java.lang.reflect.Method;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +20,16 @@ import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.uicommons.UiCommonsConstants;
 import org.openmrs.module.uicommons.util.InfoErrorMessageUtil;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.BindParams;
 import org.openmrs.ui.framework.annotation.MethodParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.util.LocaleUtility;
 import org.openmrs.util.OpenmrsConstants;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 public class ChangeDefaultsPageController {
 
@@ -35,11 +40,12 @@ public class ChangeDefaultsPageController {
         userDefaults.setDefaultLocale(props.get(OpenmrsConstants.USER_PROPERTY_DEFAULT_LOCALE));
         userDefaults.setProficientLocales(props.get(OpenmrsConstants.USER_PROPERTY_PROFICIENT_LOCALES));
         pageModel.addAttribute("userDefaults", userDefaults);
-        pageModel.addAttribute("locales", Context.getAdministrationService().getPresentationLocales());
+        pageModel.addAttribute("primaryLocales", Context.getAdministrationService().getPresentationLocales());
+        pageModel.addAttribute("proficientLocales", Context.getAdministrationService().getAllowedLocales());
     }
 
     public String post(PageModel model, @MethodParam("getUserDefaults") @BindParams UserDefaults userDefaults,
-                       BindingResult errors,
+                       BindingResult errors, UiUtils ui,
                        @SpringBean("userService") UserService userService,
                        HttpServletRequest request) {
 
@@ -50,17 +56,29 @@ public class ChangeDefaultsPageController {
             props.put(OpenmrsConstants.USER_PROPERTY_DEFAULT_LOCALE, userDefaults.getDefaultLocale());
             props.put(OpenmrsConstants.USER_PROPERTY_PROFICIENT_LOCALES, userDefaults.getProficientLocales());
             user.setUserProperties(props);
-            userService.saveUser(user, null);
+            try {
+            	userService.saveUser(user, null);
+            }
+            catch (NoSuchMethodError ex) {
+            	//must be running platforms 2.0 and above which do not have the above method
+            	Method method = userService.getClass().getMethod("saveUser", new Class[] { User.class });
+            	method.invoke(userService, new Object[] { user });
+            }
+
+            // set the locale based on the locale selected by user
+            Locale newLocale = LocaleUtility.fromSpecification(userDefaults.getDefaultLocale());
+            if (newLocale != null) {
+                Context.getUserContext().setLocale(newLocale);
+                new CookieLocaleResolver().setDefaultLocale(newLocale);
+            }
+
             InfoErrorMessageUtil.flashInfoMessage(request.getSession(), "adminui.account.defaults.success");
         } catch (Exception ex) {
             request.getSession().setAttribute(
                     UiCommonsConstants.SESSION_ATTRIBUTE_ERROR_MESSAGE, "adminui.account.defaults.fail");
-            return "account/changeDefaults";
+            return "redirect:" + ui.pageLink("adminui", "myaccount/changeDefaults");
         }
-
-        model.addAttribute("userDefaults", userDefaults);
-        model.addAttribute("locales", Context.getAdministrationService().getPresentationLocales());
-        return "myaccount/myAccount";
+        return "redirect:" + ui.pageLink("adminui", "myaccount/myAccount");
     }
     
     public UserDefaults getUserDefaults(@RequestParam(value = "defaultLocale", required = false) String defaultLocale,

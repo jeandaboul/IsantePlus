@@ -27,10 +27,12 @@ public class SimpleObjectConverter extends AbstractCollectionConverter {
 		super(mapper);
 	}
 	
+	@Override
 	public boolean canConvert(Class clazz) {
 		return SimpleObject.class.isAssignableFrom(clazz);
 	}
 	
+	@Override
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
 		if (value instanceof Map) {
 			Map<?, ?> map = (Map<?, ?>) value;
@@ -47,7 +49,7 @@ public class SimpleObjectConverter extends AbstractCollectionConverter {
 				if (obj instanceof SimpleObject) {
 					//Use custom representation for any subresource
 					Hyperlink self = getSelfLink((SimpleObject) obj);
-					if (self.getResourceAlias() == null) {
+					if (self == null || self.getResourceAlias() == null) {
 						writer.startNode("object");
 					} else {
 						writer.startNode(self.getResourceAlias());
@@ -73,6 +75,9 @@ public class SimpleObjectConverter extends AbstractCollectionConverter {
 	 */
 	private Hyperlink getSelfLink(SimpleObject object) {
 		List<Hyperlink> links = (List<Hyperlink>) object.get("links");
+		if (links == null || links.size() == 0) {
+			return null;
+		}
 		for (Hyperlink link : links) {
 			if (link.getRel().equals("self")) {
 				return link;
@@ -81,6 +86,7 @@ public class SimpleObjectConverter extends AbstractCollectionConverter {
 		return null;
 	}
 	
+	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		return null;
 	}

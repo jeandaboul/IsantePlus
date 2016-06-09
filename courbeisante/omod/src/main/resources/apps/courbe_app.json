@@ -1,0 +1,20 @@
+[
+  {
+    "id": "${project.parent.artifactId}.numero",
+    "label": "${project.parent.artifactId}.courbe",
+    "icon": "icon-diagnosis",
+    "order": 10,
+    "extensions": [
+      {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.numero.patientDashboardFirstColumn",
+        "appId": "${project.parent.artifactId}.numero",
+        "extensionPointId": "patientDashboard.firstColumnFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "encountersToday"
+        }
+      }
+    ]
+  }
+]
+]

@@ -17,11 +17,11 @@
 	<!-- Module Properties -->
 	<id>adminui</id>
 	<name>Admin UI Module</name>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<package>org.openmrs.module.adminui</package>
 	<author>Ujjwal Arora</author>
 	<description>
-		Administration Tools for Reference Application
+		Administration Tools for the Reference Application
 	</description>
 	<updateURL>https://modules.openmrs.org/modules/download/adminui/update.rdf</updateURL>
 	<require_version>1.11.4</require_version>
@@ -33,6 +33,7 @@
         <require_module version="1.7">org.openmrs.module.uicommons</require_module>
 		<require_module version="1.4">org.openmrs.module.appui</require_module>
 		<require_module version="2.3">org.openmrs.module.providermanagement</require_module>
+		<require_module version="2.14-SNAPSHOT">org.openmrs.module.webservices.rest</require_module>
     </require_modules>
 
 	<!-- Module Activator -->

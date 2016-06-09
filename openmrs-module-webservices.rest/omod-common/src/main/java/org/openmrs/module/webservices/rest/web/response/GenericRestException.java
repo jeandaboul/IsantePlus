@@ -33,4 +33,11 @@ public class GenericRestException extends ResponseException {
 		super(message, cause);
 	}
 	
+	public GenericRestException(String message) {
+		super(message);
+	}
+	
+	public GenericRestException(Throwable cause) {
+		super(cause);
+	}
 }

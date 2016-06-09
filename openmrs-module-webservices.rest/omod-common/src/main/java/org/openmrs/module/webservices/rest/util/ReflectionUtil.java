@@ -23,7 +23,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
 import org.openmrs.module.webservices.rest.web.annotation.PropertySetter;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingPropertyAccessor;
-import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceHandler;
 import org.springframework.util.ReflectionUtils;
 
 /**
@@ -77,9 +76,73 @@ public class ReflectionUtil {
 	}
 	
 	/**
+	 * Find getter method in handler class or any of its superclasses
+	 * 
+	 * @param handler
+	 * @param propName
+	 * @return
+	 */
+	public static <T> Method findPropertyGetterMethod(DelegatingPropertyAccessor<? extends T> handler, String propName) {
+		String key = handler.getClass().getName().concat(propName);
+		Method result = getterMethodCache.get(key);
+		if (result != null) {
+			return result == nullMethod ? null : result;
+		}
+		
+		Class<?> clazz = handler.getClass();
+		while (clazz != Object.class && result == null) {
+			for (Method method : clazz.getMethods()) {
+				PropertyGetter ann = method.getAnnotation(PropertyGetter.class);
+				if (ann != null && ann.value().equals(propName)) {
+					result = method;
+					break;
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
+		
+		getterMethodCache.put(key, result == null ? nullMethod : result);
+		
+		return result;
+	}
+	
+	/**
+	 * Find setter method in handler class or any of its superclasses
+	 * 
+	 * @param handler
+	 * @param propName
+	 * @return
+	 */
+	public static <T> Method findPropertySetterMethod(DelegatingPropertyAccessor<? extends T> handler, String propName) {
+		String key = handler.getClass().getName().concat(propName);
+		Method result = setterMethodCache.get(key);
+		if (result != null) {
+			return result == nullMethod ? null : result;
+		}
+		
+		Class<?> clazz = handler.getClass();
+		while (clazz != Object.class && result == null) {
+			for (Method method : clazz.getMethods()) {
+				PropertySetter ann = method.getAnnotation(PropertySetter.class);
+				if (ann != null && ann.value().equals(propName)) {
+					result = method;
+					break;
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
+		
+		setterMethodCache.put(key, result == null ? nullMethod : result);
+		
+		return result;
+	}
+	
+	/**
 	 * @param name the full method name to look for
 	 * @return the java Method object if found. (does not return null)
 	 * @throws RuntimeException if not method found by the given name in the current class
+	 * @param clazz
+	 * @param propName
 	 * @return
 	 */
 	public static Method findMethod(Class<?> clazz, String name) {
@@ -89,51 +152,4 @@ public class ReflectionUtil {
 		return ret;
 	}
 	
-	public static <T> Method findPropertyGetterMethod(DelegatingPropertyAccessor<? extends T> handler, String propName) {
-		String key = handler.getClass().getName().concat(propName);
-		Method result = getterMethodCache.get(key);
-		if (result != null) {
-			return result == nullMethod ? null : result;
-		}
-		
-		for (Method candidate : handler.getClass().getMethods()) {
-			PropertyGetter ann = candidate.getAnnotation(PropertyGetter.class);
-			if (ann != null && ann.value().equals(propName)) {
-				result = candidate;
-				break;
-			}
-		}
-		
-		if (result == null) {
-			getterMethodCache.put(key, nullMethod);
-		} else {
-			getterMethodCache.put(key, result);
-		}
-		
-		return result;
-	}
-	
-	public static <T> Method findPropertySetterMethod(DelegatingPropertyAccessor<? extends T> handler, String propName) {
-		String key = handler.getClass().getName().concat(propName);
-		Method result = setterMethodCache.get(key);
-		if (result != null) {
-			return result == nullMethod ? null : result;
-		}
-		
-		for (Method candidate : handler.getClass().getMethods()) {
-			PropertySetter ann = candidate.getAnnotation(PropertySetter.class);
-			if (ann != null && ann.value().equals(propName)) {
-				result = candidate;
-				break;
-			}
-		}
-		
-		if (result == null) {
-			setterMethodCache.put(key, nullMethod);
-		} else {
-			setterMethodCache.put(key, result);
-		}
-		
-		return result;
-	}
 }

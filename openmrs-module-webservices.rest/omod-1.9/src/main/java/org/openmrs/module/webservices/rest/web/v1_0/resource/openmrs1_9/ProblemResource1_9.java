@@ -13,29 +13,16 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 
-import org.openmrs.Patient;
 import org.openmrs.activelist.Problem;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertySetter;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
-import org.openmrs.module.webservices.rest.web.api.RestService;
-import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
-import org.openmrs.module.webservices.rest.web.representation.FullRepresentation;
-import org.openmrs.module.webservices.rest.web.representation.Representation;
-import org.openmrs.module.webservices.rest.web.resource.api.PageableResult;
-import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
-import org.openmrs.module.webservices.rest.web.resource.impl.EmptySearchResult;
-import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
-import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.BaseActiveListItemResource1_8;
-import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.PatientResource1_8;
 import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.ProblemResource1_8;
 
 /**
  * {@link org.openmrs.module.webservices.rest.web.annotation.Resource} for Problem, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/problem", supportedClass = Problem.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12"})
+@Resource(name = RestConstants.VERSION_1 + "/problem", supportedClass = Problem.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*"})
 public class ProblemResource1_9 extends ProblemResource1_8 {
 
 	/**

@@ -43,7 +43,7 @@ import java.util.Set;
 /**
  * {@link Resource} for {@link Visit}, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/visit", supportedClass = Visit.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/visit", supportedClass = Visit.class, supportedOpenmrsVersions = {"1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class VisitResource1_9 extends DataDelegatingCrudResource<Visit> {
 	
 	/**
@@ -80,7 +80,7 @@ public class VisitResource1_9 extends DataDelegatingCrudResource<Visit> {
 			description.addProperty("encounters", Representation.DEFAULT);
 			description.addProperty("attributes", Representation.DEFAULT);
 			description.addProperty("voided");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}
@@ -95,11 +95,11 @@ public class VisitResource1_9 extends DataDelegatingCrudResource<Visit> {
 	 */
 	@PropertyGetter("display")
 	public String getDisplayString(Visit visit) {
-		String ret = visit.getVisitType().getName();
+		String ret = visit.getVisitType() == null ? "?" : visit.getVisitType().getName();
 		ret += " ";
 		ret += visit.getLocation() == null ? "?" : "@ " + visit.getLocation().getName();
 		ret += " - ";
-		ret += Context.getDateTimeFormat().format(visit.getStartDatetime());
+		ret += visit.getStartDatetime() == null ? "?" : Context.getDateTimeFormat().format(visit.getStartDatetime());
 		return ret;
 	}
 

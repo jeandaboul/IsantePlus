@@ -27,7 +27,6 @@ import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.util.ReflectionUtil;
-import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.RestUtil;
@@ -48,7 +47,7 @@ import org.openmrs.module.webservices.rest.web.v1_0.wrapper.openmrs1_8.UserAndPa
 /**
  * {@link Resource} for User, supporting standard CRUD operations
  */
-@Resource(name = RestConstants.VERSION_1 + "/user", supportedClass = UserAndPassword1_8.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*, 1.10.*", "1.11.*", "1.12.*"})
+@Resource(name = RestConstants.VERSION_1 + "/user", supportedClass = UserAndPassword1_8.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class UserResource1_8 extends MetadataDelegatingCrudResource<UserAndPassword1_8> {
 	
 	/**
@@ -105,7 +104,7 @@ public class UserResource1_8 extends MetadataDelegatingCrudResource<UserAndPassw
 			description.addProperty("proficientLocales");
 			description.addProperty("secretQuestion");
 			description.addProperty("retired");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}
@@ -338,6 +337,7 @@ public class UserResource1_8 extends MetadataDelegatingCrudResource<UserAndPassw
 	 * @param user
 	 * @return username or systemId (for concise display purposes)
 	 */
+	@Override
 	@PropertyGetter("display")
 	public String getDisplayString(UserAndPassword1_8 user) {
 		StringBuilder ret = new StringBuilder();
@@ -361,19 +361,9 @@ public class UserResource1_8 extends MetadataDelegatingCrudResource<UserAndPassw
 	 * 
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource#getAuditInfo(java.lang.Object)
 	 */
-	@Override
+	@PropertyGetter("auditInfo")
 	public SimpleObject getAuditInfo(UserAndPassword1_8 delegate) throws Exception {
-		User user = delegate.getUser();
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(user, "creator", Representation.REF));
-		ret.put("dateCreated", ConversionUtil.convertToRepresentation(user.getDateCreated(), Representation.DEFAULT));
-		if (user.isRetired()) {
-			ret.put("retiredBy", ConversionUtil.getPropertyWithRepresentation(user, "retiredBy", Representation.REF));
-			ret.put("dateRetired", ConversionUtil.convertToRepresentation(user.getDateRetired(), Representation.DEFAULT));
-			ret.put("retireReason", ConversionUtil.convertToRepresentation(user.getRetireReason(), Representation.DEFAULT));
-		}
-		ret.put("changedBy", ConversionUtil.getPropertyWithRepresentation(user, "changedBy", Representation.REF));
-		ret.put("dateChanged", ConversionUtil.convertToRepresentation(user.getDateChanged(), Representation.DEFAULT));
+		SimpleObject ret = super.getAuditInfo(delegate.getUser());
 		return ret;
 	}
 	

@@ -73,7 +73,7 @@ import org.springframework.validation.Errors;
 /**
  * Default implementation of the administration services. This class should not be used on its own.
  * The current OpenMRS implementation should be fetched from the Context
- *
+ * 
  * @see org.openmrs.api.AdministrationService
  * @see org.openmrs.api.context.Context
  */
@@ -92,8 +92,6 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	private GlobalLocaleList globalLocaleList;
 	
 	private HttpClient implementationIdHttpClient;
-	
-	private volatile Boolean databaseStringComparisonCaseSensitive;
 	
 	/**
 	 * Default empty constructor
@@ -171,7 +169,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Create a new Tribe
-	 *
+	 * 
 	 * @param tribe Tribe to create
 	 * @throws APIException
 	 * @deprecated
@@ -183,7 +181,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Update Tribe
-	 *
+	 * 
 	 * @param tribe Tribe to update
 	 * @throws APIException
 	 * @deprecated
@@ -195,7 +193,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Delete Tribe
-	 *
+	 * 
 	 * @param tribe Tribe to delete
 	 * @throws APIException
 	 * @deprecated
@@ -207,7 +205,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Retire Tribe
-	 *
+	 * 
 	 * @param tribe Tribe to retire
 	 * @throws APIException
 	 * @deprecated
@@ -219,7 +217,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Unretire Tribe
-	 *
+	 * 
 	 * @param tribe Tribe to unretire
 	 * @throws APIException
 	 * @deprecated
@@ -408,7 +406,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Create a new Report
-	 *
+	 * 
 	 * @param report Report to create
 	 * @deprecated see reportingcompatibility module
 	 * @throws APIException
@@ -424,7 +422,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Update Report
-	 *
+	 * 
 	 * @param report Report to update
 	 * @deprecated see reportingcompatibility module
 	 * @throws APIException
@@ -440,7 +438,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Delete Report
-	 *
+	 * 
 	 * @param report Report to delete
 	 * @deprecated see reportingcompatibility module
 	 * @throws APIException
@@ -456,7 +454,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Create a new Report Object
-	 *
+	 * 
 	 * @param reportObject Report Object to create
 	 * @deprecated see reportingcompatibility module
 	 * @throws APIException
@@ -472,7 +470,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Update Report Object
-	 *
+	 * 
 	 * @param reportObject Report Object to update
 	 * @deprecated see reportingcompatibility module
 	 * @throws APIException
@@ -488,7 +486,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Delete Report Object
-	 *
+	 * 
 	 * @param reportObjectId Internal Integer identifier of Report Object to delete
 	 * @deprecated see reportingcompatibility module
 	 * @throws APIException
@@ -815,7 +813,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Calls global property listeners registered for this create/change
-	 *
+	 * 
 	 * @param gp
 	 */
 	private void notifyGlobalPropertyChange(GlobalProperty gp) {
@@ -828,7 +826,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Calls global property listeners registered for this delete
-	 *
+	 * 
 	 * @param propertyName
 	 */
 	private void notifyGlobalPropertyDelete(String propertyName) {
@@ -931,7 +929,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	 * there is no implementation id or 2) there is a implementation id and this passphrase matches
 	 * it. In the case of 1), this implementation id and passphrase are saved to the remote server's
 	 * database
-	 *
+	 * 
 	 * @param implementationId
 	 * @param description
 	 * @param passphrase
@@ -1011,7 +1009,7 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	
 	/**
 	 * Used by spring to set the GlobalLocaleList on this implementation
-	 *
+	 * 
 	 * @param gll the GlobalLocaleList object that is registered to the GlobalPropertyListeners as
 	 *            well
 	 */
@@ -1050,11 +1048,9 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	 * @see org.openmrs.api.GlobalPropertyListener#globalPropertyChanged(org.openmrs.GlobalProperty)
 	 */
 	public void globalPropertyChanged(GlobalProperty newValue) {
-		if (OpenmrsConstants.GLOBAL_PROPERTY_LOCALE_ALLOWED_LIST.equals(newValue.getProperty())) {
+		if (newValue.getProperty().equals(OpenmrsConstants.GLOBAL_PROPERTY_LOCALE_ALLOWED_LIST)) {
 			// reset the calculated locale values
 			presentationLocales = null;
-		} else if (OpenmrsConstants.GP_CASE_SENSITIVE_DATABASE_STRING_COMPARISON.equals(newValue.getProperty())) {
-			databaseStringComparisonCaseSensitive = null;
 		}
 	}
 	
@@ -1062,9 +1058,8 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	 * @see org.openmrs.api.GlobalPropertyListener#globalPropertyDeleted(java.lang.String)
 	 */
 	public void globalPropertyDeleted(String propertyName) {
-		if (OpenmrsConstants.GP_CASE_SENSITIVE_DATABASE_STRING_COMPARISON.equals(propertyName)) {
-			databaseStringComparisonCaseSensitive = null;
-		}
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
@@ -1303,10 +1298,6 @@ public class AdministrationServiceImpl extends BaseOpenmrsService implements Adm
 	 */
 	@Override
 	public boolean isDatabaseStringComparisonCaseSensitive() {
-		if (databaseStringComparisonCaseSensitive == null) {
-			databaseStringComparisonCaseSensitive = Boolean.valueOf(getGlobalProperty(
-			    OpenmrsConstants.GP_CASE_SENSITIVE_DATABASE_STRING_COMPARISON, "true"));
-		}
-		return databaseStringComparisonCaseSensitive;
+		return Boolean.valueOf(getGlobalProperty(OpenmrsConstants.GP_CASE_SENSITIVE_DATABASE_STRING_COMPARISON, "true"));
 	}
 }

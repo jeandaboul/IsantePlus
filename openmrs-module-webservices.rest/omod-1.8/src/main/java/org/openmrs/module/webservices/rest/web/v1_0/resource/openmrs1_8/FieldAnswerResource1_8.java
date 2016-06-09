@@ -20,7 +20,6 @@ import org.openmrs.Field;
 import org.openmrs.FieldAnswer;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -40,9 +39,10 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 /**
  * {@link Resource} for {@link FieldAnswer}, supporting standard CRUD operations
  */
-@SubResource(parent = FieldResource1_8.class, path = "answer", supportedClass = FieldAnswer.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@SubResource(parent = FieldResource1_8.class, path = "answer", supportedClass = FieldAnswer.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, Field, FieldResource1_8> {
 	
+	@Override
 	@RepHandler(RefRepresentation.class)
 	public SimpleObject asRef(FieldAnswer delegate) throws ConversionException {
 		DelegatingResourceDescription description = new DelegatingResourceDescription();
@@ -72,7 +72,7 @@ public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, F
 			description.addProperty("display");
 			description.addProperty("concept");
 			description.addProperty("field");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}
@@ -127,20 +127,6 @@ public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, F
 	@Override
 	protected void delete(FieldAnswer delegate, String reason, RequestContext context) throws ResponseException {
 		throw new UnsupportedOperationException("A field answer must be removed from a field, not deleted on its own.");
-	}
-	
-	/**
-	 * provide audit info for a FieldAnswer
-	 * 
-	 * @param delegate
-	 * @return the auditInfo
-	 * @throws Exception
-	 */
-	public SimpleObject getAuditInfo(FieldAnswer delegate) throws Exception {
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(delegate, "creator", Representation.REF));
-		ret.put("dateCreated", ConversionUtil.convertToRepresentation(delegate.getDateCreated(), Representation.DEFAULT));
-		return ret;
 	}
 	
 	/**

@@ -10,7 +10,6 @@
 package org.openmrs;
 
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
@@ -29,14 +28,14 @@ public abstract class BaseOpenmrsData extends BaseOpenmrsObject implements Openm
 	
 	//***** Properties *****
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "creator")
+	@Column(name = "creator")
 	protected User creator;
 	
 	@Column(name = "date_created", nullable = false)
 	private Date dateCreated;
 	
 	@ManyToOne
-	@JoinColumn(name = "changed_by")
+	@Column(name = "changed_by")
 	private User changedBy;
 	
 	@Column(name = "date_changed")
@@ -49,7 +48,7 @@ public abstract class BaseOpenmrsData extends BaseOpenmrsObject implements Openm
 	private Date dateVoided;
 	
 	@ManyToOne
-	@JoinColumn(name = "voided_by")
+	@Column(name = "voided_by")
 	private User voidedBy;
 	
 	@Column(name = "void_reason", length = 255)

@@ -5,7 +5,7 @@
 	<!-- Module Properties -->
 	<id>uicommons</id>
 	<name>UI Commons Module</name>
-	<version>1.9-SNAPSHOT</version>
+	<version>1.7</version>
 	<package>org.openmrs.module.uicommons</package>
 	<author>OpenMRS</author>
 	<description>

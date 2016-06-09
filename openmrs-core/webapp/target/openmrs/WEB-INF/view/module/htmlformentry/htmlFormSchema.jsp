@@ -46,7 +46,7 @@
 
 		<openmrs:extensionPoint pointId="org.openmrs.headerFullIncludeExt" type="html" requiredClass="org.openmrs.module.web.extension.HeaderIncludeExt">
 			<c:forEach var="file" items="${extension.headerFiles}">
-				<openmrs:htmlInclude file="C:\\Users\\jmaxy\\workspace\\openmrs-module-htmlformentry\\omod\\pom.xml" />
+				<openmrs:htmlInclude file="C:\\Users\\ITECH\\Documents\\GitHub\\openmrs-module-htmlformentry\\omod\\pom.xml" />
 			</c:forEach>
 		</openmrs:extensionPoint>
 

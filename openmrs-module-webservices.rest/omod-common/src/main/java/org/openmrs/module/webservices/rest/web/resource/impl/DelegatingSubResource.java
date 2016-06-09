@@ -13,11 +13,11 @@
  */
 package org.openmrs.module.webservices.rest.web.resource.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Auditable;
-import org.openmrs.BaseOpenmrsObject;
-import org.openmrs.Voidable;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.ConversionUtil;
@@ -32,12 +32,10 @@ import org.openmrs.module.webservices.rest.web.resource.api.SubResource;
 import org.openmrs.module.webservices.rest.web.response.ConversionException;
 import org.openmrs.module.webservices.rest.web.response.ObjectMismatchException;
 import org.openmrs.module.webservices.rest.web.response.ObjectNotFoundException;
+import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Base implementation of a sub-resource of a DelegatingCrudResource that delegates to a domain
@@ -242,24 +240,11 @@ public abstract class DelegatingSubResource<T, P, PR extends DelegatingCrudResou
 	}
 	
 	/**
-	 * Gets the audit information of a resource.
-	 * 
-	 * @param resource the resource.
-	 * @return a {@link SimpleObject} with the audit information.
-	 * @throws Exception
+	 * @see SubResource#p[ut(java.lang.String, SimpleObject, RequestContext)
 	 */
-	public SimpleObject getAuditInfo(BaseOpenmrsObject resource) throws Exception {
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(resource, "creator", Representation.REF));
-		ret.put("dateCreated",
-		    ConversionUtil.convertToRepresentation(((Auditable) resource).getDateCreated(), Representation.DEFAULT));
-		if (resource instanceof Voidable && ((Voidable) resource).isVoided()) {
-			ret.put("voidedBy", ConversionUtil.getPropertyWithRepresentation(resource, "voidedBy", Representation.REF));
-			ret.put("dateVoided",
-			    ConversionUtil.convertToRepresentation(((Voidable) resource).getDateVoided(), Representation.DEFAULT));
-			ret.put("voidReason",
-			    ConversionUtil.convertToRepresentation(((Voidable) resource).getVoidReason(), Representation.DEFAULT));
-		}
-		return ret;
+	@Override
+	public void put(String parentUniqueId, SimpleObject post, RequestContext context) throws ResponseException {
+		throw new ResourceDoesNotSupportOperationException();
 	}
+	
 }

@@ -20,13 +20,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.hamcrest.collection.IsMapContaining;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -404,8 +402,8 @@ public class ConceptController1_8Test extends MainResourceControllerTest {
 		SimpleObject object = deserialize(response);
 		List<Map<String, String>> data = (List<Map<String, String>>) object.get("links");
 		Assert.assertThat(data, contains(allOf(hasEntry("rel", "self"), 
-			hasEntry("uri", "NEED-TO-CONFIGURE/ws/rest/v1/concept/95312123-e0c2-466d-b6b1-cb6e990d0d65")),
-			allOf(hasEntry("rel", "default"), hasEntry("uri", "NEED-TO-CONFIGURE/ws/rest/v1/concept/95312123-e0c2-466d-b6b1-cb6e990d0d65?v=default"))));
+			hasEntry("uri", "http://localhost/ws/rest/v1/concept/95312123-e0c2-466d-b6b1-cb6e990d0d65")),
+			allOf(hasEntry("rel", "default"), hasEntry("uri", "http://localhost/ws/rest/v1/concept/95312123-e0c2-466d-b6b1-cb6e990d0d65?v=default"))));
 	}
 
 	@Test

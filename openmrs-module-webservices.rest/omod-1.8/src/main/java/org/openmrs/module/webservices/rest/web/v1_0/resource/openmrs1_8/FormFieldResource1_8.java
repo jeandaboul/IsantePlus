@@ -13,14 +13,12 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
-import org.openmrs.Auditable;
-import org.openmrs.BaseOpenmrsObject;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openmrs.Form;
 import org.openmrs.FormField;
-import org.openmrs.Retireable;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -34,13 +32,10 @@ import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResour
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * {@link Resource} for {@link FormField}, supporting standard CRUD operations
  */
-@SubResource(parent = FormResource1_8.class, path = "formfield", supportedClass = FormField.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*"})
+@SubResource(parent = FormResource1_8.class, path = "formfield", supportedClass = FormField.class, supportedOpenmrsVersions = {"1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*"})
 public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form, FormResource1_8> {
 	
 	/**
@@ -81,7 +76,7 @@ public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form,
 			description.addProperty("required");
 			description.addProperty("sortWeight");
 			description.addProperty("retired");
-			description.addProperty("auditInfo", findMethod("getAuditInfo"));
+			description.addProperty("auditInfo");
 			description.addSelfLink();
 			return description;
 		}
@@ -107,25 +102,6 @@ public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form,
 		description.addProperty("sortWeight");
 		
 		return description;
-	}
-	
-	/**
-	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResource#getAuditInfo(org.openmrs.BaseOpenmrsObject)
-	 */
-	@Override
-	public SimpleObject getAuditInfo(BaseOpenmrsObject resource) throws Exception {
-		SimpleObject ret = new SimpleObject();
-		ret.put("creator", ConversionUtil.getPropertyWithRepresentation(resource, "creator", Representation.REF));
-		ret.put("dateCreated", ConversionUtil.convertToRepresentation(((Auditable) resource).getDateCreated(),
-		    Representation.DEFAULT));
-		if (((Retireable) resource).isRetired()) {
-			ret.put("retiredBy", ConversionUtil.getPropertyWithRepresentation(resource, "retiredBy", Representation.REF));
-			ret.put("dateRetired", ConversionUtil.convertToRepresentation(((Retireable) resource).getDateRetired(),
-			    Representation.DEFAULT));
-			ret.put("retireReason", ConversionUtil.convertToRepresentation(((Retireable) resource).getRetireReason(),
-			    Representation.DEFAULT));
-		}
-		return ret;
 	}
 	
 	/**

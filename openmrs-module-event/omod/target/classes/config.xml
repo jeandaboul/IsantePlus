@@ -5,7 +5,7 @@
 	<!-- Module Properties -->
 	<id>event</id>
 	<name>Event Module</name>
-	<version>2.4-SNAPSHOT</version>
+	<version>2.3</version>
 	<package>org.openmrs.event</package>
 	<author>OpenMRS</author>
 	<description>

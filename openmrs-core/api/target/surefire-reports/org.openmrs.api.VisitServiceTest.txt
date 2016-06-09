@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.openmrs.api.VisitServiceTest
 -------------------------------------------------------------------------------
-Tests run: 60, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.279 sec
+Tests run: 60, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.5 sec
