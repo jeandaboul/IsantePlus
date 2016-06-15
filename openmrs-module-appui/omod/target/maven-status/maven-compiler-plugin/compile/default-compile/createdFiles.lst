@@ -1,8 +1,0 @@
-org\openmrs\module\appui\fragment\controller\ExtensionPointFragmentController.class
-org\openmrs\module\appui\fragment\controller\SessionFragmentController.class
-org\openmrs\module\appui\rest\SessionController.class
-org\openmrs\module\appui\AppUiArgumentProvider.class
-org\openmrs\module\appui\UiSessionContext.class
-org\openmrs\module\appui\fragment\controller\HeaderFragmentController.class
-org\openmrs\module\appui\AppUiConstants.class
-org\openmrs\module\appui\UiSessionContext$AppContextModelUtils.class

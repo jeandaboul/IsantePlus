@@ -1,8 +1,0 @@
-org\openmrs\module\registrationapp\model\RegistrationAppConfigTest.class
-org\openmrs\module\registrationapp\model\TextFieldWidgetTest.class
-org\openmrs\module\registrationapp\model\PersonAddressWithHierarchyWidgetTest.class
-org\openmrs\module\registrationapp\model\SectionTest.class
-org\openmrs\module\registrationapp\model\TextAreaWidgetTest.class
-org\openmrs\module\registrationapp\RegistrationAppUtilsComponentTest.class
-org\openmrs\module\registrationapp\RegistrationAppActivatorComponentTest.class
-org\openmrs\module\registrationapp\model\DropdownWidgetTest.class

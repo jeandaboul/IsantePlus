@@ -1,4 +1,0 @@
-org\openmrs\module\metadatamapping\web\controller\ConfigureController.class
-org\openmrs\module\metadatamapping\web\bean\validator\ConfigureFormValidator.class
-org\openmrs\module\metadatamapping\web\bean\ConfigureForm.class
-org\openmrs\module\metadatamapping\web\extension\html\AdminList.class

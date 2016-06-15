@@ -1,4 +1,0 @@
-org\openmrs\api\impl\ConditionServiceImplIT$ConditionHistoryMatcher.class
-org\openmrs\validator\ConditionValidatorIT.class
-org\openmrs\api\db\ConditionDAOIT.class
-org\openmrs\api\impl\ConditionServiceImplIT.class

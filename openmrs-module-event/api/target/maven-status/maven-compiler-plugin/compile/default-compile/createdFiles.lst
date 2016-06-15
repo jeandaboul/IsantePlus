@@ -1,9 +1,0 @@
-org\openmrs\event\Event.class
-org\openmrs\event\EventListener.class
-org\openmrs\event\Event$Action.class
-org\openmrs\event\EventEngine$3.class
-org\openmrs\event\SubscribableEventListener.class
-org\openmrs\event\EventEngine$1.class
-org\openmrs\event\EventEngine$2.class
-org\openmrs\event\EventEngine.class
-org\openmrs\event\EventMessage.class

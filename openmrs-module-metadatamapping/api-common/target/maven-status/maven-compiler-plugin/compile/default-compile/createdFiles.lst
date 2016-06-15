@@ -1,8 +1,0 @@
-org\openmrs\module\metadatamapping\api\db\MetadataMappingDAO.class
-org\openmrs\module\metadatamapping\api\adapter\ConceptAdapter.class
-org\openmrs\module\metadatamapping\MetadataMapping.class
-org\openmrs\module\metadatamapping\api\MetadataMappingService.class
-org\openmrs\module\metadatamapping\api\impl\MetadataMappingServiceImpl.class
-org\openmrs\module\metadatamapping\api\adapter\ConceptAdapterPre19.class
-org\openmrs\module\metadatamapping\MetadataMappingActivator.class
-org\openmrs\module\metadatamapping\api\db\hibernate\interceptor\LocalMappingHibernateInterceptor.class

@@ -1,6 +1,0 @@
-org\openmrs\module\htmlwidgets\service\HtmlWidgetsServiceImpl.class
-org\openmrs\module\htmlwidgets\service\db\HtmlWidgetsDAO.class
-org\openmrs\module\htmlwidgets\service\db\HibernateHtmlWidgetsDAO.class
-org\openmrs\module\htmlwidgets\util\ReflectionUtil.class
-org\openmrs\module\htmlwidgets\service\HtmlWidgetsService.class
-org\openmrs\module\htmlwidgets\ModuleActivator.class

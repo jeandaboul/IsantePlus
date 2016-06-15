@@ -1,6 +1,0 @@
-org\openmrs\module\metadatasharing\resolver\ConceptReferenceTerm19Resolver.class
-org\openmrs\module\metadatasharing\handler\impl\ConceptReferenceTerm19Handler.class
-org\openmrs\module\metadatasharing\handler\impl\Role18Handler.class
-org\openmrs\module\metadatasharing\handler\impl\ConceptMap19Handler.class
-org\openmrs\module\metadatasharing\converter\ConceptMap19Converter.class
-org\openmrs\module\metadatasharing\MetadataSharing19Configuration.class

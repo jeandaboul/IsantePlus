@@ -1,9 +1,0 @@
-org\openmrs\module\emrapi\web\controller\BaseEmrControllerTest.class
-org\openmrs\module\emrapi\web\controller\EmrEncounterController_1_10_Test$1.class
-org\openmrs\module\emrapi\web\controller\EmrEncounterController_1_111_Test$2.class
-org\openmrs\module\emrapi\web\controller\EmrEncounterController_1_111_Test$1.class
-org\openmrs\module\emrapi\rest\resource\PatientProfileResource_1_9_Test.class
-org\openmrs\module\emrapi\web\controller\EmrEncounterController_1_111_Test.class
-org\openmrs\module\emrapi\web\controller\CustomMatcher.class
-org\openmrs\module\emrapi\web\controller\BaseEmrControllerTest$Parameter.class
-org\openmrs\module\emrapi\web\controller\EmrEncounterController_1_10_Test.class

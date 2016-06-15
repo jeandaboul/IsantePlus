@@ -1,9 +1,0 @@
-org\openmrs\module\emrapi\rest\resource\PersonImageResource.class
-org\openmrs\module\emrapi\rest\exception\PersonNotFoundException.class
-org\openmrs\module\emrapi\rest\EmrModuleContext.class
-org\openmrs\module\emrapi\rest\resource\PatientProfileResource$1.class
-org\openmrs\module\emrapi\web\controller\EmrConceptSearchController.class
-org\openmrs\module\emrapi\web\controller\EmrEncounterController.class
-org\openmrs\module\emrapi\rest\resource\PatientProfileResource.class
-org\openmrs\module\emrapi\web\rest\searchhandler\LastViewedPatientsSearchHandler.class
-org\openmrs\module\emrapi\web\exception\InvalidInputException.class

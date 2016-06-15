@@ -1,6 +1,0 @@
-org\openmrs\module\providermanagement\suggestion\SuggestionTest.class
-org\openmrs\module\providermanagement\api\ProviderManagementServiceTest.class
-org\openmrs\module\providermanagement\ProviderRoleTest.class
-org\openmrs\module\providermanagement\api\ProviderSuggestionServiceTest.class
-org\openmrs\module\providermanagement\ProviderManagementUtilsTest.class
-org\openmrs\module\providermanagement\ProviderTest.class

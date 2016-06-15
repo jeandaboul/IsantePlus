@@ -1,6 +1,0 @@
-org\openmrs\module\uicommons\fragment\controller\MessagesFragmentController.class
-org\openmrs\module\uicommons\util\InfoErrorMessageUtil.class
-org\openmrs\module\uicommons\fragment\controller\GlobalPropertiesFragmentController.class
-org\openmrs\module\uicommons\fragment\controller\InfoAndErrorMessageFragmentController.class
-org\openmrs\module\uicommons\fragment\controller\FieldErrorsFragmentController.class
-org\openmrs\module\uicommons\message\MessagesController.class
