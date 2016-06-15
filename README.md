@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Welcome to isantePlus
 the github repository of isantePlus contain the openMRS core, all the basic modules for referenceaplication and some other specifics folders for isantePlus.
 
@@ -88,3 +89,7 @@ e)	Open your web browser and enter localhost:8080/openmrs, follow the steps of o
 
 
 
+=======
+# isantePlus
+IsantePlus 
+>>>>>>> 754828dbf3475c0c816f874d140b25776391cfa4
